@@ -1,0 +1,12 @@
+.postItem {
+}
+
+.postItem img{
+    height: 40px;
+    width: 40px;
+}
+
+.postContent {
+    display: flex;
+    flex-direction: row;
+}
