@@ -1,7 +1,7 @@
 import React from 'react';
 import './App.css';
 import Header from "./components/Header/Header";
-import Navbar from "./components/Navber/Navber";
+import NavBar from "./components/NavBar/NavBar";
 import Profile from "./components/Profile/Profile";
 import Dialogs from "./components/Dialogs/Dialogs";
 
@@ -12,7 +12,7 @@ function App() {
         <BrowserRouter>
             <div className="app-wrapper">
                 <Header/>
-                <Navbar/>
+                <NavBar/>
                 <div className={'app-wrapper-content'}>
                     <Route path={'/profile'} component={Profile}/>
                     <Route path={'/dialogs'} component={Dialogs}/>
