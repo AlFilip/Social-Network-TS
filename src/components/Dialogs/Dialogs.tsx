@@ -1,20 +1,25 @@
 import React from "react";
 import s from "./Dialogs.module.css"
-import Message from "./Message/Message";
 import Dialog from "./Dialog/Dialog";
+import Message from "./Message/Message";
+import { DialogsPageType } from "../../redux/state";
 
 
-function Dialogs() {
+function Dialogs(props:DialogsPageType) {
+
+    const dialogsItems = props.dialogs.map(d => <Dialog name={d.name} id={d.id}/>)
+
+
+    const messagesItems = props.messages.map(m => <Message id={m.id} text={m.text} owner={m.owner}/>)
+
     return (
         <div className={s.dialogs}>
             <div className={s.dialogsItems}>
                 <h3>Dialogs:</h3>
-                <Dialog name={'Sergey'} id={1}/>
-                <Dialog name={'Artem'} id={2}/>
+                {dialogsItems}
             </div>
             <div className={s.messages}>
-                <Message text={'Здорово, корова'} owner={false}/>
-                <Message text={'Здорово, сама'} owner={true}/>
+                {messagesItems}
             </div>
 
         </div>

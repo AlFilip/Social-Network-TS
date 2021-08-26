@@ -1,11 +1,7 @@
 import s from "./Dialog.module.css"
 import React from "react";
 import SuperLink from "../../NavBar/SuperLink/SuperLink";
-
-type DialogType = {
-    name: string
-    id: number
-}
+import { DialogType } from "../../../redux/state";
 
 function Dialog(props:DialogType) {
     return (

@@ -1,7 +1,11 @@
 import React from "react";
+import { ProfilePageType } from "../../../redux/state";
 import Post from "./Post/Post";
 
-function MyPosts() {
+function MyPosts(props: ProfilePageType) {
+
+    const posts = props.posts.map(p => <Post id={p.id} message={p.message} likesCount={p.likesCount}/>)
+
     return (
         <div>
             My posts
@@ -11,8 +15,7 @@ function MyPosts() {
                     <button>Add Post</button>
                 </form>
             </div>
-            <Post message={'Hi man'} likesCount={50}/>
-            <Post message={'How are you?'} likesCount={150}/>
+            {posts}
         </div>
     )
 }

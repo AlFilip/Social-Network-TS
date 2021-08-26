@@ -1,10 +1,7 @@
 import React from "react";
 import s from "./Message.module.css"
+import {MessageType} from "../../../redux/state";
 
-type MessageType = {
-    text: string
-    owner: boolean
-}
 
 function Message (props:MessageType) {
     return (
