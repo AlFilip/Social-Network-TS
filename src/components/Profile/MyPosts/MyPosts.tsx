@@ -12,14 +12,11 @@ type MyPostsPropsType = {
 
 function MyPosts(props: MyPostsPropsType) {
 
-    const posts = props.posts.map(p => <Post id={p.id} message={p.message} likesCount={p.likesCount}/>)
+    const posts = props.posts.map(p => <Post id={p.id} key={p.id} message={p.message} likesCount={p.likesCount}/>)
 
-    const textAreaRef = React.createRef<HTMLTextAreaElement>()
 
     const addPost = (): void => {
-        if (textAreaRef.current && textAreaRef.current.value.trim()) {
-            props.addPost()
-        }
+        props.addPost()
     }
 
     const onPostChange = (e: ChangeEvent<HTMLTextAreaElement>) => {
@@ -31,7 +28,7 @@ function MyPosts(props: MyPostsPropsType) {
         <div>
             My posts
             <div>
-                <textarea ref={textAreaRef} value={props.newPostMessage} onChange={onPostChange} name="" id=""/>
+                <textarea value={props.newPostMessage} onChange={onPostChange} name="" id=""/>
             </div>
             <div>
                 <button onClick={addPost}>Add Post</button>

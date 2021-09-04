@@ -39,7 +39,7 @@ let state: StateType = {
             {id: v1(), message: 'Hi man', likesCount: 50},
             {id: v1(), message: 'How are you', likesCount: 150}
         ],
-        newPostMessage: ''
+        newPostMessage: '',
     },
     dialogsPage: {
         dialogs: [
@@ -51,13 +51,15 @@ let state: StateType = {
             {id: v1(), text: 'Здорово, корова', owner: false},
             {id: v1(), text: 'Здорово, сама', owner: true},
         ],
-        newMessageValue: ''
+        newMessageValue: '',
     },
 }
 
 export const addMessage = (): void => {
-    const newMessage:MessageType = {id: v1(), text: state.dialogsPage.newMessageValue, owner: true}
-    state.dialogsPage.messages.push(newMessage)
+    if (state.dialogsPage.newMessageValue.trim()) {
+        const newMessage: MessageType = {id: v1(), text: state.dialogsPage.newMessageValue, owner: true}
+        state.dialogsPage.messages.push(newMessage)
+    }
     state.dialogsPage.newMessageValue = ''
     rerenderEntireTree(state)
 }
@@ -73,12 +75,14 @@ export const onNewPostChange = (newValue: string): void => {
 }
 
 export const addPost = () => {
-    const newPost:PostType = {
-        id: v1(),
-        message: state.profilePage.newPostMessage,
-        likesCount: 0
+    if (state.profilePage.newPostMessage.trim()) {
+        const newPost: PostType = {
+            id: v1(),
+            message: state.profilePage.newPostMessage,
+            likesCount: 0
+        }
+        state.profilePage.posts.push(newPost)
     }
-    state.profilePage.posts.push(newPost)
     state.profilePage.newPostMessage = ''
     rerenderEntireTree(state)
 }

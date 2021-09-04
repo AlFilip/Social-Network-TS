@@ -8,23 +8,19 @@ import {DialogType, MessageType} from "../../redux/state";
 type DialogsPagePropsType = {
     dialogs: Array<DialogType>
     messages: Array<MessageType>
-    addMessage: (postMessage: string) => void
+    addMessage: () => void
     newMessageValue: string
     onNewMessageChange: (newValue: string) => void
 }
 
 function Dialogs(props: DialogsPagePropsType) {
 
-    const dialogsItems = props.dialogs.map(d => <Dialog name={d.name} id={d.id}/>)
+    const dialogsItems = props.dialogs.map(d => <Dialog name={d.name} key={d.id} id={d.id}/>)
 
-    const messagesItems = props.messages.map(m => <Message id={m.id} text={m.text} owner={m.owner}/>)
-
-    const textAreaRef = React.createRef<HTMLTextAreaElement>()
+    const messagesItems = props.messages.map(m => <Message id={m.id} key={m.id} text={m.text} owner={m.owner}/>)
 
     const sendMessage = (): void => {
-        if (textAreaRef.current && textAreaRef.current.value.trim()) {
-            props.addMessage(textAreaRef.current.value)
-        }
+        props.addMessage()
     }
 
     const onNewMessageChange = (e: React.ChangeEvent<HTMLTextAreaElement>): void => {
@@ -41,7 +37,7 @@ function Dialogs(props: DialogsPagePropsType) {
                 {messagesItems}
             </div>
             <div className={s.addMessageForm}>
-                <textarea ref={textAreaRef} onChange={onNewMessageChange} value={props.newMessageValue} name="" id=""/>
+                <textarea onChange={onNewMessageChange} value={props.newMessageValue} name="" id=""/>
                 <button onClick={sendMessage}>Send</button>
             </div>
         </div>
