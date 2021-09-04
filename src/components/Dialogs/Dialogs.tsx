@@ -1,4 +1,4 @@
-import React, {RefObject} from "react";
+import React from "react";
 import s from "./Dialogs.module.css"
 import Dialog from "./Dialog/Dialog";
 import Message from "./Message/Message";
@@ -11,9 +11,9 @@ function Dialogs(props:DialogsPagePropsType) {
 
     const messagesItems = props.messages.map(m => <Message id={m.id} text={m.text} owner={m.owner}/>)
 
-    const textAreaRef:RefObject<HTMLTextAreaElement> = React.createRef()
+    const textAreaRef = React.createRef<HTMLTextAreaElement>()
 
-    const sendMessage = () => {
+    const sendMessage = (): void => {
         if (textAreaRef.current && textAreaRef.current.value.trim()) {
             props.addMessage(textAreaRef.current.value)
         }
@@ -36,7 +36,6 @@ function Dialogs(props:DialogsPagePropsType) {
                 <textarea ref={textAreaRef} onChange={onNewMessageChange} value={props.newMessageValue} name="" id="" />
                 <button onClick={sendMessage}>Send</button>
             </div>
-
         </div>
     )
 }

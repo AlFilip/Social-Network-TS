@@ -1,4 +1,4 @@
-import React, {RefObject} from "react";
+import React from "react";
 import {ProfilePageType} from "../../../redux/state";
 import Post from "./Post/Post";
 
@@ -6,10 +6,12 @@ function MyPosts(props: ProfilePageType) {
 
     const posts = props.posts.map(p => <Post id={p.id} message={p.message} likesCount={p.likesCount}/>)
 
-    const textAreaRef: RefObject<HTMLTextAreaElement> = React.createRef()
+    const textAreaRef = React.createRef<HTMLTextAreaElement>()
 
-    const addPost = () => {
-        if ( textAreaRef.current ) alert(textAreaRef.current.value)
+    const addPost = (): void => {
+        if (textAreaRef.current && textAreaRef.current.value.trim()) {
+            alert(textAreaRef.current.value)
+        }
     }
 
     return (

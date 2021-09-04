@@ -65,7 +65,7 @@ let state: StateType = {
 }
 
 export const addMessage = (postMessage: string): void => {
-    const newMessage = {id: 4, text: postMessage, owner: true}
+    const newMessage:MessageType = {id: 4, text: postMessage, owner: true}
     state.dialogsPage.messages.push(newMessage)
     state.dialogsPage.newMessageValue = ''
     rerenderEntireTree(state)
