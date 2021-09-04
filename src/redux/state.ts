@@ -1,12 +1,14 @@
 import rerenderEntireTree from "../rerender";
+import {v1} from "uuid";
 
 export type PostType = {
-    id: number
+    id: string
     message: string
     likesCount: number
 }
 export type ProfilePageType = {
     posts: Array<PostType>
+    newPostMessage: string
 }
 
 export type DialogType = {
@@ -14,7 +16,7 @@ export type DialogType = {
     id: number
 }
 export type MessageType = {
-    id: number
+    id: string
     text: string
     owner: boolean
 }
@@ -24,31 +26,20 @@ export type DialogsPageType = {
     messages: Array<MessageType>
     newMessageValue: string
 }
-export type DialogsPagePropsType = {
-    dialogs: Array<DialogType>
-    messages: Array<MessageType>
-    addMessage: (postMessage: string) => void
-    newMessageValue: string
-    onNewMessageChange: (newValue: string) => void
-}
 
 export type StateType = {
     profilePage: ProfilePageType
     dialogsPage: DialogsPageType
 }
-export type AppType = {
-    profilePage: ProfilePageType
-    dialogsPage: DialogsPageType
-    addMessage: (postMessage: string) => void
-    onNewMessageChange: (newValue: string) => void
-}
+
 
 let state: StateType = {
     profilePage: {
         posts: [
-            {id: 1, message: 'Hi man', likesCount: 50},
-            {id: 2, message: 'How are you', likesCount: 150}
+            {id: v1(), message: 'Hi man', likesCount: 50},
+            {id: v1(), message: 'How are you', likesCount: 150}
         ],
+        newPostMessage: ''
     },
     dialogsPage: {
         dialogs: [
@@ -57,15 +48,15 @@ let state: StateType = {
             {name: "Nikolay", id: 3},
         ],
         messages: [
-            {id: 1, text: 'Здорово, корова', owner: false},
-            {id: 2, text: 'Здорово, сама', owner: true},
+            {id: v1(), text: 'Здорово, корова', owner: false},
+            {id: v1(), text: 'Здорово, сама', owner: true},
         ],
         newMessageValue: ''
     },
 }
 
-export const addMessage = (postMessage: string): void => {
-    const newMessage:MessageType = {id: 4, text: postMessage, owner: true}
+export const addMessage = (): void => {
+    const newMessage:MessageType = {id: v1(), text: state.dialogsPage.newMessageValue, owner: true}
     state.dialogsPage.messages.push(newMessage)
     state.dialogsPage.newMessageValue = ''
     rerenderEntireTree(state)
@@ -73,6 +64,22 @@ export const addMessage = (postMessage: string): void => {
 
 export const onNewMessageChange = (newValue: string): void => {
     state.dialogsPage.newMessageValue = newValue
+    rerenderEntireTree(state)
+}
+
+export const onNewPostChange = (newValue: string): void => {
+    state.profilePage.newPostMessage = newValue
+    rerenderEntireTree(state)
+}
+
+export const addPost = () => {
+    const newPost:PostType = {
+        id: v1(),
+        message: state.profilePage.newPostMessage,
+        likesCount: 0
+    }
+    state.profilePage.posts.push(newPost)
+    state.profilePage.newPostMessage = ''
     rerenderEntireTree(state)
 }
 

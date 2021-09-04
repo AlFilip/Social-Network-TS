@@ -1,8 +1,16 @@
-import React from "react";
-import {ProfilePageType} from "../../../redux/state";
+import React, {ChangeEvent} from "react";
 import Post from "./Post/Post";
+import {PostType} from "../../../redux/state";
 
-function MyPosts(props: ProfilePageType) {
+type MyPostsPropsType = {
+    newPostMessage: string
+    posts: Array<PostType>
+    addPost: () => void
+    onNewPostChange: (newValue: string) => void
+}
+
+
+function MyPosts(props: MyPostsPropsType) {
 
     const posts = props.posts.map(p => <Post id={p.id} message={p.message} likesCount={p.likesCount}/>)
 
@@ -10,15 +18,20 @@ function MyPosts(props: ProfilePageType) {
 
     const addPost = (): void => {
         if (textAreaRef.current && textAreaRef.current.value.trim()) {
-            alert(textAreaRef.current.value)
+            props.addPost()
         }
+    }
+
+    const onPostChange = (e: ChangeEvent<HTMLTextAreaElement>) => {
+        props.onNewPostChange(e.currentTarget.value)
+
     }
 
     return (
         <div>
             My posts
             <div>
-                <textarea ref={textAreaRef} name="" id=""/>
+                <textarea ref={textAreaRef} value={props.newPostMessage} onChange={onPostChange} name="" id=""/>
             </div>
             <div>
                 <button onClick={addPost}>Add Post</button>
