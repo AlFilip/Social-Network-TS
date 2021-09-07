@@ -1,7 +1,7 @@
 import React from "react";
 import s from "./ProfileInfo.module.css"
 
-function ProfileInfo() {
+export function ProfileInfo() {
     return (
         <div className={s.profileInfo}>
             <img
@@ -11,5 +11,3 @@ function ProfileInfo() {
         </div>
     )
 }
-
-export default ProfileInfo;

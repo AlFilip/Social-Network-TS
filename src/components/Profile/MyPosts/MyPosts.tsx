@@ -2,7 +2,7 @@ import React, {ChangeEvent} from "react";
 import Post from "./Post/Post";
 import {PostType} from "../../../redux/state";
 
-type MyPostsPropsType = {
+export type MyPostsPropsType = {
     newPostMessage: string
     posts: Array<PostType>
     addPost: () => void
@@ -10,7 +10,7 @@ type MyPostsPropsType = {
 }
 
 
-function MyPosts(props: MyPostsPropsType) {
+export function MyPosts(props: MyPostsPropsType) {
 
     const posts = props.posts.map(p => <Post id={p.id} key={p.id} message={p.message} likesCount={p.likesCount}/>)
 
@@ -37,5 +37,3 @@ function MyPosts(props: MyPostsPropsType) {
         </div>
     )
 }
-
-export default MyPosts;

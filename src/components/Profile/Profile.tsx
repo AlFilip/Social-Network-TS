@@ -1,17 +1,17 @@
 import React from "react";
 import s from "./Profile.module.css"
-import MyPosts from "./MyPosts/MyPosts";
-import ProfileInfo from "./ProfileInfo/ProfileInfo";
+import {MyPosts} from "./MyPosts/MyPosts";
+import {ProfileInfo} from "./ProfileInfo/ProfileInfo";
 import {PostType} from "../../redux/state";
 
-type ProfilePagePropsType = {
+export type ProfilePagePropsType = {
     posts: Array<PostType>
     addPost: () => void
     onNewPostChange: (newValue: string) => void
     newPostMessage: string
 }
 
-function Profile(props:ProfilePagePropsType) {
+export function Profile(props:ProfilePagePropsType) {
     return (
         <div className={s.profile}>
             <ProfileInfo/>
@@ -22,5 +22,3 @@ function Profile(props:ProfilePagePropsType) {
         </div>
     )
 }
-
-export default Profile;
