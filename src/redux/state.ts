@@ -1,5 +1,11 @@
-import rerenderEntireTree from "../rerender";
 import {v1} from "uuid";
+
+export {}
+declare global {
+    interface Window {
+        store: StoreType
+    }
+}
 
 export type PostType = {
     id: string
@@ -32,59 +38,81 @@ export type StateType = {
     dialogsPage: DialogsPageType
 }
 
+type StoreType = {
+    _state: StateType
+    getState: () => StateType
+    addMessage: () => void
+    onNewMessageChange: (newValue:string) => void
+    onNewPostChange: (newValue: string) => void
+    addPost: () => void
+    _rerenderEntireTree: () => void
+    _subscribe: (observer:() => void) => void
 
-let state: StateType = {
-    profilePage: {
-        posts: [
-            {id: v1(), message: 'Hi man', likesCount: 50},
-            {id: v1(), message: 'How are you', likesCount: 150}
-        ],
-        newPostMessage: '',
+}
+
+const store: StoreType = {
+    _state: {
+        profilePage: {
+            posts: [
+                {id: v1(), message: 'Hi man', likesCount: 50},
+                {id: v1(), message: 'How are you', likesCount: 150}
+            ],
+            newPostMessage: '',
+        },
+        dialogsPage: {
+            dialogs: [
+                {name: "Sergey", id: 1},
+                {name: "Artem", id: 2},
+                {name: "Nikolay", id: 3},
+            ],
+            messages: [
+                {id: v1(), text: 'Здорово, корова', owner: false},
+                {id: v1(), text: 'Здорово, сама', owner: true},
+            ],
+            newMessageValue: '',
+        },
     },
-    dialogsPage: {
-        dialogs: [
-            {name: "Sergey", id: 1},
-            {name: "Artem", id: 2},
-            {name: "Nikolay", id: 3},
-        ],
-        messages: [
-            {id: v1(), text: 'Здорово, корова', owner: false},
-            {id: v1(), text: 'Здорово, сама', owner: true},
-        ],
-        newMessageValue: '',
-    },
-}
-
-export const addMessage = (): void => {
-    if (state.dialogsPage.newMessageValue.trim()) {
-        const newMessage: MessageType = {id: v1(), text: state.dialogsPage.newMessageValue, owner: true}
-        state.dialogsPage.messages.push(newMessage)
-    }
-    state.dialogsPage.newMessageValue = ''
-    rerenderEntireTree(state)
-}
-
-export const onNewMessageChange = (newValue: string): void => {
-    state.dialogsPage.newMessageValue = newValue
-    rerenderEntireTree(state)
-}
-
-export const onNewPostChange = (newValue: string): void => {
-    state.profilePage.newPostMessage = newValue
-    rerenderEntireTree(state)
-}
-
-export const addPost = () => {
-    if (state.profilePage.newPostMessage.trim()) {
-        const newPost: PostType = {
-            id: v1(),
-            message: state.profilePage.newPostMessage,
-            likesCount: 0
+    addMessage() {
+        if (this._state.dialogsPage.newMessageValue.trim()) {
+            const newMessage: MessageType = {id: v1(), text: this._state.dialogsPage.newMessageValue, owner: true}
+            this._state.dialogsPage.messages.push(newMessage)
         }
-        state.profilePage.posts.push(newPost)
+        this._state.dialogsPage.newMessageValue = ''
+        this._rerenderEntireTree()
+    },
+    getState() {
+        return this._state
+    },
+
+    onNewMessageChange(newValue) {
+        this._state.dialogsPage.newMessageValue = newValue
+        this._rerenderEntireTree()
+    },
+    onNewPostChange(newValue) {
+        this._state.profilePage.newPostMessage = newValue
+        this._rerenderEntireTree()
+    },
+    addPost () {
+        if (this._state.profilePage.newPostMessage.trim()) {
+            const newPost: PostType = {
+                id: v1(),
+                message: this._state.profilePage.newPostMessage,
+                likesCount: 0
+            }
+            this._state.profilePage.posts.push(newPost)
+        }
+        this._state.profilePage.newPostMessage = ''
+        this._rerenderEntireTree()
+    },
+    _rerenderEntireTree () {
+        alert('Subscriber is not set')
+    },
+    _subscribe (observer)  {
+        this._rerenderEntireTree = observer
+        this._rerenderEntireTree()
     }
-    state.profilePage.newPostMessage = ''
-    rerenderEntireTree(state)
 }
 
-export default state;
+window.store = store;
+
+export default store;
