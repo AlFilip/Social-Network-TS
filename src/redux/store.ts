@@ -1,9 +1,6 @@
 import {v1} from "uuid";
-
-export const ADD_POST = 'ADD-POST';
-export const ADD_MESSAGE = "ADD-MESSAGE";
-export const ON_MESSAGE_CHANGE = "ON-MESSAGE-CHANGE";
-export const ON_POST_CHANGE = "ON-POST-CHANGE";
+import { profileReducer } from "./profileReducer";
+import {dialogsReducer} from "./diaogsReducer";
 
 export {}
 declare global {
@@ -53,21 +50,17 @@ type StoreType = {
 
 export type ActionTypes = AddPostActionType | AddMessageActionType | OnMessageChangeActionType | OnPostChangeActionType
 
-type AddPostActionType = { type: 'ADD-POST' }
-type AddMessageActionType = { type: "ADD-MESSAGE" }
-type OnMessageChangeActionType = {
+export type AddPostActionType = { type: 'ADD-POST' }
+export type AddMessageActionType = { type: "ADD-MESSAGE" }
+export type OnMessageChangeActionType = {
     type: "ON-MESSAGE-CHANGE"
     newValue: string
 }
-type OnPostChangeActionType = {
+export type OnPostChangeActionType = {
     type: "ON-POST-CHANGE"
     newValue: string
 }
 
-export const AddPostAC = (): AddPostActionType => ({type: ADD_POST})
-export const AddMessageAC = (): AddMessageActionType => ({type: ADD_MESSAGE})
-export const OnMessageChangeAC = (newValue: string): OnMessageChangeActionType => ({type: ON_MESSAGE_CHANGE, newValue})
-export const OnPostChangeAC = (newValue: string): OnPostChangeActionType => ({type: ON_POST_CHANGE, newValue})
 
 const store: StoreType = {
     _state: {
@@ -102,39 +95,11 @@ const store: StoreType = {
         this._callSubscriber()
     },
     dispatch(action) {
-        switch (action.type) {
-            case ADD_POST:
-                if (this._state.profilePage.newPostMessage.trim()) {
-                    const newPost: PostType = {
-                        id: v1(),
-                        message: this._state.profilePage.newPostMessage,
-                        likesCount: 0
-                    }
-                    this._state.profilePage.posts.push(newPost)
-                }
-                this._state.profilePage.newPostMessage = ''
-                this._callSubscriber()
-                break
-            case ADD_MESSAGE:
-                if (this._state.dialogsPage.newMessageValue.trim()) {
-                    const newMessage: MessageType = {
-                        id: v1(),
-                        text: this._state.dialogsPage.newMessageValue,
-                        owner: true
-                    }
-                    this._state.dialogsPage.messages.push(newMessage)
-                }
-                this._state.dialogsPage.newMessageValue = ''
-                this._callSubscriber()
-                break
-            case ON_MESSAGE_CHANGE:
-                this._state.dialogsPage.newMessageValue = action.newValue
-                this._callSubscriber()
-                break
-            case ON_POST_CHANGE:
-                this._state.profilePage.newPostMessage = action.newValue
-                this._callSubscriber()
-        }
+        this._state.profilePage = profileReducer(this.getState().profilePage, action)
+        this._state.dialogsPage = dialogsReducer(this.getState().dialogsPage, action)
+
+        this._callSubscriber()
+
     }
 }
 
