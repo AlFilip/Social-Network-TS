@@ -6,7 +6,7 @@ import {Profile} from "./components/Profile/Profile";
 import Dialogs from "./components/Dialogs/Dialogs";
 
 import {BrowserRouter, Route} from "react-router-dom"
-import {ActionTypes, DialogsPageType, ProfilePageType} from "./redux/state";
+import {ActionTypes, DialogsPageType, ProfilePageType} from "./redux/store";
 
 export type AppType = {
     profilePage: ProfilePageType
