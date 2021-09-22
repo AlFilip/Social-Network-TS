@@ -9,16 +9,13 @@ const rerenderEntireTree = () => {
     ReactDOM.render(
         <React.StrictMode>
             <App {...store.getState()}
-                 onNewMessageChange={store.onNewMessageChange.bind(store)}
-                 addMessage={store.addMessage.bind(store)}
-                 addPost={store.addPost.bind(store)}
-                 onNewPostChange={store.onNewPostChange.bind(store)}/>
+                 dispatch={store.dispatch.bind(store)}/>
         </React.StrictMode>,
         document.getElementById('root')
     )
 }
 
-store._subscribe(rerenderEntireTree)
+store.subscribe(rerenderEntireTree)
 // If you want to start measuring performance in your app, pass a function
 // to log results (for example: reportWebVitals(console.log))
 // or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals

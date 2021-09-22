@@ -1,5 +1,10 @@
 import {v1} from "uuid";
 
+export const ADD_POST = 'ADD-POST';
+export const ADD_MESSAGE = "ADD-MESSAGE";
+export const ON_MESSAGE_CHANGE = "ON-MESSAGE-CHANGE";
+export const ON_POST_CHANGE = "ON-POST-CHANGE";
+
 export {}
 declare global {
     interface Window {
@@ -41,14 +46,28 @@ export type StateType = {
 type StoreType = {
     _state: StateType
     getState: () => StateType
-    addMessage: () => void
-    onNewMessageChange: (newValue:string) => void
-    onNewPostChange: (newValue: string) => void
-    addPost: () => void
-    _rerenderEntireTree: () => void
-    _subscribe: (observer:() => void) => void
-
+    _callSubscriber: () => void
+    subscribe: (observer: () => void) => void
+    dispatch: (action: ActionTypes) => void
 }
+
+export type ActionTypes = AddPostActionType | AddMessageActionType | OnMessageChangeActionType | OnPostChangeActionType
+
+type AddPostActionType = { type: 'ADD-POST' }
+type AddMessageActionType = { type: "ADD-MESSAGE" }
+type OnMessageChangeActionType = {
+    type: "ON-MESSAGE-CHANGE"
+    newValue: string
+}
+type OnPostChangeActionType = {
+    type: "ON-POST-CHANGE"
+    newValue: string
+}
+
+export const AddPostAC = (): AddPostActionType => ({type: ADD_POST})
+export const AddMessageAC = (): AddMessageActionType => ({type: ADD_MESSAGE})
+export const OnMessageChangeAC = (newValue: string): OnMessageChangeActionType => ({type: ON_MESSAGE_CHANGE, newValue})
+export const OnPostChangeAC = (newValue: string): OnPostChangeActionType => ({type: ON_POST_CHANGE, newValue})
 
 const store: StoreType = {
     _state: {
@@ -72,44 +91,50 @@ const store: StoreType = {
             newMessageValue: '',
         },
     },
-    addMessage() {
-        if (this._state.dialogsPage.newMessageValue.trim()) {
-            const newMessage: MessageType = {id: v1(), text: this._state.dialogsPage.newMessageValue, owner: true}
-            this._state.dialogsPage.messages.push(newMessage)
-        }
-        this._state.dialogsPage.newMessageValue = ''
-        this._rerenderEntireTree()
-    },
     getState() {
         return this._state
     },
-
-    onNewMessageChange(newValue) {
-        this._state.dialogsPage.newMessageValue = newValue
-        this._rerenderEntireTree()
-    },
-    onNewPostChange(newValue) {
-        this._state.profilePage.newPostMessage = newValue
-        this._rerenderEntireTree()
-    },
-    addPost () {
-        if (this._state.profilePage.newPostMessage.trim()) {
-            const newPost: PostType = {
-                id: v1(),
-                message: this._state.profilePage.newPostMessage,
-                likesCount: 0
-            }
-            this._state.profilePage.posts.push(newPost)
-        }
-        this._state.profilePage.newPostMessage = ''
-        this._rerenderEntireTree()
-    },
-    _rerenderEntireTree () {
+    _callSubscriber() {
         alert('Subscriber is not set')
     },
-    _subscribe (observer)  {
-        this._rerenderEntireTree = observer
-        this._rerenderEntireTree()
+    subscribe(observer) {
+        this._callSubscriber = observer
+        this._callSubscriber()
+    },
+    dispatch(action) {
+        switch (action.type) {
+            case ADD_POST:
+                if (this._state.profilePage.newPostMessage.trim()) {
+                    const newPost: PostType = {
+                        id: v1(),
+                        message: this._state.profilePage.newPostMessage,
+                        likesCount: 0
+                    }
+                    this._state.profilePage.posts.push(newPost)
+                }
+                this._state.profilePage.newPostMessage = ''
+                this._callSubscriber()
+                break
+            case ADD_MESSAGE:
+                if (this._state.dialogsPage.newMessageValue.trim()) {
+                    const newMessage: MessageType = {
+                        id: v1(),
+                        text: this._state.dialogsPage.newMessageValue,
+                        owner: true
+                    }
+                    this._state.dialogsPage.messages.push(newMessage)
+                }
+                this._state.dialogsPage.newMessageValue = ''
+                this._callSubscriber()
+                break
+            case ON_MESSAGE_CHANGE:
+                this._state.dialogsPage.newMessageValue = action.newValue
+                this._callSubscriber()
+                break
+            case ON_POST_CHANGE:
+                this._state.profilePage.newPostMessage = action.newValue
+                this._callSubscriber()
+        }
     }
 }
 
