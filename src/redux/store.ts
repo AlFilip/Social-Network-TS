@@ -1,7 +1,3 @@
-import {v1} from "uuid";
-import { profileReducer } from "./profileReducer";
-import {dialogsReducer} from "./diaogsReducer";
-
 export {}
 declare global {
     interface Window {
@@ -36,8 +32,8 @@ export type DialogsPageType = {
 }
 
 export type StateType = {
-    profilePage: ProfilePageType
-    dialogsPage: DialogsPageType
+    profile: ProfilePageType
+    dialogs: DialogsPageType
 }
 
 type StoreType = {
@@ -62,47 +58,47 @@ export type OnPostChangeActionType = {
 }
 
 
-const store: StoreType = {
-    _state: {
-        profilePage: {
-            posts: [
-                {id: v1(), message: 'Hi man', likesCount: 50},
-                {id: v1(), message: 'How are you', likesCount: 150}
-            ],
-            newPostMessage: '',
-        },
-        dialogsPage: {
-            dialogs: [
-                {name: "Sergey", id: 1},
-                {name: "Artem", id: 2},
-                {name: "Nikolay", id: 3},
-            ],
-            messages: [
-                {id: v1(), text: 'Здорово, корова', owner: false},
-                {id: v1(), text: 'Здорово, сама', owner: true},
-            ],
-            newMessageValue: '',
-        },
-    },
-    getState() {
-        return this._state
-    },
-    _callSubscriber() {
-        alert('Subscriber is not set')
-    },
-    subscribe(observer) {
-        this._callSubscriber = observer
-        this._callSubscriber()
-    },
-    dispatch(action) {
-        this._state.profilePage = profileReducer(this.getState().profilePage, action)
-        this._state.dialogsPage = dialogsReducer(this.getState().dialogsPage, action)
+// const store: StoreType = {
+//     _state: {
+//         profilePage: {
+//             posts: [
+//                 {id: v1(), message: 'Hi man', likesCount: 50},
+//                 {id: v1(), message: 'How are you', likesCount: 150}
+//             ],
+//             newPostMessage: '',
+//         },
+//         dialogsPage: {
+//             dialogs: [
+//                 {name: "Sergey", id: 1},
+//                 {name: "Artem", id: 2},
+//                 {name: "Nikolay", id: 3},
+//             ],
+//             messages: [
+//                 {id: v1(), text: 'Здорово, корова', owner: false},
+//                 {id: v1(), text: 'Здорово, сама', owner: true},
+//             ],
+//             newMessageValue: '',
+//         },
+//     },
+//     getState() {
+//         return this._state
+//     },
+//     _callSubscriber() {
+//         alert('Subscriber is not set')
+//     },
+//     subscribe(observer) {
+//         this._callSubscriber = observer
+//         this._callSubscriber()
+//     },
+//     dispatch(action) {
+//         this._state.profilePage = profile(this.getState().profilePage, action)
+//         this._state.dialogsPage = dialogs(this.getState().dialogsPage, action)
+//
+//         this._callSubscriber()
+//
+//     }
+// }
 
-        this._callSubscriber()
-
-    }
-}
-
-window.store = store;
-
-export default store;
+// window.store = store;
+//
+// export default store;

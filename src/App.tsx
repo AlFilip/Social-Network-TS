@@ -7,10 +7,11 @@ import Dialogs from "./components/Dialogs/Dialogs";
 
 import {BrowserRouter, Route} from "react-router-dom"
 import {ActionTypes, DialogsPageType, ProfilePageType} from "./redux/store";
+import DialogsContainer from "./components/Dialogs/DialogsContainer";
 
 export type AppType = {
-    profilePage: ProfilePageType
-    dialogsPage: DialogsPageType
+    profile: ProfilePageType
+    dialogs: DialogsPageType
     dispatch: (action: ActionTypes) => void
 }
 
@@ -21,13 +22,13 @@ function App(props: AppType) {
                 <Header/>
                 <NavBar/>
                 <div className={'app-wrapper-content'}>
-                    <Route path={'/profile'} render={() => <Profile posts={props.profilePage.posts}
-                                                                    newPostMessage={props.profilePage.newPostMessage}
+                    <Route path={'/profile'} render={() => <Profile posts={props.profile.posts}
+                                                                    newPostMessage={props.profile.newPostMessage}
                                                                     dispatch={props.dispatch}/>}/>
-                    <Route path={'/dialogs'} render={() => <Dialogs messages={props.dialogsPage.messages}
-                                                                    dialogs={props.dialogsPage.dialogs}
-                                                                    newMessageValue={props.dialogsPage.newMessageValue}
-                                                                    dispatch={props.dispatch}/>}/>
+                    <Route path={'/dialogs'} render={() => <DialogsContainer messages={props.dialogs.messages}
+                                                                             dialogs={props.dialogs.dialogs}
+                                                                             newMessageValue={props.dialogs.newMessageValue}
+                                                                             dispatch={props.dispatch}/>}/>
                 </div>
             </div>
         </BrowserRouter>

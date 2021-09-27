@@ -8,7 +8,21 @@ export const ON_MESSAGE_CHANGE = "ON-MESSAGE-CHANGE";
 export const AddMessageAC = (): AddMessageActionType => ({type: ADD_MESSAGE})
 export const OnMessageChangeAC = (newValue: string): OnMessageChangeActionType => ({type: ON_MESSAGE_CHANGE, newValue})
 
-export const dialogsReducer = (state: DialogsPageType, action: ActionTypes): DialogsPageType => {
+const initState = {
+    dialogs: [
+        {name: "Sergey", id: 1},
+        {name: "Artem", id: 2},
+        {name: "Nikolay", id: 3},
+    ],
+    messages: [
+        {id: v1(), text: 'Здорово, корова', owner: false},
+        {id: v1(), text: 'Здорово, сама', owner: true},
+    ],
+    newMessageValue: '',
+}
+
+export const dialogs = (state: DialogsPageType = initState, action: ActionTypes): DialogsPageType => {
+    debugger
     switch (action.type) {
         case ADD_MESSAGE:
             if (state.newMessageValue.trim()) {

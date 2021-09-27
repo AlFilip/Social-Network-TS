@@ -2,30 +2,28 @@ import React from "react";
 import s from "./Dialogs.module.css"
 import Dialog from "./Dialog/Dialog";
 import Message from "./Message/Message";
-import {ActionTypes, DialogType, MessageType} from "../../redux/store";
-import {AddMessageAC, OnMessageChangeAC} from "../../redux/diaogsReducer";
+import {DialogType, MessageType} from "../../redux/store";
 
 
 type DialogsPagePropsType = {
     dialogs: Array<DialogType>
     messages: Array<MessageType>
     newMessageValue: string
-    dispatch: (action: ActionTypes) => void
+    sendMessage: () => void
+    onNewMessageChange: (text: string) => void
 }
 
 function Dialogs(props: DialogsPagePropsType) {
 
-    const dialogsItems = props.dialogs.map(d => <Dialog name={d.name} key={d.id} id={d.id}/>)
-
-    const messagesItems = props.messages.map(m => <Message id={m.id} key={m.id} text={m.text} owner={m.owner}/>)
-
     const sendMessage = (): void => {
-        props.dispatch(AddMessageAC())
+        props.sendMessage()
+    }
+    const onNewMessageChange = (e: React.ChangeEvent<HTMLTextAreaElement>): void => {
+        props.onNewMessageChange(e.currentTarget.value)
     }
 
-    const onNewMessageChange = (e: React.ChangeEvent<HTMLTextAreaElement>): void => {
-        props.dispatch(OnMessageChangeAC(e.currentTarget.value))
-    }
+    const dialogsItems = props.dialogs.map(d => <Dialog name={d.name} key={d.id} id={d.id}/>)
+    const messagesItems = props.messages.map(m => <Message id={m.id} key={m.id} text={m.text} owner={m.owner}/>)
 
     return (
         <div className={s.dialogs}>
