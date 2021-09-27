@@ -36,10 +36,10 @@ export type StateType = {
     dialogs: DialogsPageType
 }
 
-type StoreType = {
-    _state: StateType
+export type StoreType = {
+    state?: StateType
     getState: () => StateType
-    _callSubscriber: () => void
+    callSubscriber?: () => void
     subscribe: (observer: () => void) => void
     dispatch: (action: ActionTypes) => void
 }

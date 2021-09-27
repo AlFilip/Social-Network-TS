@@ -2,6 +2,7 @@ import React from "react";
 import {ActionTypes, DialogType, MessageType} from "../../redux/store";
 import {AddMessageAC, OnMessageChangeAC} from "../../redux/diaogsReducer";
 import Dialogs from "./Dialogs";
+import {MyContext} from "../../storeContext";
 
 
 type DialogsContainerPropsType = {
@@ -12,19 +13,26 @@ type DialogsContainerPropsType = {
 }
 
 function DialogsContainer(props: DialogsContainerPropsType) {
-
-    const onNewMessageChange = (text: string): void => {
-        props.dispatch(OnMessageChangeAC(text))
-    }
-    const sendMessage = (): void => {
-        props.dispatch(AddMessageAC())
-    }
-
-    return <Dialogs dialogs={props.dialogs}
-                    messages={props.messages}
-                    newMessageValue={props.newMessageValue}
-                    onNewMessageChange={onNewMessageChange}
-                    sendMessage={sendMessage}/>
+    return (
+        <MyContext.Consumer>
+            {
+                (store) => {
+                    const onNewMessageChange = (text: string): void => {
+                        store.dispatch(OnMessageChangeAC(text))
+                    }
+                    const sendMessage = (): void => {
+                        store.dispatch(AddMessageAC())
+                    }
+                    const dialogsData = store.getState().dialogs
+                    return <Dialogs dialogs={dialogsData.dialogs}
+                                    messages={dialogsData.messages}
+                                    newMessageValue={dialogsData.newMessageValue}
+                                    onNewMessageChange={onNewMessageChange}
+                                    sendMessage={sendMessage}/>
+                }
+            }
+        </MyContext.Consumer>
+    )
 }
 
 export default DialogsContainer;

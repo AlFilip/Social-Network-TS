@@ -1,7 +1,9 @@
 import React from "react";
-import {ActionTypes, PostType} from "../../../redux/store";
+import {ActionTypes, PostType, StoreType} from "../../../redux/store";
 import {AddPostAC, OnPostChangeAC} from "../../../redux/profileReducer";
 import {MyPosts} from "./MyPosts";
+import { MyContext } from "../../../storeContext";
+
 
 export type MyPostsPropsContainerType = {
     newPostMessage: string
@@ -11,18 +13,24 @@ export type MyPostsPropsContainerType = {
 
 
 export function MyPostsContainer(props: MyPostsPropsContainerType) {
-
-    const addPost = (): void => {
-        props.dispatch(AddPostAC())
-    }
-
-    const onPostChange = (value: string) => {
-        props.dispatch(OnPostChangeAC(value))
-
-    }
-
-    return <MyPosts newPostMessage={props.newPostMessage}
-                    posts={props.posts}
-                    addPost={addPost}
-                    onPostChange={onPostChange}/>
+    return (
+        <MyContext.Consumer>
+            {
+                (store:StoreType) => {
+                    const addPost = (): void => {
+                        store.dispatch(AddPostAC())
+                    }
+                    const onPostChange = (value: string) => {
+                        store.dispatch(OnPostChangeAC(value))
+                    }
+                    const profileData = store.getState().profile
+                    return (
+                        <MyPosts newPostMessage={profileData.newPostMessage}
+                                 posts={profileData.posts}
+                                 addPost={addPost}
+                                 onPostChange={onPostChange}/>)
+                }
+            }
+        </MyContext.Consumer>
+    )
 }
