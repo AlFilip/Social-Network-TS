@@ -1,12 +1,16 @@
-import {ActionTypes, AddMessageActionType, DialogsPageType, MessageType, OnMessageChangeActionType} from "./store";
+import {ActionTypes, DialogsPageType, MessageType,} from "./store";
 import {v1} from "uuid";
 
 
 export const ADD_MESSAGE = "ADD-MESSAGE";
 export const ON_MESSAGE_CHANGE = "ON-MESSAGE-CHANGE";
 
-export const AddMessageAC = (): AddMessageActionType => ({type: ADD_MESSAGE})
-export const OnMessageChangeAC = (newValue: string): OnMessageChangeActionType => ({type: ON_MESSAGE_CHANGE, newValue})
+
+export type AddMessageAType = ReturnType<typeof AddMessageAC>
+export type OnMessageChangeActionType = ReturnType<typeof OnMessageChangeAC>
+
+export const AddMessageAC = () => ({type: ADD_MESSAGE} as const)
+export const OnMessageChangeAC = (newValue: string) => ({type: ON_MESSAGE_CHANGE, newValue} as const)
 
 const initState = {
     dialogs: [

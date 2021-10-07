@@ -1,3 +1,6 @@
+import {AddMessageAType, OnMessageChangeActionType} from "./diaogsReducer";
+import {AddPostActionType, OnPostChangeActionType} from "./profileReducer";
+
 export {}
 declare global {
     interface Window {
@@ -36,25 +39,14 @@ export type StateType = {
     dialogs: DialogsPageType
 }
 
+export type ActionTypes = AddMessageAType | OnMessageChangeActionType | AddPostActionType | OnPostChangeActionType
+
 export type StoreType = {
     state?: StateType
     getState: () => StateType
     callSubscriber?: () => void
     subscribe: (observer: () => void) => void
     dispatch: (action: ActionTypes) => void
-}
-
-export type ActionTypes = AddPostActionType | AddMessageActionType | OnMessageChangeActionType | OnPostChangeActionType
-
-export type AddPostActionType = { type: 'ADD-POST' }
-export type AddMessageActionType = { type: "ADD-MESSAGE" }
-export type OnMessageChangeActionType = {
-    type: "ON-MESSAGE-CHANGE"
-    newValue: string
-}
-export type OnPostChangeActionType = {
-    type: "ON-POST-CHANGE"
-    newValue: string
 }
 
 
