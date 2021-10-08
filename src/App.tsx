@@ -5,10 +5,11 @@ import {NavBar} from "./components/NavBar/NavBar";
 import {Profile} from "./components/Profile/Profile";
 
 import {BrowserRouter, Route} from "react-router-dom"
-import {ActionTypes} from "./redux/store";
 import {DialogsContainer} from "./components/Dialogs/DialogsContainer";
 import {profileStateType} from "./redux/profileReducer";
 import {dialogsStateType} from "./redux/diaogsReducer";
+import {UsersContainer} from "./components/Users/UsersContainer";
+import {ActionTypes} from "./redux/store";
 
 export type AppType = {
     profile: profileStateType
@@ -27,6 +28,7 @@ function App(props: AppType) {
                                                                     newPostMessage={props.profile.newPostMessage}
                                                                     dispatch={props.dispatch}/>}/>
                     <Route path={'/dialogs'} render={() => <DialogsContainer/>}/>
+                    <Route path={'/users'} render={() => <UsersContainer/>}/>
                 </div>
             </div>
         </BrowserRouter>

@@ -1,4 +1,3 @@
-import {ActionTypes} from "./store";
 import {v1} from "uuid";
 
 export type DialogType = {
@@ -26,7 +25,7 @@ const initState = {
     newMessageValue: '',
 }
 
-export const dialogs = (state: dialogsStateType = initState, action: ActionTypes): dialogsStateType => {
+export const dialogs = (state: dialogsStateType = initState, action: DialogsActionTypes): dialogsStateType => {
     switch (action.type) {
         case ADD_MESSAGE:
             return state.newMessageValue.trim()
@@ -50,6 +49,7 @@ export const ADD_MESSAGE = "ADD-MESSAGE";
 export const ON_MESSAGE_CHANGE = "ON-MESSAGE-CHANGE";
 
 
+export type DialogsActionTypes = AddMessageAType | OnMessageChangeActionType
 export type AddMessageAType = ReturnType<typeof AddMessageAC>
 export type OnMessageChangeActionType = ReturnType<typeof OnMessageChangeAC>
 
