@@ -2,18 +2,10 @@ import React from "react";
 import s from "./Dialogs.module.css"
 import Dialog from "./Dialog/Dialog";
 import Message from "./Message/Message";
-import {DialogType, MessageType} from "../../redux/store";
+import {DialogsPropsType} from "./DialogsContainer";
 
 
-type DialogsPagePropsType = {
-    dialogs: Array<DialogType>
-    messages: Array<MessageType>
-    newMessageValue: string
-    sendMessage: () => void
-    onNewMessageChange: (text: string) => void
-}
-
-function Dialogs(props: DialogsPagePropsType) {
+function Dialogs(props: DialogsPropsType){
 
     const sendMessage = (): void => {
         props.sendMessage()

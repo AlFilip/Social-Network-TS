@@ -5,12 +5,14 @@ import {NavBar} from "./components/NavBar/NavBar";
 import {Profile} from "./components/Profile/Profile";
 
 import {BrowserRouter, Route} from "react-router-dom"
-import {ActionTypes, DialogsPageType, ProfilePageType} from "./redux/store";
-import DialogsContainer from "./components/Dialogs/DialogsContainer";
+import {ActionTypes} from "./redux/store";
+import {DialogsContainer} from "./components/Dialogs/DialogsContainer";
+import {profileStateType} from "./redux/profileReducer";
+import {dialogsStateType} from "./redux/diaogsReducer";
 
 export type AppType = {
-    profile: ProfilePageType
-    dialogs: DialogsPageType
+    profile: profileStateType
+    dialogs: dialogsStateType
     dispatch: (action: ActionTypes) => void
 }
 
@@ -24,10 +26,7 @@ function App(props: AppType) {
                     <Route path={'/profile'} render={() => <Profile posts={props.profile.posts}
                                                                     newPostMessage={props.profile.newPostMessage}
                                                                     dispatch={props.dispatch}/>}/>
-                    <Route path={'/dialogs'} render={() => <DialogsContainer messages={props.dialogs.messages}
-                                                                             dialogs={props.dialogs.dialogs}
-                                                                             newMessageValue={props.dialogs.newMessageValue}
-                                                                             dispatch={props.dispatch}/>}/>
+                    <Route path={'/dialogs'} render={() => <DialogsContainer/>}/>
                 </div>
             </div>
         </BrowserRouter>
