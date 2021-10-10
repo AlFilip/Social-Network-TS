@@ -1,8 +1,8 @@
 export type UsersStateType = typeof initState
 
-type UserType = {
-    name: string
+export type UserType = {
     id: number
+    name: string
     photos: {
         small: null | string,
         large: null | string
@@ -12,22 +12,7 @@ type UserType = {
 }
 
 const initState = {
-    users: [
-        {
-            id: 1,
-            name: 'Nastya',
-            photos: {small: null, large: null},
-            status: 'Hey',
-            followed: true
-        },
-        {
-            id: 2,
-            name: 'Artem',
-            photos: {small: null, large: null},
-            status: 'DSFSFD',
-            followed: true
-        },
-    ] as Array<UserType>
+    users: [] as Array<UserType>
 }
 
 export const users = (state: UsersStateType = initState, action: UsersActionTypes): UsersStateType => {
@@ -37,13 +22,13 @@ export const users = (state: UsersStateType = initState, action: UsersActionType
         case 'UN_FOLLOW':
             return {...state, users: state.users.map(m => m.id === action.userId ? {...m, followed: false} : m)}
         case 'SET_USERS':
-            return {users: action.users}
+            return {...state, users: [...state.users, ...action.users]}
         default:
             return state
     }
 }
 
-type UsersActionTypes = followActionType | unFollowActionType | setUsersActionType
+export type UsersActionTypes = followActionType | unFollowActionType | setUsersActionType
 
 export type followActionType = ReturnType<typeof followAC>
 export type unFollowActionType = ReturnType<typeof unFollowAC>

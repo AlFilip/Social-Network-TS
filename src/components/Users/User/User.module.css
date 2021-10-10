@@ -1,0 +1,31 @@
+.userCard {
+    margin: 4px;
+    display: flex;
+    align-items: center;
+    padding: 15px;
+    border: 2px solid rgba(0, 0, 0, 0.64);
+    border-radius: 8px;
+    max-width: 500px;
+}
+
+.leftPart {
+
+}
+
+.leftPart img {
+    height: 80px;
+    width: 80px;
+    border-radius: 50%;
+}
+
+.rightPart {
+
+}
+
+.name {
+    margin-left: 10px;
+}
+
+.status {
+    margin-left: 10px;
+}
