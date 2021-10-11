@@ -33,7 +33,6 @@ export const users = (state: UsersStateType = initState, action: UsersActionType
                 totalPagesCount: Math.ceil(action.totalItemsCount / state.pageSize)
             }
         case "SET_CURRENT_PAGE":
-            debugger
             return {
                 ...state,
                 currentPage: action.pageNumber
@@ -58,5 +57,4 @@ export const setUsersAC = (items: Array<UserType>, totalItemsCount: number) => (
     items,
     totalItemsCount
 } as const)
-
 export const setCurrentPage = (pageNumber: number) => ({type: 'SET_CURRENT_PAGE', pageNumber} as const)

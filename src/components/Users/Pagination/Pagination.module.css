@@ -1,7 +1,54 @@
+.pagination{
+    display: flex;
+}
+
+.slider {
+    font-size: 1.2rem;
+    margin: .7rem auto;
+    display: flex;
+    justify-content: center;
+}
 .pageNumber{
-    padding: 1rem;
+    margin: 1rem;
+    padding: .5rem .7rem;
+    border: 1px solid rgba(0, 0, 0, 0.18);
+    border-radius: 0.5rem;
+    box-shadow: 0 0 .3rem grey;
+    transition: .5s;
+}
+
+.pageNumber:hover {
+    box-shadow: 0 0 1rem #e7fdd8;
 }
 
 .currentPageNumber{
     font-weight: 700;
+}
+
+.form{
+    justify-self: flex-end;
+    align-self: center;
+    padding-right: 1rem;
+    font-size: 1.2rem;
+    margin: .7rem 0;
+}
+
+.form input{
+    border: 1px solid rgba(0, 0, 0, 0.18);
+    border-radius: 0.5rem 0 0 .5rem;
+    outline: none;
+    padding: .5rem 1rem;
+    max-width: 6rem;
+}
+
+.form button{
+    border: 1px solid rgba(0, 0, 0, 0.18);
+    border-radius: 0 0.5rem 0.5rem 0;
+    outline: none;
+    padding: .5rem 1rem;
+    max-width: 5rem;
+}
+
+.error {
+    background-color: red;
 }
