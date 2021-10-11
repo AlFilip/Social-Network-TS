@@ -21,7 +21,9 @@ export const Pagination: React.FC<PaginationPropsType> = ({
                              rangeForward: number): PageType[] => {
         const res = []
         for (let i = currentPage - rangeBack; i <= currentPage + rangeForward; i++) {
-            if (i >= 1 && i <= totalPagesCount) res.push({name: i.toString(), id: i})
+            if (i >= 1 && i <= totalPagesCount) {
+                res.push({name: i.toString(), id: i})
+            }
         }
 
         res[0]
@@ -44,13 +46,13 @@ export const Pagination: React.FC<PaginationPropsType> = ({
         if (inputRef.current) inputRef.current.value = currentPage.toString()
     }, [currentPage])
 
-    const getInputValue = () => (
-        inputRef
-        && inputRef.current
-        && +inputRef.current.value > 0
-        && +inputRef.current.value < totalPagesCount
-        && +inputRef.current.value
-    )
+    const getInputValue = () => {
+        if (inputRef && inputRef.current) {
+            const value = +inputRef.current.value
+            return (value > 1 && value < totalPagesCount) ? value : 1
+        }
+        return 1
+    }
 
     const onSubmitForm: FormEventHandler<HTMLFormElement> = (e) => {
         e.preventDefault()
