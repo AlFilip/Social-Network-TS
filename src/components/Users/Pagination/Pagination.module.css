@@ -1,0 +1,7 @@
+.pageNumber{
+    padding: 1rem;
+}
+
+.currentPageNumber{
+    font-weight: 700;
+}
