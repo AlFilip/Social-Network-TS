@@ -8,8 +8,8 @@ import {BrowserRouter, Route} from "react-router-dom"
 import {DialogsContainer} from "./components/Dialogs/DialogsContainer";
 import {profileStateType} from "./redux/profileReducer";
 import {dialogsStateType} from "./redux/diaogsReducer";
-import {UsersContainer} from "./components/Users/UsersContainer";
 import {ActionTypes} from "./redux/store";
+import {UsersContainer} from "./components/Users/UsersContainer";
 
 export type AppType = {
     profile: profileStateType

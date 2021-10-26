@@ -23,6 +23,7 @@
 
 .currentPageNumber{
     font-weight: 700;
+    box-shadow: 0 0 .5rem #e7fdd8;
 }
 
 .form{

@@ -17,6 +17,7 @@ const initState = {
     currentPage: 1 as number,
     pageSize: 10 as number,
     totalPagesCount: 1 as number,
+    isFetching: false as boolean,
 }
 
 export const users = (state: UsersStateType = initState, action: UsersActionTypes): UsersStateType => {
@@ -29,32 +30,56 @@ export const users = (state: UsersStateType = initState, action: UsersActionType
             return {
                 ...state,
                 items: [...action.items],
-                totalItemsCount: action.totalItemsCount,
-                totalPagesCount: Math.ceil(action.totalItemsCount / state.pageSize)
             }
         case "SET_CURRENT_PAGE":
             return {
                 ...state,
                 currentPage: action.pageNumber
             }
+        case "SET_TOTAL_ITEMS_COUNT":
+            return {
+                ...state,
+                totalItemsCount: action.totalItemsCount,
+                totalPagesCount: Math.ceil(action.totalItemsCount / state.pageSize)
+            }
+        case "SET_IS_FETCHING":
+            return {
+                ...state,
+                isFetching: action.isFetching
+            }
         default:
             return state
     }
 }
 
-export type UsersActionTypes = followActionType | unFollowActionType | setUsersActionType | setCurrentPageType
+export type UsersActionTypes =
+    followActionType
+    | unFollowActionType
+    | setUsersActionType
+    | setCurrentPageActionType
+    | setTotalItemsCountActionType
+    | setIsFetchingActionType
 
 export type followActionType = ReturnType<typeof followAC>
 export type unFollowActionType = ReturnType<typeof unFollowAC>
 export type setUsersActionType = ReturnType<typeof setUsersAC>
-export type setCurrentPageType = ReturnType<typeof setCurrentPage>
+export type setCurrentPageActionType = ReturnType<typeof setCurrentPageAC>
+export type setTotalItemsCountActionType = ReturnType<typeof setTotalItemsCount>
+export type setIsFetchingActionType = ReturnType<typeof setIsFetching>
 
 
 export const followAC = (userId: number) => ({type: 'FOLLOW', userId} as const)
 export const unFollowAC = (userId: number) => ({type: 'UN_FOLLOW', userId} as const)
-export const setUsersAC = (items: Array<UserType>, totalItemsCount: number) => ({
+export const setUsersAC = (items: Array<UserType>) => ({
     type: 'SET_USERS',
-    items,
+    items
+} as const)
+export const setCurrentPageAC = (pageNumber: number) => ({type: 'SET_CURRENT_PAGE', pageNumber} as const)
+export const setTotalItemsCount = (totalItemsCount: number) => ({
+    type: 'SET_TOTAL_ITEMS_COUNT',
     totalItemsCount
 } as const)
-export const setCurrentPage = (pageNumber: number) => ({type: 'SET_CURRENT_PAGE', pageNumber} as const)
+export const setIsFetching = (isFetching: boolean) => ({
+    type: 'SET_IS_FETCHING',
+    isFetching
+} as const)

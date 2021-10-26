@@ -46,16 +46,15 @@ export const Pagination: React.FC<PaginationPropsType> = ({
         if (inputRef.current) inputRef.current.value = currentPage.toString()
     }, [currentPage])
 
-    const getInputValue = () => {
-        if (inputRef && inputRef.current) {
-            const value = +inputRef.current.value
-            return (value > 1 && value < totalPagesCount) ? value : 1
-        }
-        return 1
-    }
-
     const onSubmitForm: FormEventHandler<HTMLFormElement> = (e) => {
         e.preventDefault()
+        const getInputValue = () => {
+            if (inputRef && inputRef.current) {
+                const value = +inputRef.current.value
+                return (value > 1 && value < totalPagesCount) ? value : 1
+            }
+            return 1
+        }
         const value = getInputValue()
 
         value
