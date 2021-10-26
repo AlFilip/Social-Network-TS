@@ -1,6 +1,8 @@
-import {AddMessageAType, OnMessageChangeActionType} from "./diaogsReducer";
-import {AddPostActionType, OnPostChangeActionType} from "./profileReducer";
-export type ActionTypes = AddMessageAType | OnMessageChangeActionType | AddPostActionType | OnPostChangeActionType
+import {UsersActionTypes} from "./usersReducer";
+import {profileActionsTypes} from "./profileReducer";
+import {DialogsActionTypes} from "./diaogsReducer";
+
+export type ActionTypes = UsersActionTypes | profileActionsTypes | DialogsActionTypes
 
 //
 // export {}

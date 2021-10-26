@@ -5,13 +5,13 @@ import Message from "./Message/Message";
 import {DialogsPropsType} from "./DialogsContainer";
 
 
-function Dialogs(props: DialogsPropsType){
+function Dialogs(props: DialogsPropsType) {
 
     const sendMessage = (): void => {
-        props.sendMessage()
+        props.addMessage()
     }
     const onNewMessageChange = (e: React.ChangeEvent<HTMLTextAreaElement>): void => {
-        props.onNewMessageChange(e.currentTarget.value)
+        props.onMessageChange(e.currentTarget.value)
     }
 
     const dialogsItems = props.dialogs.map(d => <Dialog name={d.name} key={d.id} id={d.id}/>)

@@ -2,7 +2,6 @@ import React from 'react';
 import './App.css';
 import Header from "./components/Header/Header";
 import {NavBar} from "./components/NavBar/NavBar";
-import {Profile} from "./components/Profile/Profile";
 
 import {BrowserRouter, Route} from "react-router-dom"
 import {DialogsContainer} from "./components/Dialogs/DialogsContainer";
@@ -10,6 +9,7 @@ import {profileStateType} from "./redux/profileReducer";
 import {dialogsStateType} from "./redux/diaogsReducer";
 import {ActionTypes} from "./redux/store";
 import {UsersContainer} from "./components/Users/UsersContainer";
+import {ProfileContainer} from "./components/Profile/ProfileContainer";
 
 export type AppType = {
     profile: profileStateType
@@ -24,9 +24,7 @@ function App(props: AppType) {
                 <Header/>
                 <NavBar/>
                 <div className={'app-wrapper-content'}>
-                    <Route path={'/profile'} render={() => <Profile posts={props.profile.posts}
-                                                                    newPostMessage={props.profile.newPostMessage}
-                                                                    dispatch={props.dispatch}/>}/>
+                    <Route path={'/profile'} render={() => <ProfileContainer/>}/>
                     <Route path={'/dialogs'} render={() => <DialogsContainer/>}/>
                     <Route path={'/users'} render={() => <UsersContainer/>}/>
                 </div>
