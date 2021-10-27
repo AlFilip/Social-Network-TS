@@ -8,6 +8,11 @@
     display: flex;
     justify-content: center;
 }
+
+.slider a{
+    text-decoration: none;
+    color: black;
+}
 .pageNumber{
     margin: 1rem;
     padding: .5rem .7rem;
