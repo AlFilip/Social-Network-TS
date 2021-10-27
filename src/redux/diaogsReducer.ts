@@ -25,7 +25,7 @@ const initState = {
     newMessageValue: '',
 }
 
-export const dialogs = (state: dialogsStateType = initState, action: DialogsActionTypes): dialogsStateType => {
+const dialogsReducer = (state: dialogsStateType = initState, action: DialogsActionTypes): dialogsStateType => {
     switch (action.type) {
         case ADD_MESSAGE:
             return state.newMessageValue.trim()
@@ -55,3 +55,6 @@ export type OnMessageChangeActionType = ReturnType<typeof onMessageChange>
 
 export const addMessage = () => ({type: ADD_MESSAGE} as const)
 export const onMessageChange = (newValue: string) => ({type: ON_MESSAGE_CHANGE, newValue} as const)
+
+
+export default dialogsReducer

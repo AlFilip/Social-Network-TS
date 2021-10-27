@@ -4,6 +4,7 @@ import {setIsFetching} from "../../redux/usersReducer";
 import axios from "axios";
 import {useDispatch} from "react-redux";
 import {setProfile} from "../../redux/profileReducer";
+import {RouteComponentProps, withRouter} from "react-router-dom";
 
 type contactsType = {
     facebook: string | null
@@ -31,11 +32,20 @@ type getProfileResponseType = {
     photos: photosType
 }
 
-export function ProfileContainer() {
+type PathParamsType = {
+    userId: string
+}
+type propsType = RouteComponentProps<PathParamsType>
+
+function ProfileContainer(props: propsType) {
     const dispatch = useDispatch()
     useEffect(() => {
         dispatch(setIsFetching(true))
-        axios.get<getProfileResponseType>(`https://social-network.samuraijs.com/api/1.0/profile/2`)
+        let userId = props.match.params.userId
+        !userId
+        && (userId = '2')
+
+        axios.get<getProfileResponseType>(`https://social-network.samuraijs.com/api/1.0/profile/` + userId)
             .then(response => {
                 if (response.status === 200) {
                     const {aboutMe, fullName, userId, photos} = response.data
@@ -48,3 +58,6 @@ export function ProfileContainer() {
         <Profile/>
     )
 }
+
+export default withRouter(ProfileContainer)
+

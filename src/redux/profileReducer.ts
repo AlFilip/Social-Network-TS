@@ -25,7 +25,7 @@ const initState = {
     profile: null as profileType,
 }
 
-export const profile = (state: profileStateType = initState, action: profileActionsTypes): profileStateType => {
+const profileReducer = (state: profileStateType = initState, action: profileActionsTypes): profileStateType => {
     switch (action.type) {
         case ADD_POST:
             return state.newPostMessage.trim()
@@ -63,3 +63,5 @@ export type setProfileActionType = ReturnType<typeof setProfile>
 export const addPost = () => ({type: ADD_POST} as const)
 export const onPostChange = (newValue: string) => ({type: ON_POST_CHANGE, newValue} as const)
 export const setProfile = (profile: profileType) => ({type: SET_PROFILE, profile} as const)
+
+export default profileReducer

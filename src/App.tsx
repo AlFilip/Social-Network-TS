@@ -9,7 +9,7 @@ import {profileStateType} from "./redux/profileReducer";
 import {dialogsStateType} from "./redux/diaogsReducer";
 import {ActionTypes} from "./redux/store";
 import {UsersContainer} from "./components/Users/UsersContainer";
-import {ProfileContainer} from "./components/Profile/ProfileContainer";
+import ProfileContainer from './components/Profile/ProfileContainer';
 
 export type AppType = {
     profile: profileStateType
@@ -24,7 +24,7 @@ function App(props: AppType) {
                 <Header/>
                 <NavBar/>
                 <div className={'app-wrapper-content'}>
-                    <Route path={'/profile'} render={() => <ProfileContainer/>}/>
+                    <Route path={'/profile/:userId?'} render={() => <ProfileContainer/>}/>
                     <Route path={'/dialogs'} render={() => <DialogsContainer/>}/>
                     <Route path={'/users'} render={() => <UsersContainer/>}/>
                 </div>

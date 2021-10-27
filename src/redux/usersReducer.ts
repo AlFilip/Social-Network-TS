@@ -20,7 +20,7 @@ const initState = {
     isFetching: false as boolean,
 }
 
-export const users = (state: UsersStateType = initState, action: UsersActionTypes): UsersStateType => {
+const usersReducer = (state: UsersStateType = initState, action: UsersActionTypes): UsersStateType => {
     switch (action.type) {
         case 'FOLLOW':
             return {...state, items: state.items.map(m => m.id === action.userId ? {...m, followed: true} : m)}
@@ -83,3 +83,5 @@ export const setIsFetching = (isFetching: boolean) => ({
     type: 'SET_IS_FETCHING',
     isFetching
 } as const)
+
+export default usersReducer

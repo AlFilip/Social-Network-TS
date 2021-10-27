@@ -38,7 +38,7 @@ export const Pagination: React.FC<PaginationPropsType> = ({
         return res
     }
 
-    const onClickHandler:MouseEventHandler<HTMLAnchorElement> = (e) => {
+    const onClickHandler: MouseEventHandler<HTMLAnchorElement> = (e) => {
         e.preventDefault()
         const pageNumber = +e.currentTarget.id
         callBack(pageNumber)
@@ -63,7 +63,7 @@ export const Pagination: React.FC<PaginationPropsType> = ({
     const getClassName = (m: number) => `${s.pageNumber} ${m === currentPage ? s.currentPageNumber : ''}`
     const paginationButtons = getPrepPagesArr(totalPagesCount, currentPage, 2, 5)
         .map(m => (
-            <a href={'pageNumber'} key={m.id} id={m.id.toString()} className={getClassName(m.id)} onClick={onClickHandler}>
+            <a href={m.name} key={m.id} id={m.id.toString()} className={getClassName(m.id)} onClick={onClickHandler}>
                 {m.name}
             </a>
         ))
