@@ -24,7 +24,6 @@ export const Users = (props: propsType) => {
                                                                  photos={m.photos}
                                                                  status={m.status}
                                                                  followed={m.followed}
-                                                                 callBack={m.followed ? props.unFollow : props.follow}
     />), [props.items])
 
     return (

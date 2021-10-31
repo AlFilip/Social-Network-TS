@@ -33,7 +33,8 @@ export const UsersContainer = () => {
             {
                 params: {
                     page: currentPage
-                }
+                },
+                withCredentials: true
             })
             .then(response => {
                 if (response.status === 200) {
