@@ -22,7 +22,7 @@ const initState = {
         {id: v1(), message: 'How are you', likesCount: 150}
     ] as Array<PostType>,
     newPostMessage: '',
-    profile: null as profileType,
+    currentProfile: null as profileType,
 }
 
 const profileReducer = (state: profileStateType = initState, action: profileActionsTypes): profileStateType => {
@@ -43,7 +43,7 @@ const profileReducer = (state: profileStateType = initState, action: profileActi
         case SET_PROFILE:
             return {
                 ...state,
-                profile: action.profile
+                currentProfile: action.currentProfile
             }
         default:
             return state
@@ -62,6 +62,6 @@ export type setProfileActionType = ReturnType<typeof setProfile>
 
 export const addPost = () => ({type: ADD_POST} as const)
 export const onPostChange = (newValue: string) => ({type: ON_POST_CHANGE, newValue} as const)
-export const setProfile = (profile: profileType) => ({type: SET_PROFILE, profile} as const)
+export const setProfile = (currentProfile: profileType) => ({type: SET_PROFILE, currentProfile} as const)
 
 export default profileReducer

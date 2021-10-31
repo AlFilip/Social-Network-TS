@@ -6,7 +6,7 @@ import {profileType} from "../../../redux/profileReducer";
 import {Preloader} from "../../Common/Preloader/Preloader";
 
 export function ProfileInfo() {
-    const profile = useSelector<AppStateType, profileType>(state => state.profile.profile)
+    const profile = useSelector<AppStateType, profileType>(state => state.profile.currentProfile)
     const profileImg = (profile && profile.photos && profile.photos.large) ? profile.photos.large : "https://e7.pngegg.com/pngimages/931/209/png-clipart-computer-icons-symbol-avatar-logo-person-with-helmut-miscellaneous-black.png"
     return (
         <>
