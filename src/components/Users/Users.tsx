@@ -1,5 +1,5 @@
 import React, {useMemo} from "react";
-import {User} from "./User/User";
+import {UserCard} from "./UserCard/UserCard";
 import {Pagination} from "./Pagination/Paginaton";
 import {UserType} from "../../redux/usersReducer";
 import {useSelector} from "react-redux";
@@ -18,12 +18,12 @@ type propsType = {
 export const Users = (props: propsType) => {
     const isFetching = useSelector<AppStateType, boolean>(state => state.users.isFetching)
 
-    const mappedUsers = useMemo(() => props.items.map(m => <User key={m.id}
-                                                                 id={m.id}
-                                                                 name={m.name}
-                                                                 photos={m.photos}
-                                                                 status={m.status}
-                                                                 followed={m.followed}
+    const mappedUsers = useMemo(() => props.items.map(m => <UserCard key={m.id}
+                                                                     id={m.id}
+                                                                     name={m.name}
+                                                                     photos={m.photos}
+                                                                     status={m.status}
+                                                                     followed={m.followed}
     />), [props.items])
 
     return (
