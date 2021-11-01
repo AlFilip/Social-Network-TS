@@ -1,13 +1,9 @@
 import axios from "axios";
 import {UserType} from "../redux/usersReducer";
-
-const config = {
-    baseURL: 'https://social-network.samuraijs.com/api/1.0',
-    withCredentials: true,
-}
+import {requestConfig} from "./authApi";
 
 const configWithKey = {
-    ...config,
+    ...requestConfig,
     headers: {
         'API-KEY': '8ac432b4-b12d-401e-8457-1e2c87c081fe'
     }
@@ -19,7 +15,7 @@ type responseType = {
     error: string | null
 }
 
-const usersInstance = axios.create(config)
+const usersInstance = axios.create(requestConfig)
 const usersInstanceWithKey = axios.create(configWithKey)
 
 export const usersAPI = {

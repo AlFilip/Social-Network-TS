@@ -1,7 +1,6 @@
-import React, {ChangeEventHandler, Dispatch, FormEventHandler, MouseEventHandler, useState} from "react";
+import React, {ChangeEventHandler, FormEventHandler, MouseEventHandler, useState} from "react";
 import s from './Pagination.module.css'
-import {setCurrentPageAC, setCurrentPageActionType} from "../../../redux/usersReducer";
-import {useDispatch, useSelector} from "react-redux";
+import {useSelector} from "react-redux";
 import {AppStateType} from "../../../redux/redux-store";
 
 type PaginationPropsType = {

@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const config = {
+export const requestConfig = {
     baseURL: 'https://social-network.samuraijs.com/api/1.0/',
     withCredentials: true
 }
@@ -14,7 +14,7 @@ type responseType = {
     resultCode: number
 }
 
-const authInstance = axios.create(config)
+const authInstance = axios.create(requestConfig)
 
 export const authAPI = {
     me: () => authInstance
