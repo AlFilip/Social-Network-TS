@@ -3,7 +3,10 @@ import s from './UserCard.module.css'
 import React from "react";
 import {NavLink} from "react-router-dom";
 
-type UserPropsType = UserType & { callBack: () => void }
+type UserPropsType = UserType & {
+    callBack: () => void
+    isBtnDisabled: boolean
+}
 const userDefaultImg = "https://e7.pngegg.com/pngimages/931/209/png-clipart-computer-icons-symbol-avatar-logo-person-with-helmut-miscellaneous-black.png"
 
 export const UserCard = React.memo(({
@@ -12,8 +15,8 @@ export const UserCard = React.memo(({
                                         photos,
                                         status,
                                         followed,
-                                        callBack
-
+                                        callBack,
+                                        isBtnDisabled,
                                     }: UserPropsType) => {
 
     const buttonTitle = followed ? 'UnFollow' : 'Follow'
@@ -27,7 +30,7 @@ export const UserCard = React.memo(({
                         src={userImg}
                         alt=""/>
                 </NavLink>
-                <button onClick={callBack}>{buttonTitle}</button>
+                <button disabled={isBtnDisabled} onClick={callBack}>{buttonTitle}</button>
             </div>
             <div className={s.rightPart}>
                 <div className={s.name}>{name}</div>
@@ -36,3 +39,4 @@ export const UserCard = React.memo(({
         </div>
     )
 })
+

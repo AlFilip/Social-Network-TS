@@ -1,5 +1,5 @@
 import {followAC, unFollowAC, UsersActionTypes, UserType} from "../../../redux/usersReducer";
-import React, {useCallback} from "react";
+import React, {useCallback, useEffect, useState} from "react";
 import {useDispatch} from "react-redux";
 import {Dispatch} from "redux";
 import {usersAPI} from "../../../api/usersApi";
@@ -23,9 +23,17 @@ export const UserCardContainer = React.memo((props: UserPropsType) => {
                 dispatch(followAC(props.id))
             })
     }, [dispatch])
-    const onClickHandler = props.followed ? unFollow : follow
+    const [isBtnDisabled, setBtnDisabled] = useState<boolean>(false)
+    const onClickHandler = () => {
+        setBtnDisabled(true)
+        props.followed ? unFollow() : follow()
+    }
+    useEffect(() => {
+        setBtnDisabled(false)
+    }, [props.followed])
 
     return <UserCard {...props}
                      callBack={onClickHandler}
+                     isBtnDisabled={isBtnDisabled}
     />
 })

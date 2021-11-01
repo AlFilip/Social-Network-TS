@@ -13,11 +13,11 @@ export type UserType = {
 
 const initState = {
     items: [] as Array<UserType>,
-    totalItemsCount: 0 as number,
-    currentPage: 1 as number,
-    pageSize: 10 as number,
-    totalPagesCount: 1 as number,
-    isFetching: false as boolean,
+    totalItemsCount: 0,
+    currentPage: 1,
+    pageSize: 10,
+    totalPagesCount: 1,
+    isFetching: false,
 }
 
 const usersReducer = (state: UsersStateType = initState, action: UsersActionTypes): UsersStateType => {

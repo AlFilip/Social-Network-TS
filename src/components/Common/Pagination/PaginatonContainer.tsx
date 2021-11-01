@@ -23,8 +23,10 @@ export const PaginationContainer = () => {
                 if (data) {
                     dispatch(setUsersAC(data.items))
                     dispatch(setTotalItemsCount(data.totalCount))
-                    dispatch(setIsFetching(false))
                 }
+            })
+            .finally(() => {
+                dispatch(setIsFetching(false))
             })
     }, [currentPage])
 
