@@ -7,7 +7,7 @@ import {AppStateType} from "../../../redux/redux-store";
 type PaginationPropsType = {
     // totalPagesCount: number
     currentPage: number
-    // callBack: (pageNumber: number) => void
+    callBack: (pageNumber: number) => void
 }
 
 type PageType = { name: string, id: number }
@@ -15,15 +15,14 @@ type PageType = { name: string, id: number }
 export const Pagination: React.FC<PaginationPropsType> = React.memo(({
                                                                          // totalPagesCount,
                                                                          currentPage,
-                                                                         // callBack,
+                                                                         callBack,
                                                                      }) => {
 
-    const totalPagesCount = useSelector<AppStateType, number>(state => state.users.totalPagesCount)
-    const dispatch = useDispatch<Dispatch<setCurrentPageActionType>>()
-    const setCurrentPage = (pageNumber: number) => {
-        dispatch(setCurrentPageAC(pageNumber))
-    }
     const [inputValue, setInputValue] = useState<number>(currentPage)
+    const totalPagesCount = useSelector<AppStateType, number>(state => state.users.totalPagesCount)
+    const setCurrentPage = (pageNumber: number) => {
+        callBack(pageNumber)
+    }
 
     const getPrepPagesArr = (totalPagesCount: number,
                              currentPage: number,

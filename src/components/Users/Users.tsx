@@ -1,14 +1,13 @@
 import React, {useMemo} from "react";
 import {UserCard} from "./UserCard/UserCard";
-import {Pagination} from "./Pagination/Paginaton";
 import {UserType} from "../../redux/usersReducer";
 import {useSelector} from "react-redux";
 import {AppStateType} from "../../redux/redux-store";
 import {Preloader} from "../Common/Preloader/Preloader";
+import {PaginationContainer} from "../Common/Pagination/PaginatonContainer";
 
 type propsType = {
     items: Array<UserType>
-    currentPage: number
 }
 
 export const Users = (props: propsType) => {
@@ -25,7 +24,7 @@ export const Users = (props: propsType) => {
     return (
         <div>
             <div>
-                <Pagination currentPage={props.currentPage}/>
+                <PaginationContainer/>
             </div>
             {isFetching && <Preloader/>}
             {mappedUsers}
