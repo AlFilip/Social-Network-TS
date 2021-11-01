@@ -7,12 +7,8 @@ import {AppStateType} from "../../redux/redux-store";
 import {Preloader} from "../Common/Preloader/Preloader";
 
 type propsType = {
-    follow: (id: number) => void
-    unFollow: (id: number) => void
-    setCurrentPage: (pageNumber: number) => void
     items: Array<UserType>
     currentPage: number
-    totalPagesCount: number
 }
 
 export const Users = (props: propsType) => {
@@ -29,9 +25,7 @@ export const Users = (props: propsType) => {
     return (
         <div>
             <div>
-                <Pagination currentPage={props.currentPage}
-                            totalPagesCount={props.totalPagesCount}
-                            callBack={props.setCurrentPage}/>
+                <Pagination currentPage={props.currentPage}/>
             </div>
             {isFetching && <Preloader/>}
             {mappedUsers}

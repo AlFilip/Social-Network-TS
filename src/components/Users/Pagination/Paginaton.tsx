@@ -1,19 +1,28 @@
-import React, {ChangeEventHandler, FormEventHandler, MouseEventHandler, useState} from "react";
+import React, {ChangeEventHandler, Dispatch, FormEventHandler, MouseEventHandler, useState} from "react";
 import s from './Pagination.module.css'
+import {setCurrentPageAC, setCurrentPageActionType} from "../../../redux/usersReducer";
+import {useDispatch, useSelector} from "react-redux";
+import {AppStateType} from "../../../redux/redux-store";
 
 type PaginationPropsType = {
-    totalPagesCount: number
+    // totalPagesCount: number
     currentPage: number
-    callBack: (pageNumber: number) => void
+    // callBack: (pageNumber: number) => void
 }
 
 type PageType = { name: string, id: number }
 
-export const Pagination: React.FC<PaginationPropsType> = ({
-                                                              totalPagesCount,
-                                                              currentPage,
-                                                              callBack,
-                                                          }) => {
+export const Pagination: React.FC<PaginationPropsType> = React.memo(({
+                                                                         // totalPagesCount,
+                                                                         currentPage,
+                                                                         // callBack,
+                                                                     }) => {
+
+    const totalPagesCount = useSelector<AppStateType, number>(state => state.users.totalPagesCount)
+    const dispatch = useDispatch<Dispatch<setCurrentPageActionType>>()
+    const setCurrentPage = (pageNumber: number) => {
+        dispatch(setCurrentPageAC(pageNumber))
+    }
     const [inputValue, setInputValue] = useState<number>(currentPage)
 
     const getPrepPagesArr = (totalPagesCount: number,
@@ -41,7 +50,7 @@ export const Pagination: React.FC<PaginationPropsType> = ({
     const onClickHandler: MouseEventHandler<HTMLAnchorElement> = (e) => {
         e.preventDefault()
         const pageNumber = +e.currentTarget.id
-        callBack(pageNumber)
+        setCurrentPage(pageNumber)
         setInputValue(pageNumber)
     }
 
@@ -57,7 +66,7 @@ export const Pagination: React.FC<PaginationPropsType> = ({
 
     const onSubmitForm: FormEventHandler<HTMLFormElement> = (e) => {
         e.preventDefault()
-        callBack(inputValue)
+        setCurrentPage(inputValue)
     }
 
     const getClassName = (m: number) => `${s.pageNumber} ${m === currentPage ? s.currentPageNumber : ''}`
@@ -79,4 +88,4 @@ export const Pagination: React.FC<PaginationPropsType> = ({
             </form>
         </div>
     )
-}
+})

@@ -23,5 +23,7 @@ export const authAPI = {
             if (response.status === 200 && response.data.resultCode === 0) {
                 return response.data.data
             }
-        }),
+            throw new Error("Check auth response");
+        })
+        .catch(err => console.log(err))
 }

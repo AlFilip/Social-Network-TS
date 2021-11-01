@@ -4,49 +4,33 @@ import React from "react";
 import {NavLink} from "react-router-dom";
 import {useDispatch} from "react-redux";
 import {Dispatch} from "redux";
-import axios from "axios";
+import {usersAPI} from "../../../api/usersApi";
 
 type UserPropsType = UserType
 const userDefaultImg = "https://e7.pngegg.com/pngimages/931/209/png-clipart-computer-icons-symbol-avatar-logo-person-with-helmut-miscellaneous-black.png"
 
 export const UserCard = React.memo(({
-                                    id,
-                                    name,
-                                    photos,
-                                    status,
-                                    followed,
-                                    // callBack
+                                        id,
+                                        name,
+                                        photos,
+                                        status,
+                                        followed,
+                                        // callBack
 
-                                }: UserPropsType) => {
+                                    }: UserPropsType) => {
 
     const dispatch = useDispatch<Dispatch<UsersActionTypes>>()
     const onClickUnFollow = () => {
-        axios.delete(`https://social-network.samuraijs.com/api/1.0/follow/${id}`, {
-            withCredentials: true,
-            headers: {
-                'API-KEY' : '8ac432b4-b12d-401e-8457-1e2c87c081fe'
-            }
-        })
-            .then(res => {
-                if (res.status === 200) {
-                    dispatch(unFollowAC(id))
-                }
+        usersAPI.unFollow(id)
+            .then(() => {
+                dispatch(unFollowAC(id))
             })
-            .catch(err => console.log(err))
     }
     const onClickFollow = () => {
-        axios.post(`https://social-network.samuraijs.com/api/1.0/follow/${id}`,{}, {
-            withCredentials: true,
-            headers: {
-                "API-KEY" : "8ac432b4-b12d-401e-8457-1e2c87c081fe"
-            }
-        })
-            .then(res => {
-                if (res.status === 200) {
-                    dispatch(followAC(id))
-                }
+        usersAPI.follow(id)
+            .then(() => {
+                dispatch(followAC(id))
             })
-            .catch(err => console.log(err))
     }
 
     const userImg = photos.small ? photos.small : photos.large ? photos.large : userDefaultImg
