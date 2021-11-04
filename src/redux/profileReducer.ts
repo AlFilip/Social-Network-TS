@@ -1,5 +1,7 @@
 import {v1} from "uuid";
 import {photosType} from "../components/Profile/ProfileContainer";
+import {thunkType} from "./usersReducer";
+import {profileApi} from "../api/profileApi";
 
 export type PostType = {
     id: string
@@ -63,5 +65,15 @@ export type setProfileActionType = ReturnType<typeof setProfile>
 export const addPost = () => ({type: ADD_POST} as const)
 export const onPostChange = (newValue: string) => ({type: ON_POST_CHANGE, newValue} as const)
 export const setProfile = (currentProfile: profileType) => ({type: SET_PROFILE, currentProfile} as const)
+
+export const initProfile = (userId: string): thunkType => (dispatch) => {
+    profileApi.getProfile(userId)
+        .then(response => {
+            if (response && response.status === 200) {
+                const {aboutMe, fullName, userId, photos} = response.data
+                dispatch(setProfile({aboutMe, fullName, userId, photos}))
+            }
+        })
+}
 
 export default profileReducer

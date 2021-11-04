@@ -1,9 +1,9 @@
 import React, {useEffect} from "react";
 import {Profile} from "./Profile";
-import axios from "axios";
-import {useDispatch} from "react-redux";
-import {setProfile} from "../../redux/profileReducer";
+import {useDispatch, useSelector} from "react-redux";
+import {initProfile} from "../../redux/profileReducer";
 import {RouteComponentProps, withRouter} from "react-router-dom";
+import {AppStateType} from "../../redux/redux-store";
 
 type contactsType = {
     facebook: string | null
@@ -37,20 +37,18 @@ type PathParamsType = {
 type propsType = RouteComponentProps<PathParamsType>
 
 function ProfileContainer(props: propsType) {
+    const authUserId = useSelector<AppStateType, number | null>(state => state.auth.id)
     const dispatch = useDispatch()
     useEffect(() => {
         let userId = props.match.params.userId
+        !userId && authUserId
+        && (userId = authUserId.toString())
+
         !userId
         && (userId = '2')
 
-        axios.get<getProfileResponseType>(`https://social-network.samuraijs.com/api/1.0/profile/` + userId)
-            .then(response => {
-                if (response.status === 200) {
-                    const {aboutMe, fullName, userId, photos} = response.data
-                    dispatch(setProfile({aboutMe, fullName, userId, photos}))
-                }
-            })
-    }, [])
+        dispatch(initProfile(userId))
+    }, [props.match.params.userId])
 
     return (
         <Profile/>
@@ -58,4 +56,3 @@ function ProfileContainer(props: propsType) {
 }
 
 export default withRouter(ProfileContainer)
-

@@ -1,9 +1,9 @@
 import React from "react";
 import s from "./Message.module.css"
-import {MessageType} from "../../../redux/diaogsReducer";
+import {messageType} from "../../../redux/diaogsReducer";
 
 
-function Message (props:MessageType) {
+function Message (props:messageType) {
     return (
         <div className={`${props.owner ? s.userMessage: s.message}`}>
             {props.text}

@@ -1,10 +1,10 @@
 import {v1} from "uuid";
 
-export type DialogType = {
+export type dialogType = {
     name: string
     id: number
 }
-export type MessageType = {
+export type messageType = {
     id: string
     text: string
     owner: boolean
@@ -17,11 +17,11 @@ const initState = {
         {name: "Sergey", id: 1},
         {name: "Artem", id: 2},
         {name: "Nikolay", id: 3},
-    ] as Array<DialogType>,
+    ] as Array<dialogType>,
     messages: [
         {id: v1(), text: 'Здорово, корова', owner: false},
         {id: v1(), text: 'Здорово, сама', owner: true},
-    ] as Array<MessageType>,
+    ] as Array<messageType>,
     newMessageValue: '',
 }
 

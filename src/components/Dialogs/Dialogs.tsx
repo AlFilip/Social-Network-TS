@@ -2,20 +2,26 @@ import React from "react";
 import s from "./Dialogs.module.css"
 import Dialog from "./Dialog/Dialog";
 import Message from "./Message/Message";
-import {DialogsPropsType} from "./DialogsContainer";
+import {useDispatch, useSelector} from "react-redux";
+import {AppStateType} from "../../redux/redux-store";
+import {addMessage, dialogType, messageType, onMessageChange} from "../../redux/diaogsReducer";
 
 
-function Dialogs(props: DialogsPropsType) {
+function Dialogs() {
+    const dialogs = useSelector<AppStateType, dialogType[]>(state => state.dialogs.dialogs)
+    const messages = useSelector<AppStateType, messageType[]>(state => state.dialogs.messages)
+    const newMessageValue = useSelector<AppStateType, string>(state => state.dialogs.newMessageValue)
+    const dispatch = useDispatch()
 
-    const sendMessage = (): void => {
-        props.addMessage()
+    const onButtonClickHandler = (): void => {
+        dispatch(addMessage())
     }
     const onNewMessageChange = (e: React.ChangeEvent<HTMLTextAreaElement>): void => {
-        props.onMessageChange(e.currentTarget.value)
+        dispatch(onMessageChange(e.currentTarget.value))
     }
 
-    const dialogsItems = props.dialogs.map(d => <Dialog name={d.name} key={d.id} id={d.id}/>)
-    const messagesItems = props.messages.map(m => <Message id={m.id} key={m.id} text={m.text} owner={m.owner}/>)
+    const dialogsItems = dialogs.map(d => <Dialog name={d.name} key={d.id} id={d.id}/>)
+    const messagesItems = messages.map(m => <Message id={m.id} key={m.id} text={m.text} owner={m.owner}/>)
 
     return (
         <div className={s.dialogs}>
@@ -27,8 +33,8 @@ function Dialogs(props: DialogsPropsType) {
                 {messagesItems}
             </div>
             <div className={s.addMessageForm}>
-                <textarea onChange={onNewMessageChange} value={props.newMessageValue}/>
-                <button onClick={sendMessage}>Send</button>
+                <textarea onChange={onNewMessageChange} value={newMessageValue}/>
+                <button onClick={onButtonClickHandler}>Send</button>
             </div>
         </div>
     )
