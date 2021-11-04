@@ -1,5 +1,6 @@
-import {combineReducers, createStore} from 'redux'
+import {applyMiddleware, combineReducers, createStore} from 'redux'
 import {composeWithDevTools} from 'redux-devtools-extension';
+import reduxThunk from 'redux-thunk';
 import profile from "./profileReducer";
 import dialogs from "./diaogsReducer";
 import users from "./usersReducer";
@@ -12,9 +13,13 @@ const rootReducer = combineReducers({
     auth,
 })
 
+const middleware = [
+    reduxThunk,
+];
+
 export type AppStateType = ReturnType<typeof rootReducer>
 
-export let store = createStore(rootReducer, composeWithDevTools())
+export let store = createStore(rootReducer, composeWithDevTools(applyMiddleware(...middleware)))
 
 
 //@ts-ignore

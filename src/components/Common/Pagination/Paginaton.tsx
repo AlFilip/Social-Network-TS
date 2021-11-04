@@ -1,26 +1,31 @@
-import React, {ChangeEventHandler, FormEventHandler, MouseEventHandler, useState} from "react";
+import React, {ChangeEventHandler, Dispatch, FormEventHandler, MouseEventHandler, useState} from "react";
 import s from './Pagination.module.css'
-import {useSelector} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 import {AppStateType} from "../../../redux/redux-store";
+import {setCurrentPageAC, usersActionTypes} from "../../../redux/usersReducer";
 
 type PaginationPropsType = {
     // totalPagesCount: number
-    currentPage: number
-    callBack: (pageNumber: number) => void
+    // currentPage: number
+    // callBack: (pageNumber: number) => void
 }
 
 type PageType = { name: string, id: number }
 
 export const Pagination: React.FC<PaginationPropsType> = React.memo(({
                                                                          // totalPagesCount,
-                                                                         currentPage,
-                                                                         callBack,
+                                                                         // currentPage,
+                                                                         // callBack,
                                                                      }) => {
 
-    const [inputValue, setInputValue] = useState<number>(currentPage)
     const totalPagesCount = useSelector<AppStateType, number>(state => state.users.totalPagesCount)
+    const currentPage = useSelector<AppStateType, number>(state => state.users.currentPage)
+    const dispatch = useDispatch<Dispatch<usersActionTypes>>()
+
+    const [inputValue, setInputValue] = useState<number>(currentPage)
+
     const setCurrentPage = (pageNumber: number) => {
-        callBack(pageNumber)
+        dispatch(setCurrentPageAC(pageNumber))
     }
 
     const getPrepPagesArr = (totalPagesCount: number,

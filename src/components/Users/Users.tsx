@@ -3,8 +3,8 @@ import {UserType} from "../../redux/usersReducer";
 import {useSelector} from "react-redux";
 import {AppStateType} from "../../redux/redux-store";
 import {Preloader} from "../Common/Preloader/Preloader";
-import {PaginationContainer} from "../Common/Pagination/PaginatonContainer";
 import {UserCardContainer} from "./UserCard/UserCardContainer";
+import {Pagination} from "../Common/Pagination/Paginaton";
 
 type propsType = {
     items: Array<UserType>
@@ -24,7 +24,7 @@ export const Users = (props: propsType) => {
     return (
         <div>
             <div>
-                <PaginationContainer/>
+                <Pagination/>
             </div>
             {isFetching && <Preloader/>}
             {mappedUsers}

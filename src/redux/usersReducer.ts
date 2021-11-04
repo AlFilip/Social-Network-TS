@@ -1,3 +1,11 @@
+import {Dispatch} from "react";
+import {usersAPI} from "../api/usersApi";
+import {AppStateType} from "./redux-store";
+import {profileActionsTypes} from "./profileReducer";
+import {authActionTypes} from "./authReducer";
+import {dialogsActionTypes} from "./diaogsReducer";
+import {ThunkAction} from "redux-thunk";
+
 export type UsersStateType = typeof initState
 
 export type UserType = {
@@ -20,7 +28,7 @@ const initState = {
     isFetching: false,
 }
 
-const usersReducer = (state: UsersStateType = initState, action: UsersActionTypes): UsersStateType => {
+const usersReducer = (state: UsersStateType = initState, action: usersActionTypes): UsersStateType => {
     switch (action.type) {
         case 'FOLLOW':
             return {...state, items: state.items.map(m => m.id === action.userId ? {...m, followed: true} : m)}
@@ -52,7 +60,7 @@ const usersReducer = (state: UsersStateType = initState, action: UsersActionType
     }
 }
 
-export type UsersActionTypes =
+export type usersActionTypes =
     followActionType
     | unFollowActionType
     | setUsersActionType
@@ -60,12 +68,16 @@ export type UsersActionTypes =
     | setTotalItemsCountActionType
     | setIsFetchingActionType
 
+export type allActionsType = usersActionTypes | profileActionsTypes | dialogsActionTypes | authActionTypes
+
 export type followActionType = ReturnType<typeof followAC>
 export type unFollowActionType = ReturnType<typeof unFollowAC>
 export type setUsersActionType = ReturnType<typeof setUsersAC>
 export type setCurrentPageActionType = ReturnType<typeof setCurrentPageAC>
 export type setTotalItemsCountActionType = ReturnType<typeof setTotalItemsCount>
 export type setIsFetchingActionType = ReturnType<typeof setIsFetching>
+
+export type thunkType = ThunkAction<any, AppStateType, any, allActionsType>
 
 
 export const followAC = (userId: number) => ({type: 'FOLLOW', userId} as const)
@@ -83,5 +95,33 @@ export const setIsFetching = (isFetching: boolean) => ({
     type: 'SET_IS_FETCHING',
     isFetching
 } as const)
+
+export const followTC = (userId: number):thunkType => (dispatch) => {
+    usersAPI.follow(userId)
+        .then(() => {
+            dispatch(followAC(userId))
+        })
+}
+
+export const unFollowTC = (userId: number):thunkType => (dispatch) => {
+    usersAPI.follow(userId)
+        .then(() => {
+            dispatch(unFollowAC(userId))
+        })
+}
+
+export const getUsersTC = (currentPage: number):thunkType => (dispatch) => {
+    dispatch(setIsFetching(true))
+    usersAPI.getUsers(currentPage)
+        .then(data => {
+            if (data) {
+                dispatch(setUsersAC(data.items))
+                dispatch(setTotalItemsCount(data.totalCount))
+            }
+        })
+        .finally(() => {
+            dispatch(setIsFetching(false))
+        })
+}
 
 export default usersReducer

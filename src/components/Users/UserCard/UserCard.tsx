@@ -39,4 +39,3 @@ export const UserCard = React.memo(({
         </div>
     )
 })
-

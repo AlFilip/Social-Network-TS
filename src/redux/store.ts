@@ -1,8 +1,8 @@
-import {UsersActionTypes} from "./usersReducer";
+import {usersActionTypes} from "./usersReducer";
 import {profileActionsTypes} from "./profileReducer";
-import {DialogsActionTypes} from "./diaogsReducer";
+import {dialogsActionTypes} from "./diaogsReducer";
 
-export type ActionTypes = UsersActionTypes | profileActionsTypes | DialogsActionTypes
+export type ActionTypes = usersActionTypes | profileActionsTypes | dialogsActionTypes
 
 //
 // export {}

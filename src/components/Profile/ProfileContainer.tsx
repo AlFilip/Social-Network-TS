@@ -1,6 +1,5 @@
 import React, {useEffect} from "react";
 import {Profile} from "./Profile";
-import {setIsFetching} from "../../redux/usersReducer";
 import axios from "axios";
 import {useDispatch} from "react-redux";
 import {setProfile} from "../../redux/profileReducer";
@@ -40,7 +39,6 @@ type propsType = RouteComponentProps<PathParamsType>
 function ProfileContainer(props: propsType) {
     const dispatch = useDispatch()
     useEffect(() => {
-        dispatch(setIsFetching(true))
         let userId = props.match.params.userId
         !userId
         && (userId = '2')

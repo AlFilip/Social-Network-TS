@@ -1,36 +1,31 @@
-import {followAC, unFollowAC, UsersActionTypes, UserType} from "../../../redux/usersReducer";
+import {followTC, unFollowTC, UserType} from "../../../redux/usersReducer";
 import React, {useCallback, useEffect, useState} from "react";
 import {useDispatch} from "react-redux";
 import {Dispatch} from "redux";
-import {usersAPI} from "../../../api/usersApi";
 import {UserCard} from "./UserCard";
 
 type UserPropsType = UserType
 
 export const UserCardContainer = React.memo((props: UserPropsType) => {
 
-    const dispatch = useDispatch<Dispatch<UsersActionTypes>>()
+    const [isBtnDisabled, setBtnDisabled] = useState<boolean>(false)
+    const dispatch = useDispatch<Dispatch<any>>()
+    useEffect(() => {
+        setBtnDisabled(false)
+    }, [props.followed])
+
     const unFollow = useCallback(() => {
-        usersAPI.unFollow(props.id)
-            .then(() => {
-                dispatch(unFollowAC(props.id))
-            })
+        dispatch(unFollowTC(props.id))
     }, [dispatch])
 
     const follow = useCallback(() => {
-        usersAPI.follow(props.id)
-            .then(() => {
-                dispatch(followAC(props.id))
-            })
+        dispatch(followTC(props.id))
     }, [dispatch])
-    const [isBtnDisabled, setBtnDisabled] = useState<boolean>(false)
+
     const onClickHandler = () => {
         setBtnDisabled(true)
         props.followed ? unFollow() : follow()
     }
-    useEffect(() => {
-        setBtnDisabled(false)
-    }, [props.followed])
 
     return <UserCard {...props}
                      callBack={onClickHandler}
