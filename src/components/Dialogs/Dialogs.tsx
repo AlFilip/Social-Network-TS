@@ -5,12 +5,13 @@ import Message from "./Message/Message";
 import {useDispatch, useSelector} from "react-redux";
 import {AppStateType} from "../../redux/redux-store";
 import {addMessage, dialogType, messageType, onMessageChange} from "../../redux/diaogsReducer";
+import { Redirect } from "react-router-dom";
 
-
-function Dialogs() {
+const Dialogs =  () => {
     const dialogs = useSelector<AppStateType, dialogType[]>(state => state.dialogs.dialogs)
     const messages = useSelector<AppStateType, messageType[]>(state => state.dialogs.messages)
     const newMessageValue = useSelector<AppStateType, string>(state => state.dialogs.newMessageValue)
+    const isAuth = useSelector<AppStateType, boolean>(state => state.auth.isAuth)
     const dispatch = useDispatch()
 
     const onButtonClickHandler = (): void => {
@@ -23,7 +24,10 @@ function Dialogs() {
     const dialogsItems = dialogs.map(d => <Dialog name={d.name} key={d.id} id={d.id}/>)
     const messagesItems = messages.map(m => <Message id={m.id} key={m.id} text={m.text} owner={m.owner}/>)
 
+
+    if (!isAuth) return <Redirect to={'/login'}/>
     return (
+
         <div className={s.dialogs}>
             <div className={s.dialogsItems}>
                 <h3>Dialogs:</h3>

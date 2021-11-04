@@ -4,7 +4,7 @@ import {ProfileInfo} from "./ProfileInfo/ProfileInfo";
 import {MyPosts} from "./MyPosts/MyPosts";
 
 
-export function Profile() {
+export const  Profile = () =>  {
     return (
         <div className={s.profile}>
             <ProfileInfo/>
