@@ -4,6 +4,7 @@ import {useDispatch, useSelector} from "react-redux";
 import {initProfile} from "../../redux/profileReducer";
 import {RouteComponentProps, withRouter} from "react-router-dom";
 import {AppStateType} from "../../redux/redux-store";
+import {redirectHOC} from "../Common/redirectHOC/redirectHOC";
 
 type contactsType = {
     facebook: string | null
@@ -36,8 +37,9 @@ type PathParamsType = {
 }
 type propsType = RouteComponentProps<PathParamsType>
 
-function ProfileContainer(props: propsType) {
+const ProfileContainer = redirectHOC((props: propsType) => {
     const authUserId = useSelector<AppStateType, number | null>(state => state.auth.id)
+    debugger
     const dispatch = useDispatch()
     useEffect(() => {
         let userId = props.match.params.userId
@@ -53,6 +55,6 @@ function ProfileContainer(props: propsType) {
     return (
         <Profile/>
     )
-}
+})
 
 export default withRouter(ProfileContainer)

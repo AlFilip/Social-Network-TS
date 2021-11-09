@@ -6,8 +6,9 @@ import {useDispatch, useSelector} from "react-redux";
 import {AppStateType} from "../../redux/redux-store";
 import {addMessage, dialogType, messageType, onMessageChange} from "../../redux/diaogsReducer";
 import { Redirect } from "react-router-dom";
+import {redirectHOC} from "../Common/redirectHOC/redirectHOC";
 
-const Dialogs =  () => {
+const Dialogs =  redirectHOC(() => {
     const dialogs = useSelector<AppStateType, dialogType[]>(state => state.dialogs.dialogs)
     const messages = useSelector<AppStateType, messageType[]>(state => state.dialogs.messages)
     const newMessageValue = useSelector<AppStateType, string>(state => state.dialogs.newMessageValue)
@@ -25,7 +26,6 @@ const Dialogs =  () => {
     const messagesItems = messages.map(m => <Message id={m.id} key={m.id} text={m.text} owner={m.owner}/>)
 
 
-    if (!isAuth) return <Redirect to={'/login'}/>
     return (
 
         <div className={s.dialogs}>
@@ -42,6 +42,6 @@ const Dialogs =  () => {
             </div>
         </div>
     )
-}
+})
 
 export default Dialogs;
