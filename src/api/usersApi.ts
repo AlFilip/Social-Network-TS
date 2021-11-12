@@ -1,12 +1,16 @@
 import axios from "axios";
 import {UserType} from "../redux/usersReducer";
-import {requestConfig} from "./authApi";
+import {baseRequestConfig} from "./authApi";
 
-const configWithKey = {
-    ...requestConfig,
-    headers: {
-        'API-KEY': '8ac432b4-b12d-401e-8457-1e2c87c081fe'
-    }
+const usersRequestConfig = {
+    baseURL: `https://social-network.samuraijs.com/api/1.0/`,
+    ...baseRequestConfig
+}
+
+export type commonResponseType<T = {}> = {
+    resultCode: number
+    messages: string[],
+    data: T
 }
 
 type responseType = {
@@ -15,40 +19,31 @@ type responseType = {
     error: string | null
 }
 
-const usersInstance = axios.create(requestConfig)
-const usersInstanceWithKey = axios.create(configWithKey)
+export const axiosInstance = axios.create(usersRequestConfig)
 
 export const usersAPI = {
-    getUsers: (currentPage: number) => usersInstance
-        .get<responseType>(`/users`, {
-            params: {
-                page: currentPage
-            }
-        })
-        .then(response => {
-            if (response.status === 200) {
-                return response.data
-            }
-            throw new Error("Check usersApi response");
-        })
-        .catch(err => console.log(err)
-        ),
-    follow: (userId: number) => {
-        return usersInstanceWithKey
-            .post(`/follow/${userId}`)
-            .then(res => {
-                if (res.status === 200) return res.data
-                throw new Error('Check the "follow" request/response')
-            })
-            .catch(err => console.log(err))
+    getUsers: async (page: number) => {
+        const {data, status} = await axiosInstance.get<responseType>(`/users`, {params: {page}})
+
+        if (status === 200) {
+            return data
+        }
+        console.log('Check usersApi response')
     },
-    unFollow: (userId: number) => {
-        return usersInstanceWithKey
-            .delete(`/follow/${userId}`)
-            .then(res => {
-                if (res.status === 200) return res.data
-                throw new Error('Check the "follow" request/response')
-            })
-            .catch(err => console.log(err))
+
+    follow: async (userId: number) => {
+        const {status, data: {resultCode, messages}} = await axiosInstance.post<commonResponseType>(`/follow/${userId}`)
+        if (status === 200 && resultCode === 0) {
+            return true
+        }
+        console.log(messages[0])
+    },
+
+    unFollow: async (userId: number) => {
+        const {status, data: {resultCode, messages}} = await axiosInstance.delete<commonResponseType>(`/follow/${userId}`)
+        if (status === 200 && resultCode === 0) {
+            return true
+        }
+        console.log(messages[0])
     },
 }

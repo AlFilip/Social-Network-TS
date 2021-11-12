@@ -9,8 +9,22 @@ export type PostType = {
     likesCount: number
 }
 
+type contactsType = {
+    facebook: string | null
+    website: string | null
+    vk: string | null
+    twitter: string | null
+    instagram: string | null
+    youtube: string | null
+    github: string | null
+    mainLink: string | null
+}
+
 export type profileType = {
     aboutMe: string | null
+    contacts: contactsType
+    lookingForAJob: boolean
+    lookingForAJobDescription: string | null
     fullName: string | null
     userId: number
     photos: photosType
@@ -66,14 +80,10 @@ export const addPost = () => ({type: ADD_POST} as const)
 export const onPostChange = (newValue: string) => ({type: ON_POST_CHANGE, newValue} as const)
 export const setProfile = (currentProfile: profileType) => ({type: SET_PROFILE, currentProfile} as const)
 
-export const initProfile = (userId: string): thunkType => (dispatch) => {
-    profileApi.getProfile(userId)
-        .then(response => {
-            if (response && response.status === 200) {
-                const {aboutMe, fullName, userId, photos} = response.data
-                dispatch(setProfile({aboutMe, fullName, userId, photos}))
-            }
-        })
+export const initProfile = (userId: string): thunkType => async (dispatch) => {
+    const profile = await profileApi.getProfile(userId)
+    profile
+    && dispatch(setProfile(profile))
 }
 
 export default profileReducer

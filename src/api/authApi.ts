@@ -1,29 +1,30 @@
 import axios from "axios";
+import {axiosInstance, commonResponseType} from "./usersApi";
 
-export const requestConfig = {
-    baseURL: 'https://social-network.samuraijs.com/api/1.0/',
-    withCredentials: true
+export const baseRequestConfig = {
+    withCredentials: true,
+    headers: {
+        'API-KEY': '8ac432b4-b12d-401e-8457-1e2c87c081fe'
+    }
 }
 
-type responseType = {
-    data: {
-        id: number
-        login: string
-        email: string
-    },
-    resultCode: number
+const authRequestConfig = {
+    baseURL: 'https://social-network.samuraijs.com/api/1.0/auth/',
+    ...baseRequestConfig
+}
+type authResponseDataType = {
+    id: number
+    login: string
+    email: string
 }
 
-const authInstance = axios.create(requestConfig)
+const authInstance = axios.create(authRequestConfig)
 
 export const authAPI = {
-    me: () => authInstance
-        .get<responseType>(`/auth/me`)
-        .then(response => {
-            if (response.status === 200 && response.data.resultCode === 0) {
-                return response.data.data
-            }
-            throw new Error("Check auth response");
-        })
-        .catch(err => console.log(err))
+    me: async () => {
+        const {status, data: {messages, resultCode, data}} = await authInstance.get<commonResponseType<authResponseDataType>>(`me`)
+        messages[0]
+        && console.log(messages[0])
+        return (status === 200 && resultCode === 0) && data
+    }
 }

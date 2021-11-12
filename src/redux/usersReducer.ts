@@ -1,4 +1,3 @@
-import {Dispatch} from "react";
 import {usersAPI} from "../api/usersApi";
 import {AppStateType} from "./redux-store";
 import {profileActionsTypes} from "./profileReducer";
@@ -96,32 +95,27 @@ export const setIsFetching = (isFetching: boolean) => ({
     isFetching
 } as const)
 
-export const followTC = (userId: number):thunkType => (dispatch) => {
-    usersAPI.follow(userId)
-        .then(() => {
-            dispatch(followAC(userId))
-        })
+export const followTC = (userId: number): thunkType => async (dispatch) => {
+    const isSuccess = await usersAPI.follow(userId)
+    isSuccess
+    && dispatch(followAC(userId))
 }
 
-export const unFollowTC = (userId: number):thunkType => (dispatch) => {
-    usersAPI.follow(userId)
-        .then(() => {
-            dispatch(unFollowAC(userId))
-        })
+export const unFollowTC = (userId: number): thunkType => async (dispatch) => {
+    const isSuccess = await usersAPI.unFollow(userId)
+    isSuccess
+    && dispatch(unFollowAC(userId))
 }
 
-export const getUsersTC = (currentPage: number):thunkType => (dispatch) => {
+export const getUsersTC = (currentPage: number): thunkType => async (dispatch) => {
     dispatch(setIsFetching(true))
-    usersAPI.getUsers(currentPage)
-        .then(data => {
-            if (data) {
-                dispatch(setUsersAC(data.items))
-                dispatch(setTotalItemsCount(data.totalCount))
-            }
-        })
-        .finally(() => {
-            dispatch(setIsFetching(false))
-        })
+    const data = await usersAPI.getUsers(currentPage)
+    if (data) {
+        const {items, totalCount} = data
+        dispatch(setUsersAC(items))
+        dispatch(setTotalItemsCount(totalCount))
+    }
+    dispatch(setIsFetching(false))
 }
 
 export default usersReducer
