@@ -1,7 +1,7 @@
 import React, {useEffect} from "react";
 import {Profile} from "./Profile";
 import {useDispatch, useSelector} from "react-redux";
-import {initProfile} from "../../redux/profileReducer";
+import {initProfile, setProfile} from "../../redux/profileReducer";
 import {RouteComponentProps, withRouter} from "react-router-dom";
 import {AppStateType} from "../../redux/redux-store";
 import {redirectHOC} from "../Common/redirectHOC/redirectHOC";
@@ -39,17 +39,20 @@ type propsType = RouteComponentProps<PathParamsType>
 
 const ProfileContainer = redirectHOC((props: propsType) => {
     const authUserId = useSelector<AppStateType, number | null>(state => state.auth.id)
-    debugger
     const dispatch = useDispatch()
     useEffect(() => {
         let userId = props.match.params.userId
-        !userId && authUserId
+        !userId
+        && authUserId
         && (userId = authUserId.toString())
 
         !userId
         && (userId = '2')
 
         dispatch(initProfile(userId))
+        return () => {
+            dispatch(setProfile(null))
+        }
     }, [props.match.params.userId])
 
     return (

@@ -39,9 +39,10 @@ const initState = {
     ] as Array<PostType>,
     newPostMessage: '',
     currentProfile: null as profileType,
+    status: ''
 }
 
-const profileReducer = (state: profileStateType = initState, action: profileActionsTypes): profileStateType => {
+const profileReducer = (state = initState, action: profileActionsTypes): profileStateType => {
     switch (action.type) {
         case ADD_POST:
             return state.newPostMessage.trim()
@@ -61,6 +62,11 @@ const profileReducer = (state: profileStateType = initState, action: profileActi
                 ...state,
                 currentProfile: action.currentProfile
             }
+        case "SET_STATUS":
+            return {
+                ...state,
+                status: action.status
+            }
         default:
             return state
     }
@@ -69,21 +75,41 @@ const profileReducer = (state: profileStateType = initState, action: profileActi
 export const ADD_POST = 'ADD_POST';
 export const ON_POST_CHANGE = "ON_POST_CHANGE";
 export const SET_PROFILE = "SET_PROFILE";
+export const SET_STATUS = 'SET_STATUS'
 
-export type profileActionsTypes = AddPostActionType | OnPostChangeActionType | setProfileActionType
+export type profileActionsTypes =
+    AddPostActionType
+    | OnPostChangeActionType
+    | setProfileActionType
+    | setStatusToStateActionType
 
 export type AddPostActionType = ReturnType<typeof addPost>
 export type OnPostChangeActionType = ReturnType<typeof onPostChange>
 export type setProfileActionType = ReturnType<typeof setProfile>
+type setStatusToStateActionType = ReturnType<typeof setStatusToState>
 
 export const addPost = () => ({type: ADD_POST} as const)
 export const onPostChange = (newValue: string) => ({type: ON_POST_CHANGE, newValue} as const)
 export const setProfile = (currentProfile: profileType) => ({type: SET_PROFILE, currentProfile} as const)
+export const setStatusToState = (status: string) => ({type: SET_STATUS, status} as const)
 
-export const initProfile = (userId: string): thunkType => async (dispatch) => {
-    const profile = await profileApi.getProfile(userId)
-    profile
-    && dispatch(setProfile(profile))
+export const initProfile = (userId: string): thunkType => (dispatch) => {
+    const pr1 = profileApi.getProfile(userId)
+    const pr2 = profileApi.getStatus(userId)
+
+    Promise.all([pr1, pr2]).then(res => {
+        const [profile, status] = res
+        profile
+        && dispatch(setProfile(profile))
+
+        status
+        && dispatch(setStatusToState(status))
+    })
+}
+
+export const setStatus = (status: string): thunkType => async dispatch => {
+    const res = await profileApi.setStatus(status)
+    res && dispatch(setStatusToState(status))
 }
 
 export default profileReducer

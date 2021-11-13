@@ -8,7 +8,7 @@ export function redirectHOC<T> (Component: ComponentType<T>)  {
         const isAuth = useSelector<AppStateType, boolean>(state => state.auth.isAuth)
 
         if (!isAuth) {
-            return <Redirect to={'login'}/>
+            return <Redirect to={'/login'}/>
         }
         return <Component {...props as T}/>
     }

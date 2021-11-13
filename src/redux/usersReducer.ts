@@ -78,18 +78,22 @@ export type setIsFetchingActionType = ReturnType<typeof setIsFetching>
 
 export type thunkType = ThunkAction<any, AppStateType, any, allActionsType>
 
-
 export const followAC = (userId: number) => ({type: 'FOLLOW', userId} as const)
+
 export const unFollowAC = (userId: number) => ({type: 'UN_FOLLOW', userId} as const)
+
 export const setUsersAC = (items: Array<UserType>) => ({
     type: 'SET_USERS',
     items
 } as const)
+
 export const setCurrentPageAC = (pageNumber: number) => ({type: 'SET_CURRENT_PAGE', pageNumber} as const)
+
 export const setTotalItemsCount = (totalItemsCount: number) => ({
     type: 'SET_TOTAL_ITEMS_COUNT',
     totalItemsCount
 } as const)
+
 export const setIsFetching = (isFetching: boolean) => ({
     type: 'SET_IS_FETCHING',
     isFetching
@@ -117,5 +121,6 @@ export const getUsersTC = (currentPage: number): thunkType => async (dispatch) =
     }
     dispatch(setIsFetching(false))
 }
+
 
 export default usersReducer

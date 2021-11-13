@@ -2,10 +2,6 @@ import axios from "axios";
 import {UserType} from "../redux/usersReducer";
 import {baseRequestConfig} from "./authApi";
 
-const usersRequestConfig = {
-    baseURL: `https://social-network.samuraijs.com/api/1.0/`,
-    ...baseRequestConfig
-}
 
 export type commonResponseType<T = {}> = {
     resultCode: number
@@ -19,7 +15,7 @@ type responseType = {
     error: string | null
 }
 
-export const axiosInstance = axios.create(usersRequestConfig)
+export const axiosInstance = axios.create(baseRequestConfig)
 
 export const usersAPI = {
     getUsers: async (page: number) => {
