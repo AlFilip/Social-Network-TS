@@ -46,9 +46,6 @@ const ProfileContainer = redirectHOC((props: propsType) => {
         && authUserId
         && (userId = authUserId.toString())
 
-        !userId
-        && (userId = '2')
-
         dispatch(initProfile(userId))
         return () => {
             dispatch(setProfile(null))

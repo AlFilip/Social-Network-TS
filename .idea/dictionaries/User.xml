@@ -2,6 +2,7 @@
   <dictionary name="User">
     <words>
       <w>axios</w>
+      <w>formik</w>
     </words>
   </dictionary>
 </component>

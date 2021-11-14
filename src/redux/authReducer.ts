@@ -1,5 +1,6 @@
 import {thunkType} from "./usersReducer";
 import {authAPI} from "../api/authApi";
+import {loginValuesType} from "../components/Login/Login";
 
 export type authStateType = {
     id: number | null
@@ -37,13 +38,21 @@ export const setUserData = (payload: authStateType) => ({
     payload
 } as const)
 
-export const initUserData = ():thunkType => (dispatch) => {
+export const initUserData = (): thunkType => (dispatch) => {
     authAPI.me()
         .then(data => {
             data
             && dispatch(setUserData({...data, isAuth: true}))
         })
-
 }
+
+export const makeLogin = (loginData: loginValuesType): thunkType => dispatch => {
+    authAPI.login(loginData)
+        .then(res  => {
+            const {failMessage, isSuccess, userId} = res
+            isSuccess && dispatch(initUserData())
+        })
+}
+
 
 export default authReducer
