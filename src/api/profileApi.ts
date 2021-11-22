@@ -17,8 +17,6 @@ export const profileApi = {
 
     getStatus: (userId: string) => authInstance.get<string>( `status/${ userId }` ),
 
-    setStatus: async (newStatus: string) => {
-        return authInstance.put<{ status: string }, AxiosResponse<commonResponseType>>
-        ( 'status', { status: newStatus } )
-    },
+    setStatus: (newStatus: string) => authInstance.put<{ status: string }, AxiosResponse<commonResponseType>>
+    ( 'status', { status: newStatus } ),
 }

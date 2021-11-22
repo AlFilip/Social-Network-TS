@@ -2,6 +2,7 @@ import { v1 } from "uuid"
 import { photosType } from "../components/Profile/ProfileContainer"
 import { thunkType } from "./usersReducer"
 import { profileApi } from "../api/profileApi"
+import { resultCodes } from '../api/usersApi'
 
 
 export type PostType = {
@@ -45,7 +46,7 @@ const initState = {
 
 const profileReducer = (state = initState, action: profileActionsTypes): profileStateType => {
     switch (action.type) {
-        case ADD_POST:
+        case 'ADD_POST':
             return state.newPostMessage.trim()
                 ? {
                     ...state,
@@ -56,14 +57,14 @@ const profileReducer = (state = initState, action: profileActionsTypes): profile
                     newPostMessage: '',
                 }
                 : { ...state, newPostMessage: '' }
-        case ON_POST_CHANGE:
+        case 'ON_POST_CHANGE':
             return { ...state, newPostMessage: action.newValue }
-        case SET_PROFILE:
+        case 'SET_PROFILE':
             return {
                 ...state,
                 currentProfile: action.currentProfile,
             }
-        case "SET_STATUS":
+        case 'SET_STATUS':
             return {
                 ...state,
                 status: action.status,
@@ -73,10 +74,6 @@ const profileReducer = (state = initState, action: profileActionsTypes): profile
     }
 }
 
-export const ADD_POST = 'ADD_POST'
-export const ON_POST_CHANGE = "ON_POST_CHANGE"
-export const SET_PROFILE = "SET_PROFILE"
-export const SET_STATUS = 'SET_STATUS'
 
 export type profileActionsTypes =
     AddPostActionType
@@ -89,34 +86,31 @@ export type OnPostChangeActionType = ReturnType<typeof onPostChange>
 export type setProfileActionType = ReturnType<typeof setProfile>
 type setStatusToStateActionType = ReturnType<typeof setStatusToState>
 
-export const addPost = () => ( { type: ADD_POST } as const )
-export const onPostChange = (newValue: string) => ( { type: ON_POST_CHANGE, newValue } as const )
-export const setProfile = (currentProfile: profileType) => ( { type: SET_PROFILE, currentProfile } as const )
-export const setStatusToState = (status: string) => ( { type: SET_STATUS, status } as const )
+export const addPost = () => ( { type: 'ADD_POST' } as const )
+export const onPostChange = (newValue: string) => ( { type: 'ON_POST_CHANGE', newValue } as const )
+export const setProfile = (currentProfile: profileType) => ( { type: 'SET_PROFILE', currentProfile } as const )
+export const setStatusToState = (status: string) => ( { type: 'SET_STATUS', status } as const )
 
-export const initProfile = (userId: string): thunkType => (dispatch) => {
-    const pr1 = profileApi.getProfile( userId )
-    const pr2 = profileApi.getStatus( userId )
+export const initProfile = (userId: string): thunkType => async (dispatch) => {
+    const getProfilePromise = profileApi.getProfile( userId )
+    const GetStatusPromise = profileApi.getStatus( userId )
 
-    Promise.all( [pr1, pr2] ).then( res => {
-        const [profileResponse, statusResponse] = res
-        if (profileResponse.status === 200 && statusResponse.status === 200) {
-            dispatch( setProfile( profileResponse.data ) )
-            dispatch( setStatusToState( statusResponse.data ) )
-        }
-    } )
-        .catch( console.log )
+    const [profileResponse, statusResponse] = await Promise.all( [getProfilePromise, GetStatusPromise] )
+    if (profileResponse.status === 200 && statusResponse.status === 200) {
+        dispatch( setProfile( profileResponse.data ) )
+        dispatch( setStatusToState( statusResponse.data ) )
+    }
 }
 
 export const setStatus = (newStatus: string): thunkType => async dispatch => {
     try {
         const { status, data: { messages, resultCode } } = await profileApi.setStatus( newStatus )
-        if (status === 200 && resultCode === 0) {
+        if (status === 200 && resultCode === resultCodes.SUCCESS) {
             dispatch( setStatusToState( newStatus ) )
         }
 
         messages[0]
-        && alert( messages[0] )
+        && console.log( messages[0] )
     } catch (e) {
         console.log( e )
     }

@@ -1,4 +1,4 @@
-import { usersAPI } from "../api/usersApi"
+import { resultCodes, usersAPI } from "../api/usersApi"
 import { AppStateType } from "./redux-store"
 import { profileActionsTypes } from "./profileReducer"
 import { authActionTypes } from "./authReducer"
@@ -39,12 +39,12 @@ const usersReducer = (state: UsersStateType = initState, action: usersActionType
                 ...state,
                 items: [...action.items],
             }
-        case "SET_CURRENT_PAGE":
+        case 'SET_CURRENT_PAGE':
             return {
                 ...state,
                 currentPage: action.pageNumber,
             }
-        case "SET_TOTAL_ITEMS_COUNT":
+        case 'SET_TOTAL_ITEMS_COUNT':
             return {
                 ...state,
                 totalItemsCount: action.totalItemsCount,
@@ -61,7 +61,6 @@ export type usersActionTypes =
     | setUsersActionType
     | setCurrentPageActionType
     | setTotalItemsCountActionType
-// | setIsFetchingActionType
 
 export type allActionsType = usersActionTypes | profileActionsTypes | dialogsActionTypes | authActionTypes
 
@@ -93,7 +92,7 @@ export const follow = (userId: number): thunkType => async (dispatch) => {
     try {
         const res = await usersAPI.follow( userId )
         const { status, data: { resultCode, messages } } = res
-        if (status === 200 && resultCode === 0) {
+        if (status === 200 && resultCode === resultCodes.SUCCESS) {
             dispatch( followAC( userId ) )
         } else if (messages[0]) console.log( messages[0] )
     } catch (e) {
@@ -104,7 +103,7 @@ export const follow = (userId: number): thunkType => async (dispatch) => {
 export const unFollow = (userId: number): thunkType => async (dispatch) => {
     try {
         const { status, data: { resultCode, messages } } = await usersAPI.unFollow( userId )
-        if (status === 200 && resultCode === 0) {
+        if (status === 200 && resultCode === resultCodes.SUCCESS) {
             dispatch( unFollowAC( userId ) )
         } else if (messages[0]) console.log( messages[0] )
     } catch (e) {

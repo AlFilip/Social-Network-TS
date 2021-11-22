@@ -1,6 +1,7 @@
 import { thunkType } from "./usersReducer"
-import { authAPI } from "../api/authApi"
+import { authAPI, loginResultCodes } from "../api/authApi"
 import { loginValuesType } from "../components/Login/Login"
+import { resultCodes } from '../api/usersApi'
 
 
 export type authStateType = {
@@ -58,7 +59,7 @@ export const makeLogin = (loginData: loginValuesType): thunkType => dispatch => 
     authAPI.login( loginData )
         .then( res => {
                 const { status, data: { messages, resultCode } } = res
-                if (status === 200 && resultCode === 0) dispatch( initUserData() )
+                if (status === 200 && resultCode === loginResultCodes.SUCCESS) dispatch( initUserData() )
                 else {
                     messages[0]
                     && console.log( messages[0] )
@@ -71,7 +72,7 @@ export const makeLogout = (): thunkType => dispatch => {
     authAPI.logOut()
         .then( res => {
             const { status, data: { messages, resultCode, data } } = res
-            if (status === 200 && resultCode === 0) {
+            if (status === 200 && resultCode === resultCodes.SUCCESS) {
                 dispatch( setUserData( { id: null, login: null, email: null, isAuth: false } ) )
             } else {
                 messages[0]

@@ -3,6 +3,13 @@ import { commonResponseType } from "./usersApi"
 import { loginValuesType } from "../components/Login/Login"
 
 
+export enum loginResultCodes {
+    SUCCESS = 0,
+    ERROR = 1,
+    CAPTCHA_IS_REQUIRED = 10
+}
+
+
 export const baseRequestConfig = {
     baseURL: `https://social-network.samuraijs.com/api/1.0/`,
     withCredentials: true,
@@ -34,7 +41,7 @@ export const authAPI = {
     me: () => authInstance.get<commonResponseType<authResponseDataType>>( `me` ),
 
     login: (payload: loginValuesType) => {
-        return authInstance.post<loginValuesType, AxiosResponse<commonResponseType<{ userId: number }>>>( 'login', payload )
+        return authInstance.post<loginValuesType, AxiosResponse<commonResponseType<{ userId: number }, loginResultCodes>>>( 'login', payload )
     },
 
     logOut: () => authInstance.delete<commonResponseType>( 'login' ),

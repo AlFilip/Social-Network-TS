@@ -3,8 +3,15 @@ import { UserType } from "../redux/usersReducer"
 import { baseRequestConfig } from "./authApi"
 
 
-export type commonResponseType<T = {}> = {
-    resultCode: number
+export enum resultCodes {
+    SUCCESS = 0,
+    ERROR = 1,
+}
+
+
+
+export type commonResponseType<T = {}, R = resultCodes> = {
+    resultCode: R
     messages: string[],
     data: T
 }
