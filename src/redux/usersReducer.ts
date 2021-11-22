@@ -61,7 +61,7 @@ export type usersActionTypes =
     | setUsersActionType
     | setCurrentPageActionType
     | setTotalItemsCountActionType
-    // | setIsFetchingActionType
+// | setIsFetchingActionType
 
 export type allActionsType = usersActionTypes | profileActionsTypes | dialogsActionTypes | authActionTypes
 
@@ -90,23 +90,38 @@ export const setTotalItemsCount = (totalItemsCount: number) => ( {
 } as const )
 
 export const follow = (userId: number): thunkType => async (dispatch) => {
-    const isSuccess = await usersAPI.follow( userId )
-    isSuccess
-    && dispatch( followAC( userId ) )
+    try {
+        const res = await usersAPI.follow( userId )
+        const { status, data: { resultCode, messages } } = res
+        if (status === 200 && resultCode === 0) {
+            dispatch( followAC( userId ) )
+        } else if (messages[0]) console.log( messages[0] )
+    } catch (e) {
+        console.log( e )
+    }
 }
 
 export const unFollow = (userId: number): thunkType => async (dispatch) => {
-    const isSuccess = await usersAPI.unFollow( userId )
-    isSuccess
-    && dispatch( unFollowAC( userId ) )
+    try {
+        const { status, data: { resultCode, messages } } = await usersAPI.unFollow( userId )
+        if (status === 200 && resultCode === 0) {
+            dispatch( unFollowAC( userId ) )
+        } else if (messages[0]) console.log( messages[0] )
+    } catch (e) {
+        console.log( e )
+    }
 }
 
 export const getUsers = (currentPage: number): thunkType => async (dispatch) => {
-    const data = await usersAPI.getUsers( currentPage )
-    if (data) {
-        const { items, totalCount } = data
-        dispatch( setTotalItemsCount( totalCount ) )
-        dispatch( setUsersAC( items ) )
+    try {
+        const { data, status } = await usersAPI.getUsers( currentPage )
+        if (status === 200 && data) {
+            const { items, totalCount } = data
+            dispatch( setTotalItemsCount( totalCount ) )
+            dispatch( setUsersAC( items ) )
+        }
+    } catch (e) {
+        console.log( e )
     }
 }
 
