@@ -80,6 +80,7 @@ export const Pagination: React.FC<PaginationPropsType> = React.memo(({
             </a>
         ))
 
+    console.log('pagination')
     return (
         <div className={s.pagination}>
             <div className={s.slider}>

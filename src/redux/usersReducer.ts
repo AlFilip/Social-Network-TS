@@ -1,9 +1,10 @@
-import {usersAPI} from "../api/usersApi";
-import {AppStateType} from "./redux-store";
-import {profileActionsTypes} from "./profileReducer";
-import {authActionTypes} from "./authReducer";
-import {dialogsActionTypes} from "./diaogsReducer";
-import {ThunkAction} from "redux-thunk";
+import { usersAPI } from "../api/usersApi"
+import { AppStateType } from "./redux-store"
+import { profileActionsTypes } from "./profileReducer"
+import { authActionTypes } from "./authReducer"
+import { dialogsActionTypes } from "./diaogsReducer"
+import { ThunkAction } from "redux-thunk"
+
 
 export type UsersStateType = typeof initState
 
@@ -24,15 +25,15 @@ const initState = {
     currentPage: 1,
     pageSize: 10,
     totalPagesCount: 1,
-    isFetching: false,
+    // isFetching: false,
 }
 
 const usersReducer = (state: UsersStateType = initState, action: usersActionTypes): UsersStateType => {
     switch (action.type) {
         case 'FOLLOW':
-            return {...state, items: state.items.map(m => m.id === action.userId ? {...m, followed: true} : m)}
+            return { ...state, items: state.items.map( m => m.id === action.userId ? { ...m, followed: true } : m ) }
         case 'UN_FOLLOW':
-            return {...state, items: state.items.map(m => m.id === action.userId ? {...m, followed: false} : m)}
+            return { ...state, items: state.items.map( m => m.id === action.userId ? { ...m, followed: false } : m ) }
         case 'SET_USERS':
             return {
                 ...state,
@@ -41,18 +42,13 @@ const usersReducer = (state: UsersStateType = initState, action: usersActionType
         case "SET_CURRENT_PAGE":
             return {
                 ...state,
-                currentPage: action.pageNumber
+                currentPage: action.pageNumber,
             }
         case "SET_TOTAL_ITEMS_COUNT":
             return {
                 ...state,
                 totalItemsCount: action.totalItemsCount,
-                totalPagesCount: Math.ceil(action.totalItemsCount / state.pageSize)
-            }
-        case "SET_IS_FETCHING":
-            return {
-                ...state,
-                isFetching: action.isFetching
+                totalPagesCount: Math.ceil( action.totalItemsCount / state.pageSize ),
             }
         default:
             return state
@@ -65,7 +61,7 @@ export type usersActionTypes =
     | setUsersActionType
     | setCurrentPageActionType
     | setTotalItemsCountActionType
-    | setIsFetchingActionType
+    // | setIsFetchingActionType
 
 export type allActionsType = usersActionTypes | profileActionsTypes | dialogsActionTypes | authActionTypes
 
@@ -74,52 +70,44 @@ export type unFollowActionType = ReturnType<typeof unFollowAC>
 export type setUsersActionType = ReturnType<typeof setUsersAC>
 export type setCurrentPageActionType = ReturnType<typeof setCurrentPageAC>
 export type setTotalItemsCountActionType = ReturnType<typeof setTotalItemsCount>
-export type setIsFetchingActionType = ReturnType<typeof setIsFetching>
 
 export type thunkType = ThunkAction<any, AppStateType, any, allActionsType>
 
-export const followAC = (userId: number) => ({type: 'FOLLOW', userId} as const)
+export const followAC = (userId: number) => ( { type: 'FOLLOW', userId } as const )
 
-export const unFollowAC = (userId: number) => ({type: 'UN_FOLLOW', userId} as const)
+export const unFollowAC = (userId: number) => ( { type: 'UN_FOLLOW', userId } as const )
 
-export const setUsersAC = (items: Array<UserType>) => ({
+export const setUsersAC = (items: Array<UserType>) => ( {
     type: 'SET_USERS',
-    items
-} as const)
+    items,
+} as const )
 
-export const setCurrentPageAC = (pageNumber: number) => ({type: 'SET_CURRENT_PAGE', pageNumber} as const)
+export const setCurrentPageAC = (pageNumber: number) => ( { type: 'SET_CURRENT_PAGE', pageNumber } as const )
 
-export const setTotalItemsCount = (totalItemsCount: number) => ({
+export const setTotalItemsCount = (totalItemsCount: number) => ( {
     type: 'SET_TOTAL_ITEMS_COUNT',
-    totalItemsCount
-} as const)
+    totalItemsCount,
+} as const )
 
-export const setIsFetching = (isFetching: boolean) => ({
-    type: 'SET_IS_FETCHING',
-    isFetching
-} as const)
-
-export const followTC = (userId: number): thunkType => async (dispatch) => {
-    const isSuccess = await usersAPI.follow(userId)
+export const follow = (userId: number): thunkType => async (dispatch) => {
+    const isSuccess = await usersAPI.follow( userId )
     isSuccess
-    && dispatch(followAC(userId))
+    && dispatch( followAC( userId ) )
 }
 
-export const unFollowTC = (userId: number): thunkType => async (dispatch) => {
-    const isSuccess = await usersAPI.unFollow(userId)
+export const unFollow = (userId: number): thunkType => async (dispatch) => {
+    const isSuccess = await usersAPI.unFollow( userId )
     isSuccess
-    && dispatch(unFollowAC(userId))
+    && dispatch( unFollowAC( userId ) )
 }
 
-export const getUsersTC = (currentPage: number): thunkType => async (dispatch) => {
-    dispatch(setIsFetching(true))
-    const data = await usersAPI.getUsers(currentPage)
+export const getUsers = (currentPage: number): thunkType => async (dispatch) => {
+    const data = await usersAPI.getUsers( currentPage )
     if (data) {
-        const {items, totalCount} = data
-        dispatch(setUsersAC(items))
-        dispatch(setTotalItemsCount(totalCount))
+        const { items, totalCount } = data
+        dispatch( setTotalItemsCount( totalCount ) )
+        dispatch( setUsersAC( items ) )
     }
-    dispatch(setIsFetching(false))
 }
 
 
