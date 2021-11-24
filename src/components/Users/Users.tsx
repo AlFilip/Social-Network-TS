@@ -8,14 +8,14 @@ import { AppStateType } from '../../redux/redux-store'
 
 
 export const Users = () => {
-    console.log( 'users' )
+    // console.log( 'users' )
     const items = useSelector<AppStateType, Array<UserType>>( state => state.users.items )
     const currentPage = useSelector<AppStateType, number>( state => state.users.currentPage )
     const dispatch = useDispatch()
 
     useEffect( () => {
         dispatch( getUsers( currentPage ) )
-        console.log( 'useEffect' )
+        // console.log( 'useEffect' )
 
         // return () => {
         //     dispatch( setUsersAC( [] ) )
@@ -23,7 +23,7 @@ export const Users = () => {
     }, [currentPage] )
 
     const users = useMemo( () => {
-        console.log( 'mapping' )
+        // console.log( 'mapping' )
         return items.map( m => <UserCard key={ m.id }
                                          id={ m.id }
                                          name={ m.name }

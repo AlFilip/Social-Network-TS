@@ -1,6 +1,6 @@
 import { thunkType } from "./usersReducer"
 import { authAPI, loginResultCodes } from "../api/authApi"
-import { loginValuesType } from "../components/Login/Login"
+import { formikActionsTypes, loginValuesType } from "../components/Login/Login"
 import { resultCodes } from '../api/usersApi'
 
 
@@ -54,18 +54,26 @@ export const initUserData = (): thunkType => (dispatch) => {
         .catch( console.log )
 }
 
-export const makeLogin = (loginData: loginValuesType): thunkType => dispatch => {
 
+export const makeLogin = (loginData: loginValuesType, actions: formikActionsTypes): thunkType => dispatch => {
+    const {  setErrors, setSubmitting } = actions
     authAPI.login( loginData )
         .then( res => {
                 const { status, data: { messages, resultCode } } = res
-                if (status === 200 && resultCode === loginResultCodes.SUCCESS) dispatch( initUserData() )
-                else {
+                if (status === 200 && resultCode === loginResultCodes.SUCCESS) {
+                    dispatch( initUserData() )
+                } else if (resultCode === loginResultCodes.ERROR && messages[0] === 'Enter valid Email') {
+                    setErrors( { email: messages[0] } )
+                } else {
                     messages[0]
-                    && console.log( messages[0] )
+                    && setErrors( { email: messages[0], password: messages[0] } )
                 }
             },
-        ).catch( console.log )
+        ).catch( err => {
+
+        setSubmitting( false )
+        console.log( err )
+    } )
 }
 
 export const makeLogout = (): thunkType => dispatch => {

@@ -29,7 +29,7 @@ export const UserCard = React.memo( ({
         setBtnDisabled( false )
     }, [followed] )
 
-    console.log( 'userCard  ', id )
+    // console.log( 'userCard  ', id )
 
     return (
         <div className={ s.userCard }>
