@@ -1,38 +1,48 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import './App.css'
 import Header from "./components/Header/Header"
 import { NavBar } from "./components/NavBar/NavBar"
 
 import { BrowserRouter, Route } from "react-router-dom"
-import { profileStateType } from "./redux/profileReducer"
-import { dialogsStateType } from "./redux/diaogsReducer"
-import { ActionTypes } from "./redux/store"
 import ProfileContainer from './components/Profile/ProfileContainer'
 import Dialogs from "./components/Dialogs/Dialogs"
 import { Login } from "./components/Login/Login"
 import { Users } from './components/Users/Users'
+import { useDispatch, useSelector } from 'react-redux'
+import { AppStateType } from './redux/redux-store'
+import { Preloader } from './components/Common/Preloader/Preloader'
+import { initApp } from './redux/appReducer'
+import { selectIsAuth, selectIsInitialised } from './redux/selectors'
 
 
-export type AppType = {
-    profile: profileStateType
-    dialogs: dialogsStateType
-    dispatch: (action: ActionTypes) => void
-}
+const App = () => {
+    const isAuth = useSelector<AppStateType, boolean>( selectIsAuth )
+    const isInitialised = useSelector<AppStateType, boolean>( selectIsInitialised )
+    const dispatch = useDispatch()
 
-function App(props: AppType) {
+    useEffect( () => {
+        dispatch( initApp() )
+    }, [] )
+
     return (
         <BrowserRouter>
-            <div className="app-wrapper">
-                <Header/>
-                <NavBar/>
-                <div className={ 'app-wrapper-content' }>
-                    <Route path={ '/profile/:userId?' } render={ () => <ProfileContainer/> }/>
-                    <Route path={ '/dialogs' } render={ () => <Dialogs/> }/>
-                    <Route path={ '/users' } render={ () => <Users/> }/>
-                    <Route path={ '/login' } render={ () => <Login/> }/>
+            {
+                isInitialised ? <div className="app-wrapper">
+                        <Header/>
+                        <NavBar/>
+                        <div className={ 'app-wrapper-content' }>
 
-                </div>
-            </div>
+                            <Route exact path={ '/' } render={ () => <ProfileContainer/> }/>
+                            <Route path={ '/profile/:userId?' } render={ () => <ProfileContainer/> }/>
+                            <Route path={ '/dialogs' } render={ () => <Dialogs/> }/>
+                            <Route path={ '/users' } render={ () => <Users/> }/>
+                            <Route path={ '/login' } render={ () => <Login/> }/>
+
+                        </div>
+                    </div>
+
+                    : <Preloader/>
+            }
         </BrowserRouter>
     )
 }

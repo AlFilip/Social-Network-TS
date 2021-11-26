@@ -1,10 +1,12 @@
-import React, {useEffect} from "react";
-import {Profile} from "./Profile";
-import {useDispatch, useSelector} from "react-redux";
-import {initProfile, setProfile} from "../../redux/profileReducer";
-import {RouteComponentProps, withRouter} from "react-router-dom";
-import {AppStateType} from "../../redux/redux-store";
-import {redirectHOC} from "../Common/redirectHOC/redirectHOC";
+import React, { useEffect } from "react"
+import { Profile } from "./Profile"
+import { useDispatch, useSelector } from "react-redux"
+import { initProfile, setProfile } from "../../redux/profileReducer"
+import { RouteComponentProps, withRouter } from "react-router-dom"
+import { AppStateType } from "../../redux/redux-store"
+import { redirectHOC } from "../Common/redirectHOC/redirectHOC"
+import { selectIsUserId } from '../../redux/selectors'
+
 
 type contactsType = {
     facebook: string | null
@@ -37,24 +39,24 @@ type PathParamsType = {
 }
 type propsType = RouteComponentProps<PathParamsType>
 
-const ProfileContainer = redirectHOC((props: propsType) => {
-    const authUserId = useSelector<AppStateType, number | null>(state => state.auth.id)
+const ProfileContainer = redirectHOC( (props: propsType) => {
+    const authUserId = useSelector<AppStateType, number | null>( selectIsUserId )
     const dispatch = useDispatch()
-    useEffect(() => {
+    useEffect( () => {
         let userId = props.match.params.userId
         !userId
         && authUserId
-        && (userId = authUserId.toString())
+        && ( userId = authUserId.toString() )
 
-        dispatch(initProfile(userId))
+        dispatch( initProfile( userId ) )
         return () => {
-            dispatch(setProfile(null))
+            dispatch( setProfile( null ) )
         }
-    }, [props.match.params.userId])
+    }, [props.match.params.userId] )
 
     return (
         <Profile/>
     )
-})
+} )
 
-export default withRouter(ProfileContainer)
+export default withRouter( ProfileContainer )

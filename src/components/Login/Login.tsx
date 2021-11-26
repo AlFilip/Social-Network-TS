@@ -7,6 +7,7 @@ import { makeLogin } from "../../redux/authReducer"
 import { AppStateType } from '../../redux/redux-store'
 import { Redirect } from "react-router-dom"
 import { FormikErrors } from 'formik/dist/types'
+import { selectIsAuth } from '../../redux/selectors'
 
 
 export type loginValuesType = {
@@ -33,7 +34,7 @@ const loginSchema = Yup.object().shape( {
 } )
 
 export const Login = () => {
-    const isAuth = useSelector<AppStateType, boolean>( state => state.auth.isAuth )
+    const isAuth = useSelector<AppStateType, boolean>( selectIsAuth )
     const dispatch = useDispatch()
 
     const onSubmitHandler = async (values: loginValuesType, { setStatus, setErrors, setSubmitting }: FormikHelpers<loginValuesType>) => {

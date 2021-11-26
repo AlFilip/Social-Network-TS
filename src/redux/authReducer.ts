@@ -1,7 +1,7 @@
-import { thunkType } from "./usersReducer"
 import { authAPI, loginResultCodes } from "../api/authApi"
 import { formikActionsTypes, loginValuesType } from "../components/Login/Login"
 import { resultCodes } from '../api/usersApi'
+import { thunkType } from './redux-store'
 
 
 export type authStateType = {
@@ -40,28 +40,27 @@ export const setUserData = (payload: authStateType) => ( {
     payload,
 } as const )
 
-export const initUserData = (): thunkType => (dispatch) => {
-    authAPI.me()
+export const getAuthUserData = (): thunkType => (dispatch) => {
+    return authAPI.me()
         .then( res => {
             const { status, data: { messages, resultCode, data } } = res
             if (status === 200 && resultCode === 0) {
                 dispatch( setUserData( { ...data, isAuth: true } ) )
-            } else {
-                messages[0]
-                && console.log( messages[0] )
             }
+            messages[0]
+            && console.log( messages[0] )
+
         } )
         .catch( console.log )
 }
 
 
 export const makeLogin = (loginData: loginValuesType, actions: formikActionsTypes): thunkType => dispatch => {
-    const {  setErrors, setSubmitting } = actions
+    const { setErrors, setSubmitting } = actions
     authAPI.login( loginData )
-        .then( res => {
-                const { status, data: { messages, resultCode } } = res
+        .then( ({ status, data: { messages, resultCode } }) => {
                 if (status === 200 && resultCode === loginResultCodes.SUCCESS) {
-                    dispatch( initUserData() )
+                    dispatch( getAuthUserData() )
                 } else if (resultCode === loginResultCodes.ERROR && messages[0] === 'Enter valid Email') {
                     setErrors( { email: messages[0] } )
                 } else {
@@ -78,8 +77,8 @@ export const makeLogin = (loginData: loginValuesType, actions: formikActionsType
 
 export const makeLogout = (): thunkType => dispatch => {
     authAPI.logOut()
-        .then( res => {
-            const { status, data: { messages, resultCode, data } } = res
+        .then( ({ status, data: { messages, resultCode, data } }) => {
+
             if (status === 200 && resultCode === resultCodes.SUCCESS) {
                 dispatch( setUserData( { id: null, login: null, email: null, isAuth: false } ) )
             } else {

@@ -1,8 +1,8 @@
 import { v1 } from "uuid"
 import { photosType } from "../components/Profile/ProfileContainer"
-import { thunkType } from "./usersReducer"
 import { profileApi } from "../api/profileApi"
 import { resultCodes } from '../api/usersApi'
+import { thunkType } from './redux-store'
 
 
 export type PostType = {

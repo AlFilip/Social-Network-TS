@@ -1,18 +1,15 @@
-import React, { Dispatch, useEffect } from "react"
+import React, { Dispatch } from "react"
 import { useDispatch, useSelector } from "react-redux"
-import { AppStateType } from "../../../redux/redux-store"
-import { authStateType, initUserData, makeLogout } from "../../../redux/authReducer"
+import { AppStateType, thunkType } from "../../../redux/redux-store"
+import { makeLogout } from "../../../redux/authReducer"
 import { NavLink } from "react-router-dom"
-import { thunkType } from "../../../redux/usersReducer"
+import { selectIsAuth, selectIsUserLogin } from '../../../redux/selectors'
 
 
 export const LoginForm = () => {
-    const { id, login, email, isAuth } = useSelector<AppStateType, authStateType>( state => state.auth )
+    const isAuth = useSelector<AppStateType, boolean>( selectIsAuth )
+    const login = useSelector<AppStateType, string | null>( selectIsUserLogin )
     const dispatch = useDispatch<Dispatch<thunkType>>()
-
-    useEffect( () => {
-        dispatch( initUserData() )
-    }, [] )
 
     const onLogoutButtonClickHandler = () => {
         dispatch( makeLogout() )

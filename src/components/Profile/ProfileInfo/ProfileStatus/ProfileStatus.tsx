@@ -2,12 +2,13 @@ import React, { ChangeEventHandler, KeyboardEventHandler, MouseEventHandler, use
 import { useDispatch, useSelector } from "react-redux"
 import { AppStateType } from "../../../../redux/redux-store"
 import { setStatus, setStatusToState } from "../../../../redux/profileReducer"
+import { selectCurrentProfileUserId, selectIsUserId, selectStatus } from '../../../../redux/selectors'
 
 
 export const ProfileStatus = () => {
-    const status = useSelector<AppStateType, string>( state => state.profile.status )
-    const authUserId = useSelector<AppStateType, number | null>( state => state.auth.id )
-    const profileUserId = useSelector<AppStateType, number | undefined>( state => state.profile.currentProfile?.userId )
+    const status = useSelector<AppStateType, string>( selectStatus)
+    const authUserId = useSelector<AppStateType, number | null>( selectIsUserId )
+    const profileUserId = useSelector<AppStateType, number | undefined>( selectCurrentProfileUserId )
     const [editMode, setEditMode] = useState( false )
     const [spanValue, setSpanValue] = useState( status )
     const dispatch = useDispatch()

@@ -5,12 +5,13 @@ import { Pagination } from "../Common/Pagination/Paginaton"
 import { UserCard } from './UserCard/UserCard'
 import { useDispatch, useSelector } from 'react-redux'
 import { AppStateType } from '../../redux/redux-store'
+import { selectCurrentPage, selectItems } from '../../redux/selectors'
 
 
 export const Users = () => {
     // console.log( 'users' )
-    const items = useSelector<AppStateType, Array<UserType>>( state => state.users.items )
-    const currentPage = useSelector<AppStateType, number>( state => state.users.currentPage )
+    const items = useSelector<AppStateType, Array<UserType>>( selectItems )
+    const currentPage = useSelector<AppStateType, number>( selectCurrentPage )
     const dispatch = useDispatch()
 
     useEffect( () => {

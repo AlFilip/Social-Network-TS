@@ -1,5 +1,5 @@
 import { resultCodes, usersAPI } from "../api/usersApi"
-import { AppStateType } from "./redux-store"
+import { AppStateType, thunkType } from "./redux-store"
 import { profileActionsTypes } from "./profileReducer"
 import { authActionTypes } from "./authReducer"
 import { dialogsActionTypes } from "./diaogsReducer"
@@ -62,15 +62,12 @@ export type usersActionTypes =
     | setCurrentPageActionType
     | setTotalItemsCountActionType
 
-export type allActionsType = usersActionTypes | profileActionsTypes | dialogsActionTypes | authActionTypes
-
 export type followActionType = ReturnType<typeof followAC>
 export type unFollowActionType = ReturnType<typeof unFollowAC>
 export type setUsersActionType = ReturnType<typeof setUsersAC>
 export type setCurrentPageActionType = ReturnType<typeof setCurrentPageAC>
 export type setTotalItemsCountActionType = ReturnType<typeof setTotalItemsCount>
 
-export type thunkType = ThunkAction<any, AppStateType, any, allActionsType>
 
 export const followAC = (userId: number) => ( { type: 'FOLLOW', userId } as const )
 
@@ -90,11 +87,13 @@ export const setTotalItemsCount = (totalItemsCount: number) => ( {
 
 export const follow = (userId: number): thunkType => async (dispatch) => {
     try {
-        const res = await usersAPI.follow( userId )
-        const { status, data: { resultCode, messages } } = res
+        const { status, data: { resultCode, messages } } = await usersAPI.follow( userId )
         if (status === 200 && resultCode === resultCodes.SUCCESS) {
             dispatch( followAC( userId ) )
-        } else if (messages[0]) console.log( messages[0] )
+
+        } else if (messages[0]) {
+            console.log( messages[0] )
+        }
     } catch (e) {
         console.log( e )
     }

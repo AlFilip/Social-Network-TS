@@ -1,16 +1,18 @@
 import {applyMiddleware, combineReducers, createStore} from 'redux'
 import {composeWithDevTools} from 'redux-devtools-extension';
-import reduxThunk from 'redux-thunk';
-import profile from "./profileReducer";
-import dialogs from "./diaogsReducer";
-import users from "./usersReducer";
-import auth from "./authReducer";
+import reduxThunk, { ThunkAction } from 'redux-thunk'
+import profile, { profileActionsTypes } from "./profileReducer"
+import dialogs, { dialogsActionTypes } from "./diaogsReducer"
+import users, { usersActionTypes } from "./usersReducer"
+import auth, { authActionTypes } from "./authReducer"
+import app, { appActionTypes } from './appReducer'
 
 const rootReducer = combineReducers({
     profile,
     dialogs,
     users,
     auth,
+    app,
 })
 
 const middleware = [
@@ -24,3 +26,12 @@ export let store = createStore(rootReducer, composeWithDevTools(applyMiddleware(
 
 //@ts-ignore
 window.store = store
+
+
+export type allActionsType = usersActionTypes
+    | profileActionsTypes
+    | dialogsActionTypes
+    | authActionTypes
+    | appActionTypes
+
+export type thunkType = ThunkAction<any, AppStateType, any, allActionsType>
