@@ -1,4 +1,4 @@
-import React, { ChangeEvent, FC, MouseEventHandler, useEffect, useRef, useState } from 'react'
+import React, { ChangeEvent, FC, KeyboardEventHandler, MouseEventHandler, useEffect, useRef, useState } from 'react'
 
 
 type messageType = {
@@ -47,7 +47,8 @@ const ChatMessages: FC<{ data: messageType[] }> = ({ data }) => {
             messagesBlock.current
             && messagesBlock.current.scrollTo( 0, messagesBlock.current.scrollHeight )
         }, 0 )
-        return () => {}
+        return () => {
+        }
     }, [data] )
 
     const mappedMessages = messages.map( (m, index) => {
@@ -101,21 +102,28 @@ const ChatMessageItem: FC<messageType> = ({ userId, message, photo, userName }) 
 
 
 const ChatInput: FC<{ callback: (message: string) => void }> = ({ callback }) => {
-    const [value, setValue] = useState( '' )
+    const [textAreaValue, setTextAreaValue] = useState( '' )
 
-    const onChangeHandler = (e: ChangeEvent<HTMLTextAreaElement>) => {
-        setValue( e.currentTarget.value )
+    const onTextValueChangeHandler = (e: ChangeEvent<HTMLTextAreaElement>) => {
+        setTextAreaValue( e.currentTarget.value )
+    }
+
+    const onKeyPressHandler: KeyboardEventHandler<HTMLTextAreaElement> = e => {
+        if (e.code === 'Enter' && e.ctrlKey) {
+            callback( textAreaValue )
+            setTextAreaValue( '' )
+        }
     }
 
     const onClickHandler: MouseEventHandler<HTMLButtonElement> = e => {
         e.preventDefault()
-        callback( value )
-        setValue( '' )
+        callback( textAreaValue )
+        setTextAreaValue( '' )
     }
 
     return (
         <div>
-            <textarea value={ value } onChange={ onChangeHandler }/>
+            <textarea value={ textAreaValue } onChange={ onTextValueChangeHandler } onKeyPress={ onKeyPressHandler }/>
             <button onClick={ onClickHandler }>send</button>
         </div>
     )
