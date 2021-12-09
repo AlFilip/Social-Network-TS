@@ -8,6 +8,7 @@ export function NavBar () {
             <SuperLink to={'/profile'} linkName={'Profile'}/>
             <SuperLink to={'/dialogs'} linkName={'Messages'}/>
             <SuperLink to={'/users'} linkName={'Users'}/>
+            <SuperLink to={'/chat'} linkName={'Chat'}/>
         </nav>
     )
 }

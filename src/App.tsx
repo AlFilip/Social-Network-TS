@@ -13,10 +13,11 @@ import { AppStateType } from './redux/redux-store'
 import { Preloader } from './components/Common/Preloader/Preloader'
 import { initApp } from './redux/appReducer'
 import { selectIsAuth, selectIsInitialised } from './redux/selectors'
+import { Chat } from './components/Chat/Chat'
 
 
 const App = () => {
-    const isAuth = useSelector<AppStateType, boolean>( selectIsAuth )
+    // const isAuth = useSelector<AppStateType, boolean>( selectIsAuth )
     const isInitialised = useSelector<AppStateType, boolean>( selectIsInitialised )
     const dispatch = useDispatch()
 
@@ -37,6 +38,7 @@ const App = () => {
                             <Route path={ '/dialogs' } render={ () => <Dialogs/> }/>
                             <Route path={ '/users' } render={ () => <Users/> }/>
                             <Route path={ '/login' } render={ () => <Login/> }/>
+                            <Route path={ '/chat' } render={ () => <Chat/> }/>
 
                         </div>
                     </div>
