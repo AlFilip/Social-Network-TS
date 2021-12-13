@@ -40,52 +40,51 @@ export const setUserData = (payload: authStateType) => ( {
     payload,
 } as const )
 
-export const getAuthUserData = (): thunkType => (dispatch) => {
-    return authAPI.me()
-        .then( res => {
-            const { status, data: { messages, resultCode, data } } = res
-            if (status === 200 && resultCode === 0) {
-                dispatch( setUserData( { ...data, isAuth: true } ) )
-            }
-            messages[0]
-            && console.log( messages[0] )
-
-        } )
-        .catch( console.log )
+export const getAuthUserData = (): thunkType => async (dispatch) => {
+    try {
+        const { status, data: { messages, resultCode, data } } = await authAPI.me()
+        if (status === 200 && resultCode === 0) {
+            dispatch( setUserData( { ...data, isAuth: true } ) )
+        }
+        messages[0]
+        && console.log( messages[0] )
+    } catch (e) {
+        console.log( e )
+    }
 }
 
 
-export const makeLogin = (loginData: loginValuesType, actions: formikActionsTypes): thunkType => dispatch => {
+export const makeLogin = (loginData: loginValuesType, actions: formikActionsTypes): thunkType => async dispatch => {
     const { setErrors, setSubmitting } = actions
-    authAPI.login( loginData )
-        .then( ({ status, data: { messages, resultCode } }) => {
-                if (status === 200 && resultCode === loginResultCodes.SUCCESS) {
-                    dispatch( getAuthUserData() )
-                } else if (resultCode === loginResultCodes.ERROR && messages[0] === 'Enter valid Email') {
-                    setErrors( { email: messages[0] } )
-                } else {
-                    messages[0]
-                    && setErrors( { email: messages[0], password: messages[0] } )
-                }
-            },
-        ).catch( err => {
-
+    try {
+        const { status, data: { messages, resultCode } } = await authAPI.login( loginData )
+        if (status === 200 && resultCode === loginResultCodes.SUCCESS) {
+            dispatch( getAuthUserData() )
+        } else if (resultCode === loginResultCodes.ERROR && messages[0] === 'Enter valid Email') {
+            setErrors( { email: messages[0] } )
+        } else {
+            messages[0]
+            && setErrors( { email: messages[0], password: messages[0] } )
+        }
+    } catch (err) {
         setSubmitting( false )
         console.log( err )
-    } )
+    }
 }
 
-export const makeLogout = (): thunkType => dispatch => {
-    authAPI.logOut()
-        .then( ({ status, data: { messages, resultCode, data } }) => {
+export const makeLogout = (): thunkType => async dispatch => {
+    try {
+        const { status, data: { messages, resultCode, data } } = await authAPI.logOut()
 
-            if (status === 200 && resultCode === resultCodes.SUCCESS) {
-                dispatch( setUserData( { id: null, login: null, email: null, isAuth: false } ) )
-            } else {
-                messages[0]
-                && console.log( messages[0] )
-            }
-        } )
+        if (status === 200 && resultCode === resultCodes.SUCCESS) {
+            dispatch( setUserData( { id: null, login: null, email: null, isAuth: false } ) )
+        } else {
+            messages[0]
+            && console.log( messages[0] )
+        }
+    }catch (e) {
+        console.log(e)
+    }
 }
 
 

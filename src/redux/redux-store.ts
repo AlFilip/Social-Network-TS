@@ -6,6 +6,7 @@ import dialogs, { dialogsActionTypes } from "./diaogsReducer"
 import users, { usersActionTypes } from "./usersReducer"
 import auth, { authActionTypes } from "./authReducer"
 import app, { appActionTypes } from './appReducer'
+import { useSelector } from 'react-redux'
 
 const rootReducer = combineReducers({
     profile,
@@ -35,3 +36,8 @@ export type allActionsType = usersActionTypes
     | appActionTypes
 
 export type thunkType = ThunkAction<any, AppStateType, any, allActionsType>
+
+
+export function useAppSelector<T>(selector: (state: AppStateType) => T): T {
+    return useSelector( selector )
+}

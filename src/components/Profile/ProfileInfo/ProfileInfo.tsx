@@ -10,7 +10,7 @@ import { selectCurrentProfile } from '../../../redux/selectors'
 
 export function ProfileInfo() {
     const profile = useSelector<AppStateType, profileType>( selectCurrentProfile )
-    const profileImg = ( profile && profile.photos && profile.photos.large ) ? profile.photos.large : "https://e7.pngegg.com/pngimages/931/209/png-clipart-computer-icons-symbol-avatar-logo-person-with-helmut-miscellaneous-black.png"
+    const profileImg = ( profile &&  profile.photos.large ) ? profile.photos.large : "https://e7.pngegg.com/pngimages/931/209/png-clipart-computer-icons-symbol-avatar-logo-person-with-helmut-miscellaneous-black.png"
     // console.log('profileInfo')
     return (
         <>

@@ -7,6 +7,7 @@ import { selectNewPostMessage, selectPosts } from '../../../redux/selectors'
 
 
 export function MyPosts() {
+    console.log('my posts')
     const newPostMessage = useSelector<AppStateType, string>( selectNewPostMessage )
     const posts = useSelector<AppStateType, PostType[]>( selectPosts )
     const dispatch = useDispatch()

@@ -1,4 +1,5 @@
 import React, { ChangeEvent, FC, KeyboardEventHandler, MouseEventHandler, useEffect, useRef, useState } from 'react'
+import { NavLink } from 'react-router-dom'
 
 
 type messageType = {
@@ -14,6 +15,7 @@ export const Chat = () => {
 
     useEffect( () => {
         const ws = new WebSocket( 'wss://social-network.samuraijs.com/handlers/ChatHandler.ashx' )
+        console.log( ws )
         ws.onmessage = (message) => {
             setMessages( JSON.parse( message.data ) )
         }
@@ -87,7 +89,9 @@ const ChatMessageItem: FC<messageType> = ({ userId, message, photo, userName }) 
                 border: '1px solid rgba(0, 0, 0, 0.5)',
                 borderRadius: 14,
             } }>
-                <img style={ { borderRadius: '50%', height: 50 } } src={ photo } alt="senderPhoto"/>
+                <NavLink to={ 'profile/' + userId }>
+                    <img style={ { borderRadius: '50%', height: 50 } } src={ photo } alt="senderPhoto"/>
+                </NavLink>
                 <span style={ { fontSize: '0.7em' } }>
                     {
                         userName

@@ -1,8 +1,7 @@
 import { v1 } from "uuid"
-import { photosType } from "../components/Profile/ProfileContainer"
-import { profileApi } from "../api/profileApi"
 import { resultCodes } from '../api/usersApi'
 import { thunkType } from './redux-store'
+import { profileApi } from '../api/profileApi'
 
 
 export type PostType = {
@@ -22,6 +21,10 @@ type contactsType = {
     mainLink: string | null
 }
 
+export type photosType = {
+    small: string | null
+    large: string | null
+}
 export type profileType = {
     aboutMe: string | null
     contacts: contactsType
