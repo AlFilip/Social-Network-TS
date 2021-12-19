@@ -10,13 +10,13 @@ const profileRequestConfig = {
 }
 
 
-const authInstance = axios.create( profileRequestConfig )
+const profileAxiosInstance = axios.create( profileRequestConfig )
 
 export const profileApi = {
-    getProfile: (userId: string) => authInstance.get<profileType>( `${ userId }` ),
+    getProfile: (userId: string) => profileAxiosInstance.get<profileType>( `${ userId }` ),
 
-    getStatus: (userId: string) => authInstance.get<string>( `status/${ userId }` ),
+    getStatus: (userId: string) => profileAxiosInstance.get<string>( `status/${ userId }` ),
 
-    setStatus: (newStatus: string) => authInstance.put<{ status: string }, AxiosResponse<commonResponseType>>
+    setStatus: (newStatus: string) => profileAxiosInstance.put<{ status: string }, AxiosResponse<commonResponseType>>
     ( 'status', { status: newStatus } ),
 }
