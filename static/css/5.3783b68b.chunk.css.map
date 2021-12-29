@@ -1,0 +1,1 @@
+{"version":3,"sources":["webpack://src/components/Login/Login.module.css"],"names":[],"mappings":"AAAA,mBACI,YAAa,CACb,qBACJ,CAEA,0BACI,cACJ","file":"5.3783b68b.chunk.css","sourcesContent":[".form {\r\n    display: flex;\r\n    flex-direction: column;\r\n}\r\n\r\n.form button{\r\n    max-width: 60px;\r\n}"]}
