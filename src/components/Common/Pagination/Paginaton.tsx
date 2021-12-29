@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from "react-redux"
 import { AppStateType } from "../../../redux/redux-store"
 import { setCurrentPageAC, usersActionTypes } from "../../../redux/usersReducer"
 import { selectCurrentPage, selectTotalPagesCount } from '../../../redux/selectors'
-import { getButtonClassNameHelper, paginationHelpers } from './paginationHelpers'
+import { getButtonClassNameHelper, getPrepArray } from './paginationHelpers'
 
 
 type PaginationPropsType = {
@@ -52,7 +52,7 @@ export const Pagination: React.FC<PaginationPropsType> = React.memo( ({
         setCurrentPage( inputValue )
     }
 
-    const paginationButtons = paginationHelpers( totalPagesCount, currentPage, 2, 5 )
+    const paginationButtons = getPrepArray( totalPagesCount, currentPage, 2, 5 )
         .map( m => (
             <a href={ m.name } key={ m.id } id={ m.id.toString() }
                className={ getButtonClassNameHelper( m.id, currentPage ) }

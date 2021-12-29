@@ -5,10 +5,10 @@ export type PageType = { name: string, id: number }
 
 export const getButtonClassNameHelper = (m: number, currentPage: number) => `${ s.pageNumber } ${ m === currentPage ? s.currentPageNumber : '' }`
 
-export const paginationHelpers = (totalPagesCount: number,
-                                  currentPage: number,
-                                  rangeBack: number,
-                                  rangeForward: number): PageType[] => {
+export const getPrepArray = (totalPagesCount: number,
+                             currentPage: number,
+                             rangeBack: number,
+                             rangeForward: number): PageType[] => {
     let res: PageType[] = []
     for (let i = currentPage - rangeBack; i <= currentPage + rangeForward; i++) {
         if (i >= 1 && i <= totalPagesCount) {

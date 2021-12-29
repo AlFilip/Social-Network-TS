@@ -10,7 +10,7 @@ export type chatMessageType = {
     userName: string
 }
 
-export const Chat = () => {
+const Chat = () => {
     const [messages, setMessages] = useState<chatMessageType[]>( [] )
     const [ws, setWs] = useState<WebSocket | null>( null )
 
@@ -37,4 +37,4 @@ export const Chat = () => {
     )
 }
 
-
+export default Chat

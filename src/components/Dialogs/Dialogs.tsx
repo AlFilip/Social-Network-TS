@@ -5,8 +5,8 @@ import Message from "./Message/Message"
 import { useDispatch, useSelector } from "react-redux"
 import { AppStateType } from "../../redux/redux-store"
 import { addMessage, dialogType, messageType, onMessageChange } from "../../redux/diaogsReducer"
-import { redirectHOC } from "../Common/redirectHOC/redirectHOC"
-import { selectDialogs, selectIsAuth, selectMessages, selectNewMessageValue } from '../../redux/selectors'
+import { redirectHOC } from "../Common/hoc/redirectHOC"
+import { selectDialogs, selectMessages, selectNewMessageValue } from '../../redux/selectors'
 
 
 const Dialogs = redirectHOC( () => {

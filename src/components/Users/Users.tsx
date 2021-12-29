@@ -1,5 +1,5 @@
 import React, { useEffect, useMemo } from "react"
-import { getUsers, setUsersAC, UserType } from "../../redux/usersReducer"
+import { getUsers, UserType } from "../../redux/usersReducer"
 import { Preloader } from "../Common/Preloader/Preloader"
 import { Pagination } from "../Common/Pagination/Paginaton"
 import { UserCard } from './UserCard/UserCard'
@@ -8,7 +8,7 @@ import { AppStateType } from '../../redux/redux-store'
 import { selectCurrentPage, selectItems } from '../../redux/selectors'
 
 
-export const Users = () => {
+const Users = () => {
     // console.log( 'users' )
     const items = useSelector<AppStateType, Array<UserType>>( selectItems )
     const currentPage = useSelector<AppStateType, number>( selectCurrentPage )
@@ -45,3 +45,5 @@ export const Users = () => {
             </div>
     )
 }
+
+export default Users
