@@ -7,8 +7,8 @@ import { BrowserRouter, Route } from "react-router-dom"
 import Dialogs from "./components/Dialogs/Dialogs"
 import { Login } from "./components/Login/Login"
 import { Users } from './components/Users/Users'
-import { useDispatch, useSelector } from 'react-redux'
-import { AppStateType } from './redux/redux-store'
+import { Provider, useDispatch, useSelector } from 'react-redux'
+import { AppStateType, store } from './redux/redux-store'
 import { Preloader } from './components/Common/Preloader/Preloader'
 import { initApp } from './redux/appReducer'
 import { selectIsInitialised } from './redux/selectors'
@@ -26,7 +26,7 @@ const App = () => {
     }, [] )
 
     return (
-        <BrowserRouter>
+        <>
             {
                 isInitialised ? <div className="app-wrapper">
                         <Header/>
@@ -45,9 +45,20 @@ const App = () => {
 
                     : <Preloader/>
             }
-        </BrowserRouter>
+        </>
     )
 }
 
-export default App
+const AppContainer = () => {
+    return (
+        <Provider store={ store }>
+            <BrowserRouter>
+                <App/>
+            </BrowserRouter>
+        </Provider>
+    )
+}
+
+
+export default AppContainer
 

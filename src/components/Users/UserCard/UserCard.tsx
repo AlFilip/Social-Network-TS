@@ -42,7 +42,7 @@ export const UserCard = React.memo( ({
                 <button disabled={ isBtnDisabled } onClick={ onClickHandler }>{ buttonTitle }</button>
             </div>
             <div className={ s.rightPart }>
-                <div className={ s.name }>{ name }</div>
+                <div className={ 'name' }>{ name }</div>
                 <div className={ s.status }>status: { status }</div>
             </div>
         </div>
