@@ -20,7 +20,8 @@ const useCheckParams = () => {
         if (!userId && authUserId) {
             userId = authUserId.toString()
         }
-        dispatch( initProfile( userId ) )
+        userId
+        && dispatch( initProfile( userId ) )
         return () => {
             dispatch( setProfile( null ) )
         }

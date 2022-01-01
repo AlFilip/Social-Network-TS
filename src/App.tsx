@@ -2,21 +2,19 @@ import React, { useEffect } from 'react'
 import './App.css'
 import Header from "./components/Header/Header"
 import { NavBar } from "./components/NavBar/NavBar"
-import { BrowserRouter, Route } from "react-router-dom"
-import { Login } from "./components/Login/Login"
+import { HashRouter, Route, Routes } from "react-router-dom"
 import { Provider, useDispatch, useSelector } from 'react-redux'
 import { AppStateType, store } from './redux/redux-store'
 import { Preloader } from './components/Common/Preloader/Preloader'
 import { initApp } from './redux/appReducer'
 import { selectIsInitialised } from './redux/selectors'
 import { Profile } from './components/Profile/Profile'
-import { SuspenseHOC } from './components/Common/hoc/SuspenseHOC'
+import Dialogs from './components/Dialogs/Dialogs'
 
 
-const Dialogs = React.lazy( () => import( './components/Dialogs/Dialogs') )
-const Users = React.lazy( () => import( './components/Users/Users') )
-const Chat = React.lazy( () => import( './components/Chat/Chat') )
-
+const Chat = React.lazy( () => import('./components/Chat/Chat') )
+const Users = React.lazy( () => import('./components/Users/Users') )
+const Login = React.lazy( () => import('./components/Login/Login') )
 
 const App = () => {
     // const isAuth = useSelector<AppStateType, boolean>( selectIsAuth )
@@ -34,16 +32,27 @@ const App = () => {
                         <Header/>
                         <NavBar/>
                         <div className={ 'app-wrapper-content' }>
+                            <Routes>
+                                <Route path={ '/' }  element={ <Profile/> }/>
+                                <Route path={ '/profile' } element={ <Profile/> }>
+                                    <Route path={ ':userId' } element={ <Profile/> }/>
+                                </Route>
+                                <Route path='/dialogs' element={ <Dialogs/> }/>
+                                <Route path={ '/users' } element={ (
+                                    <React.Suspense fallback={ <>...</> }>
+                                        <Users/>
+                                    </React.Suspense> ) }/>
 
-                            <Route exact path={ '/' } render={ () => <Profile/> }/>
-                            <Route path={ '/profile/:userId?' } render={ () => ( <Profile/> ) }/>
+                                <Route path={ '/login' } element={(
+                                    <React.Suspense fallback={ <>...</> }>
+                                        <Login/>
+                                    </React.Suspense> ) }/>
 
-                            <Route path={ '/dialogs' } render={ SuspenseHOC( Dialogs ) }/>
-
-                            <Route path={ '/users' } render={ SuspenseHOC( Users ) }/>
-                            <Route path={ '/login' } render={ () => <Login/> }/>
-                            <Route path={ '/chat' } render={ SuspenseHOC( Chat ) }/>
-
+                                <Route path={ '/chat' } element={ (
+                                    <React.Suspense fallback={ <>...</> }>
+                                        <Chat/>
+                                    </React.Suspense> ) }/>
+                            </Routes>
                         </div>
                     </div>
 
@@ -56,9 +65,9 @@ const App = () => {
 const AppContainer = () => {
     return (
         <Provider store={ store }>
-            <BrowserRouter>
+            <HashRouter>
                 <App/>
-            </BrowserRouter>
+            </HashRouter>
         </Provider>
     )
 }

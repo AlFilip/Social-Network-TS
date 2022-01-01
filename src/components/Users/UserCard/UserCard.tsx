@@ -1,7 +1,7 @@
 import { follow, unFollow, UserType } from "../../../redux/usersReducer"
 import s from './UserCard.module.css'
 import React, { useEffect, useState } from "react"
-import { NavLink } from "react-router-dom"
+import { Link } from "react-router-dom"
 import { useDispatch } from 'react-redux'
 
 
@@ -34,11 +34,11 @@ export const UserCard = React.memo( ({
     return (
         <div className={ s.userCard }>
             <div className={ s.leftPart }>
-                <NavLink to={ 'profile/' + id }>
+                <Link to={ '/profile/' + id }>
                     <img
                         src={ userImg }
                         alt=""/>
-                </NavLink>
+                </Link>
                 <button disabled={ isBtnDisabled } onClick={ onClickHandler }>{ buttonTitle }</button>
             </div>
             <div className={ s.rightPart }>

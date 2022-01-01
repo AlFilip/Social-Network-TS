@@ -16,7 +16,6 @@ const Chat = () => {
 
     useEffect( () => {
         const ws = new WebSocket( 'wss://social-network.samuraijs.com/handlers/ChatHandler.ashx' )
-        console.log( ws )
         ws.onmessage = (message) => {
             setMessages( JSON.parse( message.data ) )
         }

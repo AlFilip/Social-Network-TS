@@ -5,7 +5,7 @@ import s from './Login.module.css'
 import { useDispatch, useSelector } from "react-redux"
 import { makeLogin } from "../../redux/authReducer"
 import { AppStateType } from '../../redux/redux-store'
-import { Redirect } from "react-router-dom"
+import { Navigate } from "react-router-dom"
 import { FormikErrors } from 'formik/dist/types'
 import { selectIsAuth } from '../../redux/selectors'
 
@@ -33,14 +33,14 @@ const loginSchema = Yup.object().shape( {
         .required( 'Required' ),
 } )
 
-export const Login = () => {
+const Login = () => {
     const isAuth = useSelector<AppStateType, boolean>( selectIsAuth )
     const dispatch = useDispatch()
 
-    const onSubmitHandler = async (values: loginValuesType, { setStatus, setErrors, setSubmitting }: FormikHelpers<loginValuesType>) => {
-        dispatch( makeLogin( values, {  setErrors, setSubmitting } ) )
+    const onSubmitHandler = async (values: loginValuesType, { setErrors, setSubmitting }: FormikHelpers<loginValuesType>) => {
+        dispatch( makeLogin( values, { setErrors, setSubmitting } ) )
     }
-    if (isAuth) return <Redirect to={ '/profile' }/>
+    if (isAuth) return <Navigate to={ '/profile' }/>
 
     return (
         <div>
@@ -76,3 +76,5 @@ export const Login = () => {
         </div>
     )
 }
+
+export default Login
