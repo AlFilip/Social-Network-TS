@@ -1,5 +1,5 @@
-import {applyMiddleware, combineReducers, createStore} from 'redux'
-import {composeWithDevTools} from 'redux-devtools-extension';
+import { applyMiddleware, combineReducers, createStore } from 'redux'
+import { composeWithDevTools } from 'redux-devtools-extension'
 import reduxThunk, { ThunkAction } from 'redux-thunk'
 import profile, { profileActionsTypes } from "./profileReducer"
 import dialogs, { dialogsActionTypes } from "./diaogsReducer"
@@ -8,21 +8,22 @@ import auth, { authActionTypes } from "./authReducer"
 import app, { appActionTypes } from './appReducer'
 import { useSelector } from 'react-redux'
 
-const rootReducer = combineReducers({
+
+const rootReducer = combineReducers( {
     profile,
     dialogs,
     users,
     auth,
     app,
-})
+} )
 
 const middleware = [
     reduxThunk,
-];
+]
 
 export type AppStateType = ReturnType<typeof rootReducer>
 
-export let store = createStore(rootReducer, composeWithDevTools(applyMiddleware(...middleware)))
+export let store = createStore( rootReducer, composeWithDevTools( applyMiddleware( ...middleware ) ) )
 
 
 //@ts-ignore
@@ -39,5 +40,5 @@ export type thunkType = ThunkAction<any, AppStateType, any, allActionsType>
 
 
 export function useAppSelector<T>(selector: (state: AppStateType) => T): T {
-    return useSelector( selector )
+    return useSelector<AppStateType, T>( selector )
 }

@@ -10,7 +10,7 @@ export type PostType = {
     likesCount: number
 }
 
-type contactsType = {
+export type contactsType = {
     facebook: string | null
     website: string | null
     vk: string | null
@@ -72,6 +72,16 @@ const profileReducer = (state = initState, action: profileActionsTypes): profile
                 ...state,
                 status: action.status,
             }
+        case 'SET_PHOTOS':
+            return state.currentProfile
+                ? {
+                    ...state,
+                    currentProfile: {
+                        ...state.currentProfile,
+                        photos: action.photos,
+                    },
+                }
+                : state
         default:
             return state
     }
@@ -83,18 +93,21 @@ export type profileActionsTypes =
     | OnPostChangeActionType
     | setProfileActionType
     | setStatusToStateActionType
+    | setPhotosToStateActionType
 
 export type AddPostActionType = ReturnType<typeof addPost>
 export type OnPostChangeActionType = ReturnType<typeof onPostChange>
 export type setProfileActionType = ReturnType<typeof setProfile>
 type setStatusToStateActionType = ReturnType<typeof setStatusToState>
+type setPhotosToStateActionType = ReturnType<typeof setPhotosToState>
 
 export const addPost = () => ( { type: 'ADD_POST' } as const )
 export const onPostChange = (newValue: string) => ( { type: 'ON_POST_CHANGE', newValue } as const )
 export const setProfile = (currentProfile: profileType) => ( { type: 'SET_PROFILE', currentProfile } as const )
+export const setPhotosToState = (photos: photosType) => ( { type: 'SET_PHOTOS', photos } as const )
 export const setStatusToState = (status: string) => ( { type: 'SET_STATUS', status } as const )
 
-export const initProfile = (userId: string): thunkType => async (dispatch) => {
+export const initProfile = (userId: string): thunkType => async dispatch => {
     const getProfilePromise = profileApi.getProfile( userId )
     const GetStatusPromise = profileApi.getStatus( userId )
 
@@ -114,6 +127,35 @@ export const setStatus = (newStatus: string): thunkType => async dispatch => {
 
         messages[0]
         && console.log( messages[0] )
+    } catch (e) {
+        console.log( e )
+    }
+}
+
+
+export const setPhoto = (photo: File): thunkType => async dispatch => {
+    try {
+        const { status, data: { resultCode, messages, data: { photos } } } = await profileApi.setPhoto( photo )
+        if (status === 200 && resultCode === resultCodes.SUCCESS) {
+            dispatch( setPhotosToState( photos ) )
+        }
+
+        messages[0]
+        && console.log( messages[0] )
+    } catch (e) {
+        console.log( e )
+    }
+}
+
+export const updateProfile = (profile: Partial<profileType>): thunkType => async (dispatch, getState) => {
+    try {
+        const currentProfile = getState().profile.currentProfile
+        console.log({ ...currentProfile, ...profile })
+        const res = await profileApi.updateProfile( profile )
+        console.log(res)
+        // messages[0]
+        // && console.log( messages[0] )
+        return true
     } catch (e) {
         console.log( e )
     }

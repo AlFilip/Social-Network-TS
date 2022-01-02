@@ -5,17 +5,18 @@ import { MyPosts } from "./MyPosts/MyPosts"
 import { useParams } from 'react-router-dom'
 import { useDispatch } from 'react-redux'
 import { useAppSelector } from '../../redux/redux-store'
-import { selectIsUserId } from '../../redux/selectors'
+import { selectAuthorisedUserId } from '../../redux/selectors'
 import { initProfile, setProfile } from '../../redux/profileReducer'
 
 
 type PathParamsType = {
     userId: string
 }
-const useCheckParams = () => {
+
+export const Profile = () => {
     let { userId } = useParams<PathParamsType>()
     const dispatch = useDispatch()
-    const authUserId = useAppSelector<number | null>( selectIsUserId )
+    const authUserId = useAppSelector( selectAuthorisedUserId )
     useEffect( () => {
         if (!userId && authUserId) {
             userId = authUserId.toString()
@@ -26,10 +27,7 @@ const useCheckParams = () => {
             dispatch( setProfile( null ) )
         }
     }, [userId] )
-}
 
-export const Profile = () => {
-    useCheckParams()
     return (
         <div className={ s.profile }>
             <ProfileInfo/>

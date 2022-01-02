@@ -1,0 +1,34 @@
+.updateProfile{
+    background-color: #1ea7fd;
+    padding: 20px;
+    border-radius: 8px;
+}
+
+.updateProfile form fieldset {
+    border-radius: 8px;
+    display: flex;
+    flex-direction: column;
+}
+
+.modal{
+    height: 100vh;
+    width: 100vw;
+    position: fixed;
+    top: 0;
+    left: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: rgba(0, 0, 0, 0.4);
+    z-index: 10;
+}
+
+.wrapper {
+    max-width: 1008px;
+    height: 636px;
+    width: 100%;
+    margin: 0 auto;
+    display: flex;
+    position: absolute;
+    z-index: 1;
+}

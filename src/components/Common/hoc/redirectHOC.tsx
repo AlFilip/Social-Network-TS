@@ -6,7 +6,7 @@ import { selectIsAuth } from '../../../redux/selectors'
 
 export function redirectHOC<T>(Component: ComponentType<T>) {
     return (props: T) => {
-        const isAuth = useAppSelector<boolean>( selectIsAuth )
+        const isAuth = useAppSelector( selectIsAuth )
 
         if (!isAuth) {
             return <Navigate to={ '/login' }/>

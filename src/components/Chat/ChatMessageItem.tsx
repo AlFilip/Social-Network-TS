@@ -1,5 +1,5 @@
 import React, { FC } from 'react'
-import { NavLink } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 import { chatMessageType } from './Chat'
 
 
@@ -15,9 +15,9 @@ export const ChatMessageItem: FC<chatMessageType> = ({ userId, message, photo, u
                 border: '1px solid rgba(0, 0, 0, 0.5)',
                 borderRadius: 14,
             } }>
-                <NavLink to={ 'profile/' + userId }>
+                <Link to={ '/profile/' + userId }>
                     <img style={ { borderRadius: '50%', height: 50 } } src={ photo } alt="senderPhoto"/>
-                </NavLink>
+                </Link>
                 <span style={ { fontSize: '0.7em' } }>
                     {
                         userName

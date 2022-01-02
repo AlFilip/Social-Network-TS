@@ -1,13 +1,15 @@
 import React, { ChangeEventHandler, KeyboardEventHandler, MouseEventHandler, useEffect, useState } from "react"
 import { useDispatch, useSelector } from "react-redux"
 import { AppStateType } from "../../../../redux/redux-store"
+
+import s from './ProfileStatus.module.css'
 import { setStatus, setStatusToState } from "../../../../redux/profileReducer"
-import { selectCurrentProfileUserId, selectIsUserId, selectStatus } from '../../../../redux/selectors'
+import { selectCurrentProfileUserId, selectAuthorisedUserId, selectStatus } from '../../../../redux/selectors'
 
 
 export const ProfileStatus = () => {
     const status = useSelector<AppStateType, string>( selectStatus)
-    const authUserId = useSelector<AppStateType, number | null>( selectIsUserId )
+    const authUserId = useSelector<AppStateType, number | null>( selectAuthorisedUserId )
     const profileUserId = useSelector<AppStateType, number | undefined>( selectCurrentProfileUserId )
     const [editMode, setEditMode] = useState( false )
     const [spanValue, setSpanValue] = useState( status )
@@ -46,7 +48,7 @@ export const ProfileStatus = () => {
         }
     }
 
-    const onDoubleClickHandler: MouseEventHandler<HTMLDivElement> = e => setEditMode( !editMode )
+    const onDoubleClickHandler: MouseEventHandler<HTMLDivElement> = () => setEditMode( !editMode )
 
     const isStatusOwner = authUserId === profileUserId
 
@@ -70,7 +72,7 @@ export const ProfileStatus = () => {
                         autoFocus
                     />
 
-                    : <span>
+                    : <span className={s.status}>
                         { getStatusMessage() }
                     </span>
             }

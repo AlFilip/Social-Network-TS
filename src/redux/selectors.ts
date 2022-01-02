@@ -6,7 +6,7 @@ export const selectIsAuth = (state: AppStateType) => state.auth.isAuth
 
 export const selectIsUserLogin = (state: AppStateType) => state.auth.login
 
-export const selectIsUserId = (state: AppStateType) => state.auth.id
+export const selectAuthorisedUserId = (state: AppStateType) => state.auth.id
 
 export const selectIsInitialised = (state: AppStateType) => state.app.isInitSuccess
 
