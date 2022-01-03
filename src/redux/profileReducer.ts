@@ -152,7 +152,8 @@ export const updateProfile = (profile: Partial<profileType>): thunkType => async
         const currentProfile = getState().profile.currentProfile
         console.log({ ...currentProfile, ...profile })
         const res = await profileApi.updateProfile( profile )
-        console.log(res)
+        currentProfile
+        && await dispatch(initProfile((currentProfile.userId).toString()))
         // messages[0]
         // && console.log( messages[0] )
         return true
