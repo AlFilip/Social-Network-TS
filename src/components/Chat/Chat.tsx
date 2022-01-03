@@ -20,6 +20,9 @@ const Chat = () => {
             setMessages( JSON.parse( message.data ) )
         }
         setWs( ws )
+        return () =>{
+            ws.close()
+        }
     }, [] )
 
     const sendMessage = (message: string) => {

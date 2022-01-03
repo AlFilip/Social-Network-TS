@@ -22,10 +22,17 @@ type responseType = {
     error: string | null
 }
 
+export type getUsersParamsType  = {
+    page?: number
+    count?: number
+    term?: string
+    friend?: boolean
+}
+
 export const axiosInstance = axios.create( baseRequestConfig )
 
 export const usersAPI = {
-    getUsers: (page: number) => axiosInstance.get<responseType>( `/users`, { params: { page } } ),
+    getUsers: (params:getUsersParamsType) => axiosInstance.get<responseType>( `/users`, { params }  ),
 
     follow: (userId: number) => axiosInstance.post<commonResponseType>( `/follow/${ userId }` ),
 

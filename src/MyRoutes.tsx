@@ -3,18 +3,24 @@ import { Profile } from './components/Profile/Profile'
 import Dialogs from './components/Dialogs/Dialogs'
 import React from 'react'
 
+
 const Chat = React.lazy( () => import('./components/Chat/Chat') )
 const Users = React.lazy( () => import('./components/Users/Users') )
 const Login = React.lazy( () => import('./components/Login/Login') )
 
 export const MyRoutes = () => {
-    return(
+    return (
         <Routes>
             <Route path={ '/profile' } element={ <Profile/> }>
                 <Route path={ ':userId' } element={ <Profile/> }/>
             </Route>
             <Route path='/dialogs' element={ <Dialogs/> }/>
             <Route path={ '/users' } element={ (
+                <React.Suspense fallback={ <>...</> }>
+                    <Users/>
+                </React.Suspense> ) }
+            />
+            <Route path={ '/friends' } element={ (
                 <React.Suspense fallback={ <>...</> }>
                     <Users/>
                 </React.Suspense> ) }

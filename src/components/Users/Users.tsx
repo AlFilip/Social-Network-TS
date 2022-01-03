@@ -1,27 +1,35 @@
 import React, { useEffect, useMemo } from "react"
-import { getUsers, UserType } from "../../redux/usersReducer"
+import { getUsers, setSearchParams, setUsersAC } from "../../redux/usersReducer"
 import { Preloader } from "../Common/Preloader/Preloader"
 import { Pagination } from "../Common/Pagination/Paginaton"
 import { UserCard } from './UserCard/UserCard'
-import { useDispatch, useSelector } from 'react-redux'
-import { AppStateType } from '../../redux/redux-store'
+import { useDispatch } from 'react-redux'
+import { useAppSelector } from '../../redux/redux-store'
 import { selectCurrentPage, selectItems } from '../../redux/selectors'
+import { useLocation } from 'react-router-dom'
+import { SearchUsers } from './SearchUsers/SearchUsers'
 
 
 const Users = () => {
     // console.log( 'users' )
-    const items = useSelector<AppStateType, Array<UserType>>( selectItems )
-    const currentPage = useSelector<AppStateType, number>( selectCurrentPage )
+    const items = useAppSelector( selectItems )
+    const page = useAppSelector( selectCurrentPage )
     const dispatch = useDispatch()
+    const { pathname } = useLocation()
 
     useEffect( () => {
-        dispatch( getUsers( currentPage ) )
-        // console.log( 'useEffect' )
+        const friend = ( pathname === '/friends' || undefined )
+        dispatch( setSearchParams( { friend } ) )
 
-        // return () => {
-        //     dispatch( setUsersAC( [] ) )
-        // }
-    }, [currentPage] )
+        return () => {
+            dispatch( setUsersAC( [] ) )
+            dispatch( setSearchParams( { friend: undefined, currentPage: 1, term: '' } ) )
+        }
+    }, [] )
+
+    useEffect( () => {
+        dispatch( getUsers() )
+    }, [page] )
 
     const users = useMemo( () => {
         // console.log( 'mapping' )
@@ -35,14 +43,19 @@ const Users = () => {
     }, [items] )
 
     return (
-        !items.length
-            ? <Preloader/>
-            : <div>
-                <Pagination/>
-                <div>
-                    { users }
-                </div>
-            </div>
+        <>
+            <SearchUsers/>
+            {
+                !items.length
+                    ? <Preloader/>
+                    : <div>
+                        <div>
+                            { users }
+                        </div>
+                        <Pagination/>
+                    </div>
+            }
+        </>
     )
 }
 

@@ -24,6 +24,10 @@ export const selectCurrentPage = (state: AppStateType) => state.users.currentPag
 
 export const selectTotalPagesCount = (state: AppStateType) => state.users.totalPagesCount
 
+export const selectUsersSearchTerm = (state: AppStateType) => state.users.term
+
+export const selectUsersSearchFriend = (state: AppStateType) => state.users.friend
+
 
 // profile
 export const selectCurrentProfile = (state: AppStateType) => state.profile.currentProfile

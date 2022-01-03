@@ -1,9 +1,5 @@
-import { resultCodes, usersAPI } from "../api/usersApi"
-import { AppStateType, thunkType } from "./redux-store"
-import { profileActionsTypes } from "./profileReducer"
-import { authActionTypes } from "./authReducer"
-import { dialogsActionTypes } from "./diaogsReducer"
-import { ThunkAction } from "redux-thunk"
+import { getUsersParamsType, resultCodes, usersAPI } from "../api/usersApi"
+import { thunkType } from "./redux-store"
 
 
 export type UsersStateType = typeof initState
@@ -25,6 +21,8 @@ const initState = {
     currentPage: 1,
     pageSize: 10,
     totalPagesCount: 1,
+    term: '',
+    friend: undefined as boolean | undefined,
     // isFetching: false,
 }
 
@@ -50,6 +48,11 @@ const usersReducer = (state: UsersStateType = initState, action: usersActionType
                 totalItemsCount: action.totalItemsCount,
                 totalPagesCount: Math.ceil( action.totalItemsCount / state.pageSize ),
             }
+        case 'SET_SEARCH_PARAMS':
+            return {
+                ...state,
+                ...action.payload,
+            }
         default:
             return state
     }
@@ -61,13 +64,14 @@ export type usersActionTypes =
     | setUsersActionType
     | setCurrentPageActionType
     | setTotalItemsCountActionType
+    | setTermActionType
 
 export type followActionType = ReturnType<typeof followAC>
 export type unFollowActionType = ReturnType<typeof unFollowAC>
 export type setUsersActionType = ReturnType<typeof setUsersAC>
 export type setCurrentPageActionType = ReturnType<typeof setCurrentPageAC>
 export type setTotalItemsCountActionType = ReturnType<typeof setTotalItemsCount>
-
+export type setTermActionType = ReturnType<typeof setSearchParams>
 
 export const followAC = (userId: number) => ( { type: 'FOLLOW', userId } as const )
 
@@ -83,6 +87,11 @@ export const setCurrentPageAC = (pageNumber: number) => ( { type: 'SET_CURRENT_P
 export const setTotalItemsCount = (totalItemsCount: number) => ( {
     type: 'SET_TOTAL_ITEMS_COUNT',
     totalItemsCount,
+} as const )
+
+export const setSearchParams = (payload: { term?: string, friend?: boolean , currentPage?: number}) => ( {
+    type: 'SET_SEARCH_PARAMS',
+    payload,
 } as const )
 
 export const follow = (userId: number): thunkType => async (dispatch) => {
@@ -110,9 +119,16 @@ export const unFollow = (userId: number): thunkType => async (dispatch) => {
     }
 }
 
-export const getUsers = (currentPage: number): thunkType => async (dispatch) => {
+export const getUsers = (payload?: getUsersParamsType): thunkType => async (dispatch, getState) => {
     try {
-        const { data, status } = await usersAPI.getUsers( currentPage )
+        const { currentPage, friend, pageSize, term } = getState().users
+        const { data, status } = await usersAPI.getUsers( {
+            page: currentPage,
+            count: pageSize,
+            friend,
+            term,
+            ...payload,
+        } )
         if (status === 200 && data) {
             const { items, totalCount } = data
             dispatch( setTotalItemsCount( totalCount ) )
