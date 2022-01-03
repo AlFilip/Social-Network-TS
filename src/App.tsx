@@ -33,7 +33,7 @@ const App = () => {
                         <NavBar/>
                         <div className={ 'app-wrapper-content' }>
                             <Routes>
-                                <Route path={ '/' }  element={ <Profile/> }/>
+                                <Route path={ '/' } element={ <Profile/> }/>
                                 <Route path={ '/profile' } element={ <Profile/> }>
                                     <Route path={ ':userId' } element={ <Profile/> }/>
                                 </Route>
@@ -43,7 +43,7 @@ const App = () => {
                                         <Users/>
                                     </React.Suspense> ) }/>
 
-                                <Route path={ '/login' } element={(
+                                <Route path={ '/login' } element={ (
                                     <React.Suspense fallback={ <>...</> }>
                                         <Login/>
                                     </React.Suspense> ) }/>

@@ -1,4 +1,4 @@
-import React, { ChangeEventHandler, useState } from "react"
+import React, { ChangeEventHandler, useEffect, useState } from "react"
 import s from "./ProfileInfo.module.css"
 import { useDispatch, useSelector } from "react-redux"
 import { Preloader } from "../../Common/Preloader/Preloader"
@@ -20,6 +20,10 @@ export function ProfileInfo() {
         e.currentTarget.files &&
         dispatch( setPhoto( e.currentTarget.files[0] ) )
     }
+
+    useEffect( () => {
+        setEditMode( false )
+    }, [profile] )
 
     return (
         <>
@@ -46,18 +50,24 @@ export function ProfileInfo() {
                     </div>
                     : <Preloader/>
             }
-            <div>{
-                profile
-                && Object.keys( profile.contacts )
-                    .reduce( (acc, el) => {
-                        const value = profile.contacts[el as keyof contactsType]
-                        return value ? [...acc, <Contact value={ value } title={ el } key={ el }/>] : acc
-                    }, [] as JSX.Element[] )
-            }</div>
+            <div>
+                <div>About me: {profile?.aboutMe}</div>
+                <div>Looking for a job: {profile?.lookingForAJob ? 'yes' : 'no'}</div>
+                { profile?.lookingForAJob && <div>Job description: { profile?.lookingForAJobDescription  }</div> }
+                <div>Contacts:</div>
+                {
+                    profile
+                    && Object.keys( profile.contacts )
+                        .reduce( (acc, el) => {
+                            const value = profile.contacts[el as keyof contactsType]
+                            return value ? [...acc, <Contact value={ value } title={ el } key={ el }/>] : acc
+                        }, [] as JSX.Element[] )
+                }
+            </div>
 
             {
                 authorisedUserId === profile?.userId
-                && <button onClick={ () => setEditMode( true ) }>update</button>
+                && <button onClick={ () => setEditMode( true ) }>edit profile</button>
             }
         </>
     )
@@ -65,6 +75,6 @@ export function ProfileInfo() {
 
 const Contact: React.FC<{ title: string, value: string | null }> = ({ title, value }) => {
     return (
-        <div>{ title }: { value }</div>
+        <div style={{marginLeft: 15}}>{ title }: { value }</div>
     )
 }

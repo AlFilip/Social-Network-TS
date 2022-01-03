@@ -1,10 +1,11 @@
 .updateProfile{
     background-color: #1ea7fd;
-    padding: 20px;
+    padding: 20px 40px;
     border-radius: 8px;
 }
 
 .updateProfile form fieldset {
+    padding: 10px 20px;
     border-radius: 8px;
     display: flex;
     flex-direction: column;
