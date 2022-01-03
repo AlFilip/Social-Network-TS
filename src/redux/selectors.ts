@@ -8,6 +8,12 @@ export const selectIsUserLogin = (state: AppStateType) => state.auth.login
 
 export const selectAuthorisedUserId = (state: AppStateType) => state.auth.id
 
+export const selectCaptcha = (state: AppStateType) => state.auth.captcha
+
+export const selectAuthError = (state: AppStateType) => state.auth.error
+
+
+// app
 export const selectIsInitialised = (state: AppStateType) => state.app.isInitSuccess
 
 

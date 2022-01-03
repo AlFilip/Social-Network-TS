@@ -1,23 +1,19 @@
 import { authAPI, loginResultCodes } from "../api/authApi"
-import { formikActionsTypes, loginValuesType } from "../components/Login/Login"
+import { loginValuesType } from "../components/Login/Login"
 import { resultCodes } from '../api/usersApi'
 import { thunkType } from './redux-store'
+import { securityAPI } from '../api/securityAPI'
 
 
-export type authStateType = {
-    id: number | null
-    login: string | null
-    email: string | null
-    isAuth: boolean
+const initState = {
+    id: null as number | null,
+    login: null as string | null,
+    email: null as string | null,
+    captcha: null as string | null,
+    isAuth: false as boolean,
+    error: null as string | null
 }
-
-const initState: authStateType = {
-    id: null,
-    login: null,
-    email: null,
-    isAuth: false,
-}
-
+type authStateType = typeof initState
 
 const authReducer = (state = initState, action: authActionTypes): authStateType => {
     switch (action.type) {
@@ -26,19 +22,28 @@ const authReducer = (state = initState, action: authActionTypes): authStateType 
                 ...state,
                 ...action.payload,
             }
+        case 'SET_ERROR':
+            return {
+                ...state, error: action.error
+            }
         default:
             return state
-
     }
 }
 
-export type authActionTypes = setUserDataActionType
+export type authActionTypes = setUserDataActionType | setErrorActionType
 type setUserDataActionType = ReturnType<typeof setUserData>
+type setErrorActionType = ReturnType<typeof setError>
 
-export const setUserData = (payload: authStateType) => ( {
+export const setUserData = (payload: Partial<authStateType>) => ( {
     type: 'SET_USER_DATA',
     payload,
 } as const )
+
+export const setError = (error: string) => ({
+    type: 'SET_ERROR',
+    error
+} as const)
 
 export const getAuthUserData = (): thunkType => async (dispatch) => {
     try {
@@ -54,36 +59,44 @@ export const getAuthUserData = (): thunkType => async (dispatch) => {
 }
 
 
-export const makeLogin = (loginData: loginValuesType, actions: formikActionsTypes): thunkType => async dispatch => {
-    const { setErrors, setSubmitting } = actions
+export const makeLogin = (loginData: loginValuesType): thunkType => async dispatch => {
     try {
         const { status, data: { messages, resultCode } } = await authAPI.login( loginData )
         if (status === 200 && resultCode === loginResultCodes.SUCCESS) {
             dispatch( getAuthUserData() )
-        } else if (resultCode === loginResultCodes.ERROR && messages[0] === 'Enter valid Email') {
-            setErrors( { email: messages[0] } )
-        } else {
-            messages[0]
-            && setErrors( { email: messages[0], password: messages[0] } )
+        } else if (resultCode === loginResultCodes.ERROR && messages[0]) {
+            dispatch(setError(messages[0]))
+        }else if (resultCode === loginResultCodes.CAPTCHA_IS_REQUIRED) {
+            dispatch(setError(messages[0]))
+            dispatch(getCaptcha())
         }
+        return
     } catch (err) {
-        setSubmitting( false )
         console.log( err )
     }
 }
 
 export const makeLogout = (): thunkType => async dispatch => {
     try {
-        const { status, data: { messages, resultCode, data } } = await authAPI.logOut()
+        const { status, data: { messages, resultCode } } = await authAPI.logOut()
 
         if (status === 200 && resultCode === resultCodes.SUCCESS) {
-            dispatch( setUserData( { id: null, login: null, email: null, isAuth: false } ) )
+            dispatch( setUserData( initState) )
         } else {
             messages[0]
             && console.log( messages[0] )
         }
-    }catch (e) {
-        console.log(e)
+    } catch (e) {
+        console.log( e )
+    }
+}
+
+export const getCaptcha = (): thunkType => async dispatch => {
+    try {
+        const { data: { url } } = await securityAPI.getCaptcha()
+        dispatch(setUserData({captcha: url}))
+    } catch (e) {
+        console.log( e )
     }
 }
 
