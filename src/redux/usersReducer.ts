@@ -89,7 +89,7 @@ export const setTotalItemsCount = (totalItemsCount: number) => ( {
     totalItemsCount,
 } as const )
 
-export const setSearchParams = (payload: { term?: string, friend?: boolean , currentPage?: number}) => ( {
+export const setSearchParams = (payload: { term?: string, friend?: boolean, currentPage?: number }) => ( {
     type: 'SET_SEARCH_PARAMS',
     payload,
 } as const )

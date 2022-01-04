@@ -26,8 +26,9 @@ const Chat = () => {
     }, [] )
 
     const sendMessage = (message: string) => {
-        ws && message
-        && ws.send( message )
+        if (ws && message) {
+            ws.send( message )
+        }
     }
     return (
         <div>

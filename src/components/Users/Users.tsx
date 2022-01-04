@@ -25,11 +25,11 @@ const Users = () => {
             dispatch( setUsersAC( [] ) )
             dispatch( setSearchParams( { friend: undefined, currentPage: 1, term: '' } ) )
         }
-    }, [] )
+    }, [pathname] )
 
     useEffect( () => {
         dispatch( getUsers() )
-    }, [page] )
+    }, [page, pathname] )
 
     const users = useMemo( () => {
         // console.log( 'mapping' )
