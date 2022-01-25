@@ -2,18 +2,18 @@ import React from 'react'
 import s from "./Dialogs.module.css"
 import Dialog from "./Dialog/Dialog"
 import Message from "./Message/Message"
-import { useDispatch, useSelector } from "react-redux"
-import { AppStateType } from "../../redux/redux-store"
-import { addMessage, dialogType, messageType, onMessageChange } from "../../redux/diaogsReducer"
-import { redirectHOC } from "../Common/hoc/redirectHOC"
-import { selectDialogs, selectMessages, selectNewMessageValue } from '../../redux/selectors'
+import {useDispatch} from "react-redux"
+import {useAppSelector} from "../../redux/redux-store"
+import {addMessage, onMessageChange} from "../../redux/diaogsReducer"
+import {redirectHOC} from "../Common/hoc/redirectHOC"
+import {selectDialogs, selectMessages, selectNewMessageValue} from '../../redux/selectors'
 
 
 const Dialogs = redirectHOC( () => {
-    const dialogs = useSelector<AppStateType, dialogType[]>( selectDialogs )
-    const messages = useSelector<AppStateType, messageType[]>( selectMessages )
-    const newMessageValue = useSelector<AppStateType, string>( selectNewMessageValue )
-    // const isAuth = useSelector<AppStateType, boolean>( selectIsAuth )
+    const dialogs = useAppSelector( selectDialogs )
+    const messages = useAppSelector( selectMessages )
+    const newMessageValue = useAppSelector( selectNewMessageValue )
+    // const isAuth = useAppSelector( selectIsAuth )
     const dispatch = useDispatch()
 
     const onButtonClickHandler = (): void => {

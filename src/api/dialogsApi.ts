@@ -1,33 +1,85 @@
-import axios, { AxiosResponse } from "axios"
-import { commonResponseType } from "./usersApi"
-import { loginValuesType } from "../components/Login/Login"
-import { baseRequestConfig } from './authApi'
+import axios from "axios"
+import {baseRequestConfig} from './authApi'
+import {commonResponseType} from "./usersApi";
+import {photosType} from "../redux/profileReducer";
 
 const dialogsRequestConfig = {
     ...baseRequestConfig,
-    baseURL: `${baseRequestConfig.baseURL}dialogs/`
+    baseURL: `${baseRequestConfig.baseURL}dialogs/`,
+
 }
 
 const dialogsAxiosInstance = axios.create(dialogsRequestConfig)
 
-export const authAPI = {
-    // me: () => dialogsAxiosInstance.get<commonResponseType<authResponseDataType>>( `me` ),
-    //
-    // login: (payload: loginValuesType) => {
-    //     return dialogsAxiosInstance.post<loginValuesType, AxiosResponse<commonResponseType<{ userId: number }, loginResultCodes>>>( 'login', payload )
-    // },
-    //
-    // logOut: () => dialogsAxiosInstance.delete<commonResponseType>( 'login' ),
+export const dialogsApi = {
+    getAllDialogs() {
+        return dialogsAxiosInstance.get<domainDialogType[]>('')
+    },
+    getNewMessagesCount() {
+        return dialogsAxiosInstance.get<number>('messages/new/count')
+    },
+    getMessages(userId: string) {
+        return dialogsAxiosInstance.get<getMessagesResponseType>(`${userId}/messages`)
+    },
+    startChat(userId: string) {
+        return dialogsAxiosInstance.put<commonResponseType>(`${userId}`)
+    },
+    sendMessage(userId: string, message: string) {
+        return dialogsAxiosInstance
+            .post <{ body: string }, commonResponseType<{ "message": fullDomainMessageType }>>
+            (`${userId}`, {body: message})
+    },
+    isMessageViewed(messageId: string) {
+        return dialogsAxiosInstance.get<boolean>(`messages/${messageId}/viewed`)
+    },
+    sendMessageToSpam(messageId: string) {
+        return dialogsAxiosInstance.post<commonResponseType>(`messages/${messageId}/spam`)
+    },
+    deleteMessage(messageId: string) {
+        return dialogsAxiosInstance.delete<commonResponseType>(`messages/${messageId}`)
+    },
+    restoreMessage(messageId: string) {
+        return dialogsAxiosInstance.put<commonResponseType>(`messages/${messageId}/restore`)
+    },
+    getMessagesByDate(userId: string, date: string) {
+        return dialogsAxiosInstance.get(`${userId}/messages/new?newerThen=${date}`)
+    },
 }
 
+type reducedDomainMessageType = {
+    "id": string,
+    "body": string,
+    "translatedBody": null,
+    "addedAt": string,
+    "senderId": number,
+    "senderName": string,
+    "recipientId": number,
+    "viewed": boolean
+}
 
+type fullDomainMessageType = reducedDomainMessageType & {
+    "recipientName": string,
+    "deletedBySender": boolean,
+    "deletedByRecipient": boolean,
+    "isSpam": boolean,
+    "distributionId": null | number
+}
 
+type domainDialogType = {
+    "id": number,
+    "userName": string,
+    "hasNewMessages": boolean,
+    "lastDialogActivityDate": string,
+    "lastUserActivityDate": string,
+    "newMessagesCount": number,
+    "photos": photosType
+}
 
-
-
-
-
-
+type getMessagesResponseType = {
+    "items": reducedDomainMessageType [],
+    "totalCount": number,
+    "error": null | string,
+}
 
 
 
