@@ -36,7 +36,7 @@ export type allActionsType = usersActionTypes
     | authActionTypes
     | appActionTypes
 
-export type thunkType = ThunkAction<any, AppStateType, any, allActionsType>
+export type ThunkType = ThunkAction<any, AppStateType, any, allActionsType>
 
 
 export function useAppSelector<T>(selector: (state: AppStateType) => T): T {

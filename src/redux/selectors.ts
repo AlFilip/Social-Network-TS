@@ -40,6 +40,8 @@ export const selectNewPostMessage = (state: AppStateType) => state.profile.newPo
 
 export const selectPosts = (state: AppStateType) => state.profile.posts
 
+export const selectAdditionalUserInfo = (state: AppStateType) => state.profile.additionalUserInfo
+
 
 // dialogs
 export const selectDialogs = (state: AppStateType) => state.dialogs.dialogs

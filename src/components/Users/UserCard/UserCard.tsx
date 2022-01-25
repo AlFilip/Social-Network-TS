@@ -18,7 +18,7 @@ export const UserCard = React.memo( ({
 
     const buttonTitle = followed ? 'UnFollow' : 'Follow'
     const userImg = photos.small ? photos.small : photos.large ? photos.large : userDefaultImg
-    const [isBtnDisabled, setBtnDisabled] = useState<boolean>( false )
+    const [isBtnDisabled, setBtnDisabled] = useState( false )
     const dispatch = useDispatch()
 
     const onClickHandler = () => {

@@ -1,5 +1,5 @@
 import { getUsersParamsType, resultCodes, usersAPI } from "../api/usersApi"
-import { thunkType } from "./redux-store"
+import { ThunkType } from "./redux-store"
 
 
 export type UsersStateType = typeof initState
@@ -94,12 +94,11 @@ export const setSearchParams = (payload: { term?: string, friend?: boolean, curr
     payload,
 } as const )
 
-export const follow = (userId: number): thunkType => async (dispatch) => {
+export const follow = (userId: number): ThunkType => async (dispatch) => {
     try {
         const { status, data: { resultCode, messages } } = await usersAPI.follow( userId )
         if (status === 200 && resultCode === resultCodes.SUCCESS) {
             dispatch( followAC( userId ) )
-
         } else if (messages[0]) {
             console.log( messages[0] )
         }
@@ -108,18 +107,19 @@ export const follow = (userId: number): thunkType => async (dispatch) => {
     }
 }
 
-export const unFollow = (userId: number): thunkType => async (dispatch) => {
+export const unFollow = (userId: number): ThunkType => async (dispatch) => {
     try {
         const { status, data: { resultCode, messages } } = await usersAPI.unFollow( userId )
         if (status === 200 && resultCode === resultCodes.SUCCESS) {
             dispatch( unFollowAC( userId ) )
+            return 'OK'
         } else if (messages[0]) console.log( messages[0] )
     } catch (e) {
         console.log( e )
     }
 }
 
-export const getUsers = (payload?: getUsersParamsType): thunkType => async (dispatch, getState) => {
+export const getUsers = (payload?: getUsersParamsType): ThunkType => async (dispatch, getState) => {
     try {
         const { currentPage, friend, pageSize, term } = getState().users
         const { data, status } = await usersAPI.getUsers( {

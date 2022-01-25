@@ -1,7 +1,7 @@
 import { authAPI, loginResultCodes } from "../api/authApi"
 import { loginValuesType } from "../components/Login/Login"
 import { resultCodes } from '../api/usersApi'
-import { thunkType } from './redux-store'
+import { ThunkType } from './redux-store'
 import { securityAPI } from '../api/securityAPI'
 
 
@@ -45,7 +45,7 @@ export const setError = (error: string) => ({
     error
 } as const)
 
-export const getAuthUserData = (): thunkType => async (dispatch) => {
+export const getAuthUserData = (): ThunkType => async (dispatch) => {
     try {
         const { status, data: { messages, resultCode, data } } = await authAPI.me()
         if (status === 200 && resultCode === 0) {
@@ -59,7 +59,7 @@ export const getAuthUserData = (): thunkType => async (dispatch) => {
 }
 
 
-export const makeLogin = (loginData: loginValuesType): thunkType => async dispatch => {
+export const makeLogin = (loginData: loginValuesType): ThunkType => async dispatch => {
     try {
         const { status, data: { messages, resultCode } } = await authAPI.login( loginData )
         if (status === 200 && resultCode === loginResultCodes.SUCCESS) {
@@ -76,7 +76,7 @@ export const makeLogin = (loginData: loginValuesType): thunkType => async dispat
     }
 }
 
-export const makeLogout = (): thunkType => async dispatch => {
+export const makeLogout = (): ThunkType => async dispatch => {
     try {
         const { status, data: { messages, resultCode } } = await authAPI.logOut()
 
@@ -91,7 +91,7 @@ export const makeLogout = (): thunkType => async dispatch => {
     }
 }
 
-export const getCaptcha = (): thunkType => async dispatch => {
+export const getCaptcha = (): ThunkType => async dispatch => {
     try {
         const { data: { url } } = await securityAPI.getCaptcha()
         dispatch(setUserData({captcha: url}))
