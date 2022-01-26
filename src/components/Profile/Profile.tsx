@@ -1,12 +1,12 @@
-import React, { useEffect } from "react"
+import React, {useEffect} from "react"
 import s from "./Profile.module.css"
-import { ProfileInfo } from "./ProfileInfo/ProfileInfo"
-import { MyPosts } from "./MyPosts/MyPosts"
-import { useParams } from 'react-router-dom'
-import { useDispatch } from 'react-redux'
-import { useAppSelector } from '../../redux/redux-store'
-import { selectAuthorisedUserId } from '../../redux/selectors'
-import { initProfile, setProfile } from '../../redux/profileReducer'
+import {ProfileInfo} from "./ProfileInfo/ProfileInfo"
+import {MyPosts} from "./MyPosts/MyPosts"
+import {useParams} from 'react-router-dom'
+import {useDispatch} from 'react-redux'
+import {useAppSelector} from '../../redux/redux-store'
+import {selectAuthorisedUserId} from '../../redux/selectors'
+import {getProfileWithAdditionalInfo, setProfile} from '../../redux/profileReducer'
 
 
 type PathParamsType = {
@@ -14,22 +14,24 @@ type PathParamsType = {
 }
 
 export const Profile = () => {
-    let { userId } = useParams<PathParamsType>()
+    let {userId} = useParams<PathParamsType>()
     const dispatch = useDispatch()
-    const authUserId = useAppSelector( selectAuthorisedUserId )
-    useEffect( () => {
-        if (!userId && authUserId) {
-            userId = authUserId.toString()
+    const authUserId = useAppSelector(selectAuthorisedUserId)
+    useEffect(() => {
+        let id = userId
+        if (!id && authUserId) {
+            id = authUserId.toString()
         }
-        userId
-        && dispatch( initProfile( userId ) )
+        id
+        && dispatch( getProfileWithAdditionalInfo( id ) )
+
         return () => {
-            dispatch( setProfile( null ) )
+            dispatch(setProfile(null))
         }
-    }, [userId] )
+    }, [userId, dispatch, authUserId])
 
     return (
-        <div className={ s.profile }>
+        <div className={s.profile}>
             <ProfileInfo/>
             <MyPosts/>
         </div>

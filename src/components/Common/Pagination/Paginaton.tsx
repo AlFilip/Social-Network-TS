@@ -7,18 +7,9 @@ import { selectCurrentPage, selectTotalPagesCount } from '../../../redux/selecto
 import { getButtonClassNameHelper, getPrepArray } from './paginationHelpers'
 
 
-type PaginationPropsType = {
-    // totalPagesCount: number
-    // currentPage: number
-    // callBack: (pageNumber: number) => void
-}
 
 
-export const Pagination: React.FC<PaginationPropsType> = React.memo( ({
-                                                                          // totalPagesCount,
-                                                                          // currentPage,
-                                                                          // callBack,
-                                                                      }) => {
+export const Pagination = React.memo( () => {
 
     const totalPagesCount = useSelector<AppStateType, number>( selectTotalPagesCount )
     const currentPage = useSelector<AppStateType, number>( selectCurrentPage )

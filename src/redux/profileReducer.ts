@@ -125,12 +125,11 @@ export const setStatusToState = (status: string) => ({type: 'SET_STATUS', status
 export const setAdditionalInfo = (info: UserType) => ({type: 'SET_ADDITIONAL_INFO', info} as const)
 export const setProfileState = (payload: Partial<profileStateType>) => ({type: 'SET_PROFILE_STATE', payload} as const)
 
-export const initProfile = (userId: string): ThunkType => async dispatch => {
+export const getProfileWithAdditionalInfo = (userId: string): ThunkType => async dispatch => {
     const profileResponse = await profileApi.getProfile(userId)
     let additionalInfoPromise
     if (profileResponse && profileResponse.data && profileResponse.data.fullName) {
         additionalInfoPromise = usersAPI.getUsers({term: profileResponse.data.fullName})
-
     }
     const GetStatusPromise = profileApi.getStatus(userId)
 
@@ -188,7 +187,7 @@ export const updateProfile = (profile: Partial<profileType>): ThunkType => async
         console.log({...currentProfile, ...profile})
         await profileApi.updateProfile(profile)
         currentProfile
-        && await dispatch(initProfile((currentProfile.userId).toString()))
+        && await dispatch(getProfileWithAdditionalInfo((currentProfile.userId).toString()))
         // messages[0]
         // && console.log( messages[0] )
         return true

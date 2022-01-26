@@ -1,12 +1,23 @@
 import React from "react";
 import s from "./Message.module.css"
-import {messageType} from "../../../redux/diaogsReducer";
+import {reducedDomainMessageType} from "../../../api/dialogsApi";
+import {useAppSelector} from "../../../redux/redux-store";
+import {selectAuthorisedUserId} from "../../../redux/selectors";
 
 
-function Message (props:messageType) {
+type MessagePropsType = {
+    message: reducedDomainMessageType
+}
+
+function Message({
+                     message
+                 }: MessagePropsType) {
+
+    const authorisedUserId = useAppSelector(selectAuthorisedUserId)
+
     return (
-        <div className={`${props.owner ? s.userMessage: s.message}`}>
-            {props.text}
+        <div className={`${message.senderId === authorisedUserId ? s.userMessage : s.message}`}>
+            {message.body}
         </div>
     )
 }

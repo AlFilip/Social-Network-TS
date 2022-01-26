@@ -44,8 +44,9 @@ export const selectAdditionalUserInfo = (state: AppStateType) => state.profile.a
 
 
 // dialogs
+
 export const selectDialogs = (state: AppStateType) => state.dialogs.dialogs
 
-export const selectMessages = (state: AppStateType) => state.dialogs.messages
+export const selectCurrentDialog = (state: AppStateType) => state.dialogs.currentDialog
 
-export const selectNewMessageValue = (state: AppStateType) => state.dialogs.newMessageValue
+

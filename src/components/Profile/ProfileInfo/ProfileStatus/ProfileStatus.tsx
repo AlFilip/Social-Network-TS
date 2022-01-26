@@ -1,44 +1,45 @@
-import React, { ChangeEventHandler, KeyboardEventHandler, MouseEventHandler, useEffect, useState } from "react"
-import { useDispatch, useSelector } from "react-redux"
-import { AppStateType } from "../../../../redux/redux-store"
+import React, {ChangeEventHandler, KeyboardEventHandler, MouseEventHandler, useEffect, useState} from "react"
+import {useDispatch, useSelector} from "react-redux"
+import {AppStateType} from "../../../../redux/redux-store"
 
 import s from './ProfileStatus.module.css'
-import { setStatus, setStatusToState } from "../../../../redux/profileReducer"
-import { selectCurrentProfileUserId, selectAuthorisedUserId, selectStatus } from '../../../../redux/selectors'
+import {setStatus, setStatusToState} from "../../../../redux/profileReducer"
+import {selectAuthorisedUserId, selectCurrentProfileUserId, selectStatus} from '../../../../redux/selectors'
 
 
 export const ProfileStatus = () => {
-    const status = useSelector<AppStateType, string>( selectStatus)
-    const authUserId = useSelector<AppStateType, number | null>( selectAuthorisedUserId )
-    const profileUserId = useSelector<AppStateType, number | undefined>( selectCurrentProfileUserId )
-    const [editMode, setEditMode] = useState( false )
-    const [spanValue, setSpanValue] = useState( status )
+    const status = useSelector<AppStateType, string>(selectStatus)
+    const authUserId = useSelector<AppStateType, number | null>(selectAuthorisedUserId)
+    const profileUserId = useSelector<AppStateType, number | undefined>(selectCurrentProfileUserId)
+    const [editMode, setEditMode] = useState(false)
+    const [spanValue, setSpanValue] = useState(status)
     const dispatch = useDispatch()
 
-    useEffect( () => {
-        status !== spanValue
-        && setSpanValue( status )
-    }, [status] )
-
-    useEffect( () => {
-        return () => {
-            dispatch( setStatusToState( '' ) )
+    useEffect(() => {
+        if (status !== spanValue) {
+            setSpanValue(status)
         }
-    }, [] )
+    }, [status])
+
+    useEffect(() => {
+        return () => {
+            dispatch(setStatusToState(''))
+        }
+    }, [dispatch])
 
     const discardChanges = () => {
-        setEditMode( false )
-        setSpanValue( status )
+        setEditMode(false)
+        setSpanValue(status)
     }
-    const onChangeHandler: ChangeEventHandler<HTMLInputElement> = e => setSpanValue( e.currentTarget.value )
+    const onChangeHandler: ChangeEventHandler<HTMLInputElement> = e => setSpanValue(e.currentTarget.value)
 
     const onKeyDownHandler: KeyboardEventHandler<HTMLInputElement> = e => {
         switch (e.key) {
             case 'Enter':
                 spanValue !== status
-                && dispatch( setStatus( spanValue ) )
+                && dispatch(setStatus(spanValue))
 
-                setEditMode( false )
+                setEditMode(false)
                 break
             case 'Escape':
                 discardChanges()
@@ -48,7 +49,7 @@ export const ProfileStatus = () => {
         }
     }
 
-    const onDoubleClickHandler: MouseEventHandler<HTMLDivElement> = () => setEditMode( !editMode )
+    const onDoubleClickHandler: MouseEventHandler<HTMLDivElement> = () => setEditMode(!editMode)
 
     const isStatusOwner = authUserId === profileUserId
 
@@ -59,21 +60,21 @@ export const ProfileStatus = () => {
     }
 
     return (
-        <div onDoubleClick={ onDoubleClickHandler }>
+        <div onDoubleClick={onDoubleClickHandler}>
 
             {
-                ( editMode && isStatusOwner )
+                (editMode && isStatusOwner)
 
                     ? <input
-                        value={ spanValue }
-                        onChange={ onChangeHandler }
-                        onKeyDown={ onKeyDownHandler }
-                        onBlur={ discardChanges }
+                        value={spanValue}
+                        onChange={onChangeHandler}
+                        onKeyDown={onKeyDownHandler}
+                        onBlur={discardChanges}
                         autoFocus
                     />
 
                     : <span className={s.status}>
-                        { getStatusMessage() }
+                        {getStatusMessage()}
                     </span>
             }
         </div>

@@ -13,12 +13,12 @@ const dialogsAxiosInstance = axios.create(dialogsRequestConfig)
 
 export const dialogsApi = {
     getAllDialogs() {
-        return dialogsAxiosInstance.get<domainDialogType[]>('')
+        return dialogsAxiosInstance.get<DomainDialogType[]>('')
     },
     getNewMessagesCount() {
         return dialogsAxiosInstance.get<number>('messages/new/count')
     },
-    getMessages(userId: string) {
+    getMessages(userId: number) {
         return dialogsAxiosInstance.get<getMessagesResponseType>(`${userId}/messages`)
     },
     startChat(userId: string) {
@@ -46,7 +46,7 @@ export const dialogsApi = {
     },
 }
 
-type reducedDomainMessageType = {
+export type reducedDomainMessageType = {
     "id": string,
     "body": string,
     "translatedBody": null,
@@ -65,7 +65,7 @@ type fullDomainMessageType = reducedDomainMessageType & {
     "distributionId": null | number
 }
 
-type domainDialogType = {
+export type DomainDialogType = {
     "id": number,
     "userName": string,
     "hasNewMessages": boolean,
@@ -75,7 +75,7 @@ type domainDialogType = {
     "photos": photosType
 }
 
-type getMessagesResponseType = {
+export type getMessagesResponseType = {
     "items": reducedDomainMessageType [],
     "totalCount": number,
     "error": null | string,

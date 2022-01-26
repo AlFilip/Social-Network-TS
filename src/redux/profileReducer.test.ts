@@ -1,4 +1,4 @@
-import { v1 } from 'uuid'
+
 import profileReducer, { addPost, PostType, profileStateType, profileType } from './profileReducer'
 
 // let startState: profileStateType = {
@@ -16,8 +16,8 @@ let startState: profileStateType
 beforeEach(() =>{
     let startState: profileStateType = {
         posts: [
-            { id: v1(), message: 'Hi man', likesCount: 50 },
-            { id: v1(), message: 'How are you', likesCount: 150 },
+            { id: 'v1()', message: 'Hi man', likesCount: 50 },
+            { id: 'v1()', message: 'How are you', likesCount: 150 },
         ] as Array<PostType>,
         newPostMessage: '',
         currentProfile: null as profileType,

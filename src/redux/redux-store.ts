@@ -2,7 +2,7 @@ import { applyMiddleware, combineReducers, createStore } from 'redux'
 import { composeWithDevTools } from 'redux-devtools-extension'
 import reduxThunk, { ThunkAction } from 'redux-thunk'
 import profile, { profileActionsTypes } from "./profileReducer"
-import dialogs, { dialogsActionTypes } from "./diaogsReducer"
+import dialogs, { DialogsActionTypes } from "./diaogsReducer"
 import users, { usersActionTypes } from "./usersReducer"
 import auth, { authActionTypes } from "./authReducer"
 import app, { appActionTypes } from './appReducer'
@@ -32,7 +32,7 @@ window.store = store
 
 export type allActionsType = usersActionTypes
     | profileActionsTypes
-    | dialogsActionTypes
+    | DialogsActionTypes
     | authActionTypes
     | appActionTypes
 

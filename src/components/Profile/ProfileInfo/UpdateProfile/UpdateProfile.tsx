@@ -93,7 +93,7 @@ export const UpdateProfile = ({ cancel, confirm }: UpdateProfilePropsType) => {
                         return errors
                     } }
                     onSubmit={ async (values, { setSubmitting }) => {
-                        const success = await dispatch( updateProfile( values ) )
+                        await dispatch( updateProfile( values ) )
                         setSubmitting( false )
                     } }
                 >

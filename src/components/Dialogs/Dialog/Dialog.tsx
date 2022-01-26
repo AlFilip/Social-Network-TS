@@ -1,14 +1,22 @@
 import s from "./Dialog.module.css"
 import React from "react";
 import {SuperLink} from "../../NavBar/SuperLink/SuperLink";
-import {dialogType} from "../../../redux/diaogsReducer";
+import {DomainDialogType} from "../../../api/dialogsApi";
 
-function Dialog(props:dialogType) {
+type DialogPropsType = {
+    dialog: DomainDialogType
+    callback: (dialog: DomainDialogType) => void
+}
+
+function Dialog({
+                    dialog,
+                    callback
+                }: DialogPropsType) {
     return (
-        <div className={s.dialog}>
-            <SuperLink to={`/dialogs/${props.id}`} linkName={props.name}/>
+        <div className={s.dialog} onClick={() => callback(dialog)}>
+            <SuperLink to={`/dialogs/${dialog.id}`} linkName={dialog.userName}/>
         </div>
     )
 }
 
-export default Dialog;
+export default Dialog

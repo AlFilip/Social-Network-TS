@@ -1,52 +1,63 @@
-import {v1} from "uuid";
+import {dialogsApi, DomainDialogType, getMessagesResponseType} from "../api/dialogsApi";
+import {ThunkType} from "./redux-store";
 
-export type dialogType = {
-    name: string
-    id: number
-}
-export type messageType = {
-    id: string
-    text: string
-    owner: boolean
-}
+export type DialogsStateType = typeof initState
 
-export type dialogsStateType = typeof initState
+export type DialogsType = Map<DomainDialogType, getMessagesResponseType>
 
 const initState = {
-    dialogs: [] as Array<dialogType>,
-    messages: [] as Array<messageType>,
-    newMessageValue: '',
+    dialogs: new Map() as DialogsType,
+    currentDialog: {} as DomainDialogType
 }
 
-const dialogsReducer = (state: dialogsStateType = initState, action: dialogsActionTypes): dialogsStateType => {
+const dialogsReducer = (state: DialogsStateType = initState, action: DialogsActionTypes): DialogsStateType => {
     switch (action.type) {
-        case "ADD_MESSAGE":
-            return state.newMessageValue.trim()
-                ? {
-                    ...state,
-                    messages: [
-                        ...state.messages,
-                        {id: v1(), text: state.newMessageValue, owner: true}
-                    ],
-                    newMessageValue: '',
-                }
-                : {...state, newMessageValue: ''}
-        case "ON_MESSAGE_CHANGE":
-            return {...state, newMessageValue: action.newValue}
+        case "SET_DIALOGS":
+            return {
+                ...state,
+                dialogs: action.dialogs
+            }
+        case "SET_CURRENT_DIALOG":
+            return {
+                ...state,
+                currentDialog: action.dialog
+            }
         default:
             return state
     }
 }
 
+export type DialogsActionTypes = SetDialogsActionType
+    | SetLastDialogActionType
 
+type SetDialogsActionType = ReturnType<typeof setDialogs>
+type SetLastDialogActionType = ReturnType<typeof setCurrentDialog>
 
-export type dialogsActionTypes = AddMessageAType | OnMessageChangeActionType
-export type AddMessageAType = ReturnType<typeof addMessage>
-export type OnMessageChangeActionType = ReturnType<typeof onMessageChange>
+export const setDialogs = (dialogs: DialogsType) => ({
+    type: 'SET_DIALOGS', dialogs
+} as const)
 
-export const addMessage = () => ({type: 'ADD_MESSAGE'} as const)
-export const onMessageChange = (newValue: string) => ({type: 'ON_MESSAGE_CHANGE', newValue} as const)
-export const setDialogs = (newValue: string) => ({type: 'ON_MESSAGE_CHANGE', newValue} as const)
+export const setCurrentDialog = (dialog: DomainDialogType) => ({
+    type: 'SET_CURRENT_DIALOG', dialog
+} as const)
 
+export const getDialogs = (): ThunkType => async dispatch => {
+    try {
+        const {data, status} = await dialogsApi.getAllDialogs()
+        if (status === 200 && data.length) {
+            const dialogs: DialogsType = new Map()
+            const messagesResponses = await Promise.all(data.map(dialog => {
+                return dialogsApi.getMessages(dialog.id)
+            }))
+            data.forEach((dialog, index) => {
+                dialogs.set(dialog, messagesResponses[index].data)
+            })
+            dispatch(setCurrentDialog(data[0]))
+            dispatch(setDialogs(dialogs))
+        }
+    } catch (e) {
+        console.log(e)
+    }
+}
 
 export default dialogsReducer

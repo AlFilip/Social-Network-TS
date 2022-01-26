@@ -3,7 +3,7 @@ import { ErrorMessage, Field, Form, Formik, FormikHelpers } from 'formik'
 import * as Yup from 'yup'
 import s from './Login.module.css'
 import { useDispatch } from "react-redux"
-import { getCaptcha, makeLogin } from "../../redux/authReducer"
+import {  makeLogin } from "../../redux/authReducer"
 import { useAppSelector } from '../../redux/redux-store'
 import { Navigate } from "react-router-dom"
 import { selectAuthError, selectCaptcha, selectIsAuth } from '../../redux/selectors'
@@ -17,15 +17,11 @@ export type loginValuesType = {
 }
 
 export type formikActionsTypes = {
-    // setStatus: (status?: any) => void
     setSubmitting: (isSubmitting: boolean) => void;
 }
 
 const loginSchema = Yup.object().shape( {
     email: Yup.string().email( 'Invalid email' ).required( 'Required' ),
-    // Yup.string()
-    // .email( 'Invalid email' )
-    // .required( 'Required' ),
     password: Yup.string()
         .min( 2, 'Too Short!' )
         .max( 50, 'Too Long!' )

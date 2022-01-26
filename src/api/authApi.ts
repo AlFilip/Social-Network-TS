@@ -41,7 +41,7 @@ export const authAPI = {
     me: () => authInstance.get<commonResponseType<authResponseDataType>>( `me` ),
 
     login: (payload: loginValuesType) => {
-        return authInstance.post<loginValuesType, AxiosResponse<commonResponseType<{ userId: number }, loginResultCodes>>>( 'login', payload )
+        return authInstance.post<loginValuesType, AxiosResponse<commonResponseType<loginDataType, loginResultCodes>>>( 'login', payload )
     },
 
     logOut: () => authInstance.delete<commonResponseType>( 'login' ),

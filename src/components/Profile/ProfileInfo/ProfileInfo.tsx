@@ -34,13 +34,13 @@ export function ProfileInfo() {
 
     useEffect(() => {
         if (isBtnDisabled) setIsBtnDisabled(false)
-    }, [additionalUserInfo])
+    }, [additionalUserInfo, isBtnDisabled])
 
     const isAuthorisedUserProfile = profile?.userId === authorisedUserId
 
     useEffect(() => {
         if (editMode) setEditMode(false)
-    }, [profile])
+    }, [profile, editMode])
 
     return (
         <>

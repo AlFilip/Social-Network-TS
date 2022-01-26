@@ -27,7 +27,7 @@ export const SearchUsers = () => {
         return () => {
             id && clearTimeout( id )
         }
-    }, [term, touched] )
+    }, [term, touched, dispatch] )
 
     return (
         <div>
