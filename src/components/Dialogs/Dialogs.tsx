@@ -3,7 +3,7 @@ import s from "./Dialogs.module.css"
 import Dialog from "./Dialog/Dialog"
 import {useDispatch} from "react-redux"
 import {useAppSelector} from "../../redux/redux-store"
-import {getDialogs, getMessages, setDialogs, startChat} from "../../redux/diaogsReducer"
+import {clearDialogsState, getDialogs, getMessages, startChat} from "../../redux/diaogsReducer"
 import {redirectHOC} from "../Common/hoc/redirectHOC"
 import {selectDialogs, selectMessages} from "../../redux/selectors";
 import {useNavigate, useParams} from "react-router-dom";
@@ -21,16 +21,18 @@ const Dialogs = redirectHOC(() => {
     useEffect(() => {
         dispatch(getDialogs())
         return () => {
-            dispatch(setDialogs([]))
+            dispatch(clearDialogsState())
         }
     }, [dispatch])
 
     useEffect(() => {
         if (userId) {
-            dispatch(startChat(+userId))
             dispatch(getMessages(+userId))
+            if (currentDialog?.id !== +userId){
+                dispatch(startChat(+userId))
+            }
         }
-    }, [userId])
+    }, [userId, currentDialog, dispatch])
 
     useEffect(() => {
         if (currentDialog && !userId) {

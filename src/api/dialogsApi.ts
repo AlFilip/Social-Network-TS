@@ -29,7 +29,7 @@ export const dialogsApi = {
             .post <{ body: string }, AxiosResponse<commonResponseType<{ "message": ReducedDomainMessageType }>>>
             (`${userId}/messages`, {body: message})
     },
-    isMessageViewed(messageId: string) {
+    checkMessageViewed(messageId: string) {
         return dialogsAxiosInstance.get<boolean>(`messages/${messageId}/viewed`)
     },
     sendMessageToSpam(messageId: string) {
