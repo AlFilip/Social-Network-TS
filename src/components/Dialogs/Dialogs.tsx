@@ -3,57 +3,49 @@ import s from "./Dialogs.module.css"
 import Dialog from "./Dialog/Dialog"
 import {useDispatch} from "react-redux"
 import {useAppSelector} from "../../redux/redux-store"
-import {DialogsType, getDialogs, setCurrentDialog, setDialogs} from "../../redux/diaogsReducer"
+import {getDialogs, getMessages, setDialogs, startChat} from "../../redux/diaogsReducer"
 import {redirectHOC} from "../Common/hoc/redirectHOC"
-import {selectCurrentDialog, selectDialogs} from "../../redux/selectors";
+import {selectDialogs, selectMessages} from "../../redux/selectors";
 import {useNavigate, useParams} from "react-router-dom";
-import {DomainDialogType, getMessagesResponseType} from "../../api/dialogsApi";
 import Message from "./Message/Message";
+import {AddMessageForm} from "./AddMessageForm";
 
 const Dialogs = redirectHOC(() => {
-    const dialogs = useAppSelector(selectDialogs)
-    const dispatch = useDispatch()
-    const currentDialog = useAppSelector(selectCurrentDialog)
-    const onButtonClickHandler = (): void => {
-    }
-    const onNewMessageChange = (e: React.ChangeEvent<HTMLTextAreaElement>): void => {
-    }
-
-
-    const dialogClickHandle = (dialog: DomainDialogType) => {
-        dispatch(setCurrentDialog(dialog))
-
-    }
-
-    const DialogsArray = Array.from(dialogs, (([dialog]) => {
-        return <Dialog key={dialog.id} dialog={dialog} callback={dialogClickHandle}/>
-    }))
-
-
-    const messages: getMessagesResponseType | undefined | false = currentDialog && !!dialogs.size && dialogs.get(currentDialog)
-
-    const Messages = messages && messages.items.map(message => {
-        return <Message key={message.id} message={message}/>
-    })
-
     const navigate = useNavigate()
     const {userId} = useParams()
+    const dialogs = useAppSelector(selectDialogs)
+    const currentDialog = dialogs[0]
+    const messages = useAppSelector(selectMessages)
+    const dispatch = useDispatch()
 
     useEffect(() => {
         dispatch(getDialogs())
         return () => {
-            dispatch(setDialogs(new Set() as unknown as DialogsType))
+            dispatch(setDialogs([]))
         }
     }, [dispatch])
 
     useEffect(() => {
-        if (currentDialog && currentDialog.id && !userId) {
+        if (userId) {
+            dispatch(startChat(+userId))
+            dispatch(getMessages(+userId))
+        }
+    }, [userId])
+
+    useEffect(() => {
+        if (currentDialog && !userId) {
             navigate(`${currentDialog.id}`)
         }
     }, [currentDialog, userId, navigate])
 
-    return (
+    const DialogsArray = dialogs.map(dialog => {
+        return <Dialog dialog={dialog} key={dialog.id}/>
+    })
+    const Messages = messages.items && messages.items.map(message => {
+        return <Message key={message.id} message={message}/>
+    })
 
+    return (
         <div className={s.dialogs}>
             <div className={s.dialogsItems}>
                 <h3>Dialogs:</h3>
@@ -62,10 +54,10 @@ const Dialogs = redirectHOC(() => {
             <div className={s.messages}>
                 {Messages}
             </div>
-            <div className={s.addMessageForm}>
-                <textarea onChange={onNewMessageChange} value={'newMessageValue'}/>
-                <button onClick={onButtonClickHandler}>Send</button>
-            </div>
+            {
+                currentDialog
+                && <AddMessageForm userId={currentDialog.id}/>
+            }
         </div>
     )
 })

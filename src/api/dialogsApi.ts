@@ -1,4 +1,4 @@
-import axios from "axios"
+import axios, {AxiosResponse} from "axios"
 import {baseRequestConfig} from './authApi'
 import {commonResponseType} from "./usersApi";
 import {photosType} from "../redux/profileReducer";
@@ -21,13 +21,13 @@ export const dialogsApi = {
     getMessages(userId: number) {
         return dialogsAxiosInstance.get<getMessagesResponseType>(`${userId}/messages`)
     },
-    startChat(userId: string) {
+    startChat(userId: number) {
         return dialogsAxiosInstance.put<commonResponseType>(`${userId}`)
     },
-    sendMessage(userId: string, message: string) {
+    sendMessage(userId: number, message: string) {
         return dialogsAxiosInstance
-            .post <{ body: string }, commonResponseType<{ "message": fullDomainMessageType }>>
-            (`${userId}`, {body: message})
+            .post <{ body: string }, AxiosResponse<commonResponseType<{ "message": ReducedDomainMessageType }>>>
+            (`${userId}/messages`, {body: message})
     },
     isMessageViewed(messageId: string) {
         return dialogsAxiosInstance.get<boolean>(`messages/${messageId}/viewed`)
@@ -46,7 +46,7 @@ export const dialogsApi = {
     },
 }
 
-export type reducedDomainMessageType = {
+export type ReducedDomainMessageType = {
     "id": string,
     "body": string,
     "translatedBody": null,
@@ -57,13 +57,13 @@ export type reducedDomainMessageType = {
     "viewed": boolean
 }
 
-type fullDomainMessageType = reducedDomainMessageType & {
-    "recipientName": string,
-    "deletedBySender": boolean,
-    "deletedByRecipient": boolean,
-    "isSpam": boolean,
-    "distributionId": null | number
-}
+// type fullDomainMessageType = reducedDomainMessageType & {
+//     "recipientName": string,
+//     "deletedBySender": boolean,
+//     "deletedByRecipient": boolean,
+//     "isSpam": boolean,
+//     "distributionId": null | number
+// }
 
 export type DomainDialogType = {
     "id": number,
@@ -76,7 +76,7 @@ export type DomainDialogType = {
 }
 
 export type getMessagesResponseType = {
-    "items": reducedDomainMessageType [],
+    "items": ReducedDomainMessageType [],
     "totalCount": number,
     "error": null | string,
 }
