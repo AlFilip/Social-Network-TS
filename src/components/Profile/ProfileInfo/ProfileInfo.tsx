@@ -44,7 +44,7 @@ export function ProfileInfo() {
 
     useEffect(() => {
         if (editMode) setEditMode(false)
-    }, [profile, editMode])
+    }, [profile])
 
     return (
         <>

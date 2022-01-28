@@ -1,4 +1,4 @@
-import s from './ContextMenu.module.css'
+import s from './ContextMenu.module.scss'
 import {MouseEventHandler} from "react";
 import {useDispatch} from "react-redux";
 import {deleteMessage, setAsASpam} from "../../../../redux/diaogsReducer";

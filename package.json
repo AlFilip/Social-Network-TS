@@ -19,9 +19,10 @@
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
     "react-redux": "^7.2.5",
-    "react-scripts": "4.0.3",
     "react-router-dom": "^6.2.1",
+    "react-scripts": "4.0.3",
     "redux-thunk": "^2.4.0",
+    "sass": "^1.49.0",
     "web-vitals": "^1.0.1",
     "yup": "^0.32.11"
   },
@@ -65,15 +66,9 @@
     ]
   },
   "devDependencies": {
-    "@storybook/addon-actions": "^6.3.8",
-    "@storybook/addon-essentials": "^6.3.8",
-    "@storybook/addon-links": "^6.3.8",
-    "@storybook/node-logger": "^6.3.8",
-    "@storybook/preset-create-react-app": "^3.2.0",
-    "typescript": "^4.1.2",
-    "@storybook/react": "^6.3.8",
+    "gh-pages": "^3.2.3",
     "react-test-renderer": "^17.0.2",
     "redux-devtools-extension": "^2.13.9",
-    "gh-pages": "^3.2.3"
+    "typescript": "^4.1.2"
   }
 }
