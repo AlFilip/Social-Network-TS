@@ -1,0 +1,15 @@
+@import "assets/styles/variables";
+
+
+.appWrapper {
+  background-color: $secondaryBg;
+  min-height: 100vh;
+
+  .appWrapperContent {
+    padding: calc(#{ $headerHeight  } + 15px) calc(#{ $sidebarWidth  } + 15px) 15px calc(#{ $navbarWidth  } + 15px);
+    .content{
+    }
+  }
+}
+
+

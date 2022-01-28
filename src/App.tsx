@@ -1,35 +1,38 @@
-import React, { useEffect } from 'react'
-import './App.css'
+import React, {useEffect} from 'react'
+import s from './App.module.scss'
 import Header from "./components/Header/Header"
-import { NavBar } from "./components/NavBar/NavBar"
-import { HashRouter } from "react-router-dom"
-import { Provider, useDispatch, useSelector } from 'react-redux'
-import { AppStateType, store } from './redux/redux-store'
-import { Preloader } from './components/Common/Preloader/Preloader'
-import { initApp } from './redux/appReducer'
-import { selectIsInitialised } from './redux/selectors'
-import { MyRoutes } from './MyRoutes'
+import {NavBar} from "./components/NavBar/NavBar"
+import {HashRouter} from "react-router-dom"
+import {Provider, useDispatch} from 'react-redux'
+import {store, useAppSelector} from './redux/redux-store'
+import {Preloader} from './components/Common/Preloader/Preloader'
+import {initApp} from './redux/appReducer'
+import {selectIsInitialised} from './redux/selectors'
+import {MyRoutes} from './MyRoutes'
+import {SideBar} from "./components/SideBar/SideBar";
 
 
 const App = () => {
     // const isAuth = useSelector<AppStateType, boolean>( selectIsAuth )
-    const isInitialised = useSelector<AppStateType, boolean>( selectIsInitialised )
+    const isInitialised = useAppSelector(selectIsInitialised)
     const dispatch = useDispatch()
 
-    useEffect( () => {
-        dispatch( initApp() )
-    }, [dispatch] )
+    useEffect(() => {
+        dispatch(initApp())
+    }, [dispatch])
 
     return (
         <>
             {
-                isInitialised ? <div className="app-wrapper">
+                isInitialised ? <div className={s.appWrapper}>
                         <Header/>
                         <NavBar/>
-                        <div className={ 'app-wrapper-content' }>
+                        <SideBar/>
+                        <div className={s.appWrapperContent}>
+                            <div className={s.content}>
 
-                            <MyRoutes/>
-
+                                <MyRoutes/>
+                            </div>
                         </div>
                     </div>
 
@@ -41,7 +44,7 @@ const App = () => {
 
 const AppContainer = () => {
     return (
-        <Provider store={ store }>
+        <Provider store={store}>
             <HashRouter>
                 <App/>
             </HashRouter>

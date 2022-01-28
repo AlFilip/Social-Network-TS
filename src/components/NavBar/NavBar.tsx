@@ -1,5 +1,5 @@
 import React from "react";
-import s from "./NavBar.module.css"
+import s from "./NavBar.module.scss"
 import {SuperLink} from "./SuperLink/SuperLink";
 
 export function NavBar () {

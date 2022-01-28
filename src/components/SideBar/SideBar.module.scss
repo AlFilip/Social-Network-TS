@@ -1,0 +1,10 @@
+@import "../../assets/styles/variables";
+
+.sidebar {
+  position: fixed;
+  top: calc(#{$headerHeight});
+  right: 0;
+  background-color: $primaryBg;
+  height: calc(100vh - #{$headerHeight});
+  width: $sidebarWidth;
+}

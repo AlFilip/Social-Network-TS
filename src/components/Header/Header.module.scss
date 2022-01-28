@@ -1,0 +1,23 @@
+@import "../../assets/styles/variables";
+
+.header {
+  position: fixed;
+  -webkit-box-shadow: 0 0 12px 0 rgb(0 0 0 / 12%);
+  box-shadow: 0 0 12px 0 rgb(0 0 0 / 12%);
+  z-index: 999;
+  height: $headerHeight;
+  top: 0;
+  left: 0;
+  width: 100%;
+  background-color: $primaryColor;
+  color: $primaryBg;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 20px;
+
+  img {
+    height: 50px;
+    width: 50px;
+  }
+}

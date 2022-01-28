@@ -1,0 +1,12 @@
+@import "../../assets/styles/variables.scss";
+
+.nav {    max-height: calc(100% - 80px);
+  box-shadow: 0 8px 10px 0 rgb(183 192 206 / 10%);
+  background: $primaryBg;
+  overflow: hidden;
+  top: calc(#{$headerHeight});
+  width: $navbarWidth;
+  height: calc(100vh - #{$headerHeight});
+  position: fixed;
+  grid-area: n;
+}

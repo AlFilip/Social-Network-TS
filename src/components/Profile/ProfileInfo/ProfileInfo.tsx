@@ -1,5 +1,5 @@
 import React, {ChangeEventHandler, useEffect, useState} from "react"
-import s from "./ProfileInfo.module.css"
+import s from "./ProfileInfo.module.scss"
 import {useDispatch, useSelector} from "react-redux"
 import {Preloader} from "../../Common/Preloader/Preloader"
 import {ProfileStatus} from "./ProfileStatus/ProfileStatus"
@@ -9,6 +9,7 @@ import {contactsType, setPhoto, toggleUserProfileFollow} from '../../../redux/pr
 import {UpdateProfile} from './UpdateProfile/UpdateProfile'
 import {ProfileContact} from "./ProfileContact/ProfileContact";
 import {useNavigate} from "react-router-dom";
+import bgImg from "../../../assets/images/profileBg.jpg";
 
 
 export function ProfileInfo() {
@@ -48,6 +49,7 @@ export function ProfileInfo() {
 
     return (
         <>
+            <img src={bgImg} alt="background image"/>
             {
                 editMode
                 && <UpdateProfile cancel={() => setEditMode(false)}/>
