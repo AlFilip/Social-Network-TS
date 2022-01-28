@@ -1,50 +1,58 @@
-import { follow, unFollow, UserType } from "../../../redux/usersReducer"
+import {follow, unFollow, UserType} from "../../../redux/usersReducer"
 import s from './UserCard.module.css'
-import React, { useEffect, useState } from "react"
-import { Link } from "react-router-dom"
-import { useDispatch } from 'react-redux'
+import React, {useEffect, useState} from "react"
+import {Link, useNavigate} from "react-router-dom"
+import {useDispatch} from 'react-redux'
 
 
 type UserPropsType = UserType & {}
 const userDefaultImg = "https://e7.pngegg.com/pngimages/931/209/png-clipart-computer-icons-symbol-avatar-logo-person-with-helmut-miscellaneous-black.png"
 
-export const UserCard = React.memo( ({
-                                         id,
-                                         name,
-                                         photos,
-                                         status,
-                                         followed,
-                                     }: UserPropsType) => {
+export const UserCard = React.memo(({
+                                        id,
+                                        name,
+                                        photos,
+                                        status,
+                                        followed,
+                                    }: UserPropsType) => {
 
     const buttonTitle = followed ? 'UnFollow' : 'Follow'
     const userImg = photos.small ? photos.small : photos.large ? photos.large : userDefaultImg
-    const [isBtnDisabled, setBtnDisabled] = useState( false )
+    const [isBtnDisabled, setBtnDisabled] = useState(false)
     const dispatch = useDispatch()
+    const navigate = useNavigate()
 
-    const onClickHandler = () => {
-        setBtnDisabled( true )
-        dispatch( followed ? unFollow( id ) : follow( id ) )
+    const toggleFollowHandle = () => {
+        setBtnDisabled(true)
+        dispatch(followed ? unFollow(id) : follow(id))
     }
-    useEffect( () => {
-        setBtnDisabled( false )
-    }, [followed] )
+
+    const sendMessageHandle = () => {
+        navigate(`/dialogs/${id}`)
+    }
+    useEffect(() => {
+        setBtnDisabled(false)
+    }, [followed])
 
     // console.log( 'userCard  ', id )
 
     return (
-        <div className={ s.userCard }>
-            <div className={ s.leftPart }>
-                <Link to={ '/profile/' + id }>
+        <div className={s.userCard}>
+            <div className={s.leftPart}>
+                <Link to={'/profile/' + id}>
                     <img
-                        src={ userImg }
+                        src={userImg}
                         alt=""/>
                 </Link>
-                <button disabled={ isBtnDisabled } onClick={ onClickHandler }>{ buttonTitle }</button>
+                <div>
+                    <button disabled={isBtnDisabled} onClick={toggleFollowHandle}>{buttonTitle}</button>
+                    <button disabled={isBtnDisabled} onClick={sendMessageHandle}>Send Message</button>
+                </div>
             </div>
-            <div className={ s.rightPart }>
-                <div className={ 'name' }>{ name }</div>
-                <div className={ s.status }>status: { status }</div>
+            <div className={s.rightPart}>
+                <div className={'name'}>{name}</div>
+                <div className={s.status}>status: {status}</div>
             </div>
         </div>
     )
-} )
+})

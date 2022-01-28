@@ -35,3 +35,11 @@
     border-left: 10px solid burlywood;
     right: -19px;
 }
+
+.deleted{
+    opacity: 0.7;
+}
+
+.restore{
+    cursor: pointer;
+}

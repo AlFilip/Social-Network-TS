@@ -5,10 +5,10 @@ import {resultCodes} from "../api/usersApi";
 const initState = {
     dialogs: [] as DomainDialogType[],
     messages: {
-        items: [] as MessageType[],
-        error: null as null | string,
-        totalCount: 0 as number,
-    },
+        items: [],
+        error: null,
+        totalCount: 0,
+    } as MessagesStateType,
 }
 
 const dialogsReducer = (state: DialogsStateType = initState, action: DialogsActionTypes): DialogsStateType => {
@@ -143,7 +143,6 @@ export const getMessages = (userId: number): ThunkType => async dispatch => {
 export const sendMessage = (userId: number, messageBody: string): ThunkType => async dispatch => {
     try {
         const {data: {data: {message}, resultCode}} = await dialogsApi.sendMessage(userId, messageBody)
-        debugger
         if (resultCode === resultCodes.SUCCESS) {
             dispatch(addMessage(message))
         }
@@ -174,7 +173,7 @@ export const checkMessageViewed = (messageId: string): ThunkType => async dispat
     }
 }
 
-export const setAsASpam = (messageId: string): ThunkType => async dispatch => {
+export const setAsASpam = (messageId: string): ThunkType => async () => {
     try {
         const {data: {resultCode}, status} = await dialogsApi.sendMessageToSpam(messageId)
         if (status === 200 && resultCode === resultCodes.SUCCESS) {
@@ -231,8 +230,15 @@ type MarkMessageAsNtoDeletedActionType = ReturnType<typeof markMessageAsNotDelet
 
 export type DialogsStateType = typeof initState
 
-type MessageType = ReducedDomainMessageType & {
+export type MessageType = ReducedDomainMessageType & {
     deleted: boolean
 }
+
+type MessagesStateType = {
+    items: MessageType[]
+    error: null | string
+    totalCount: number
+}
+
 
 export default dialogsReducer

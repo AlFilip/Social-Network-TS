@@ -1,24 +1,60 @@
-import React from "react";
+import React, {MouseEventHandler, useEffect, useState} from "react";
 import s from "./Message.module.css"
-import {ReducedDomainMessageType} from "../../../api/dialogsApi";
 import {useAppSelector} from "../../../redux/redux-store";
 import {selectAuthorisedUserId} from "../../../redux/selectors";
+import {ContextMenu} from "./ContextMenu/ContextMenu";
+import {MessageType, restoreMessage} from "../../../redux/diaogsReducer";
+import {useDispatch} from "react-redux";
 
 
 type MessagePropsType = {
-    message: ReducedDomainMessageType
+    message: MessageType
 }
 
 function Message({
-                     message
+                     message,
                  }: MessagePropsType) {
+    const [isMenuActive, setMenuActivity] = useState(false)
+    const dispatch = useDispatch()
 
     const authorisedUserId = useAppSelector(selectAuthorisedUserId)
 
+    const auxClickHandle: MouseEventHandler<HTMLDivElement> = e => {
+        e.preventDefault()
+        setMenuActivity(true)
+    }
+
+    useEffect(() => {
+        setMenuActivity(false)
+    }, [message])
+
+    const restoreHandle = () => {
+        dispatch(restoreMessage(message.id))
+    }
+
+    const messageClassName = `${message.senderId === authorisedUserId ? s.userMessage : s.message}`
+
+
     return (
-        <div className={`${message.senderId === authorisedUserId ? s.userMessage : s.message}`}>
-            {message.body}
-        </div>
+        <>
+            {
+                message.deleted
+                    ? <div>
+                        <span className={s.deleted}>message deleted...</span>
+                        <span className={s.restore} onClick={restoreHandle}> restore</span>
+                    </div>
+
+                    : <div className={messageClassName}
+                           onAuxClick={auxClickHandle}
+                           onContextMenu={e => e.preventDefault()}
+                    >
+                        {message.body}
+                        {
+                            isMenuActive
+                            && <ContextMenu messageId={message.id} closeCallback={() => setMenuActivity(false)}/>
+                        }
+                    </div>
+            }</>
     )
 }
 

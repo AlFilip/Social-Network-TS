@@ -8,6 +8,7 @@ import {useAppSelector} from '../../../redux/redux-store'
 import {contactsType, setPhoto, toggleUserProfileFollow} from '../../../redux/profileReducer'
 import {UpdateProfile} from './UpdateProfile/UpdateProfile'
 import {ProfileContact} from "./ProfileContact/ProfileContact";
+import {useNavigate} from "react-router-dom";
 
 
 export function ProfileInfo() {
@@ -17,6 +18,7 @@ export function ProfileInfo() {
     const additionalUserInfo = useAppSelector(selectAdditionalUserInfo)
     const [isBtnDisabled, setIsBtnDisabled] = useState(false)
     const dispatch = useDispatch()
+    const navigate = useNavigate()
     const profileImg = (profile && profile.photos.small) ? profile.photos.small : "https://e7.pngegg.com/pngimages/931/209/png-clipart-computer-icons-symbol-avatar-logo-person-with-helmut-miscellaneous-black.png"
     // console.log('profileInfo')
     const onPhotoClickHandle: ChangeEventHandler<HTMLInputElement> = e => {
@@ -31,6 +33,8 @@ export function ProfileInfo() {
             followed: !additionalUserInfo.followed
         }))
     }
+
+    const sendMessageClickHandle = () => navigate(`/dialogs/${profile?.userId}`)
 
     useEffect(() => {
         if (isBtnDisabled) setIsBtnDisabled(false)
@@ -65,11 +69,15 @@ export function ProfileInfo() {
                         </div>
                         {
                             profile && authorisedUserId && !isAuthorisedUserProfile
-                            && (
+                            && <>
                                 <button onClick={toggleFollowClickHandle} disabled={isBtnDisabled}>
                                     {additionalUserInfo.followed ? 'Unfollow' : 'Follow'}
                                 </button>
-                            )}
+                                <button onClick={sendMessageClickHandle}>
+                                    Send message
+                                </button>
+
+                            </>}
 
                     </div>
                     : <Preloader/>
