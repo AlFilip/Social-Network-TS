@@ -1,15 +1,17 @@
 import React, {ChangeEventHandler, useEffect, useState} from "react"
-import s from "./ProfileInfo.module.scss"
 import {useDispatch, useSelector} from "react-redux"
+import {useNavigate} from "react-router-dom";
+
+import s from "./ProfileInfo.module.scss"
+
 import {Preloader} from "../../Common/Preloader/Preloader"
 import {ProfileStatus} from "./ProfileStatus/ProfileStatus"
 import {selectAdditionalUserInfo, selectAuthorisedUserId, selectCurrentProfile} from '../../../redux/selectors'
 import {useAppSelector} from '../../../redux/redux-store'
-import {contactsType, setPhoto, toggleUserProfileFollow} from '../../../redux/profileReducer'
+import {setPhoto, toggleUserProfileFollow} from '../../../redux/profileReducer'
 import {UpdateProfile} from './UpdateProfile/UpdateProfile'
-import {ProfileContact} from "./ProfileContact/ProfileContact";
-import {useNavigate} from "react-router-dom";
 import bgImg from "../../../assets/images/profileBg.jpg";
+import {ProfileLinks} from "./ProfileLinks/ProfileLinks";
 
 
 export function ProfileInfo() {
@@ -20,7 +22,7 @@ export function ProfileInfo() {
     const [isBtnDisabled, setIsBtnDisabled] = useState(false)
     const dispatch = useDispatch()
     const navigate = useNavigate()
-    const profileImg = (profile && profile.photos.small) ? profile.photos.small : "https://e7.pngegg.com/pngimages/931/209/png-clipart-computer-icons-symbol-avatar-logo-person-with-helmut-miscellaneous-black.png"
+    const profileImg = (profile && profile.photos.large) ? profile.photos.large : "https://e7.pngegg.com/pngimages/931/209/png-clipart-computer-icons-symbol-avatar-logo-person-with-helmut-miscellaneous-black.png"
     // console.log('profileInfo')
     const onPhotoClickHandle: ChangeEventHandler<HTMLInputElement> = e => {
         e.currentTarget.files &&
@@ -67,7 +69,15 @@ export function ProfileInfo() {
                         </label>
                         <div className={s.description}>
                             {profile.fullName}
+                            {
+                                isAuthorisedUserProfile
+                                && <button onClick={() => setEditMode(true)}>edit profile</button>
+                            }
                             <ProfileStatus/>
+
+                            <div>About me: {profile?.aboutMe}</div>
+                            <div>Looking for a job: {profile?.lookingForAJob ? 'yes' : 'no'}</div>
+                            {profile?.lookingForAJob && <div>Job description: {profile?.lookingForAJobDescription}</div>}
                         </div>
                         {
                             profile && authorisedUserId && !isAuthorisedUserProfile
@@ -81,27 +91,12 @@ export function ProfileInfo() {
 
                             </>}
 
+                        <div className={s.profileLinksWrapper}>
+                            <ProfileLinks contacts={profile.contacts}/>
+                        </div>
+
                     </div>
                     : <Preloader/>
-            }
-            <div>
-                <div>About me: {profile?.aboutMe}</div>
-                <div>Looking for a job: {profile?.lookingForAJob ? 'yes' : 'no'}</div>
-                {profile?.lookingForAJob && <div>Job description: {profile?.lookingForAJobDescription}</div>}
-                <div>Contacts:</div>
-                {
-                    profile
-                    && Object.keys(profile.contacts)
-                        .reduce((acc, el) => {
-                            const value = profile.contacts[el as keyof contactsType]
-                            return value ? [...acc, <ProfileContact value={value} title={el} key={el}/>] : acc
-                        }, [] as JSX.Element[])
-                }
-            </div>
-
-            {
-                isAuthorisedUserProfile
-                && <button onClick={() => setEditMode(true)}>edit profile</button>
             }
         </>
     )
