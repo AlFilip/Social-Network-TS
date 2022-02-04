@@ -40,10 +40,12 @@ export type profileStateType = typeof initState
 
 const initState = {
     posts: [
-        {id: v1(), message: 'Hi man', likesCount: 50},
+        {id: v1(), message: '\n' +
+                'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis fringilla iaculis augue, non vehicula ex. Donec facilisis faucibus iaculis. Vivamus purus purus, auctor vitae imperdiet non, congue ac nulla. Mauris finibus dui in nulla mollis, et blandit diam lacinia. Sed eget ligula in magna tincidunt facilisis varius vitae ipsum. Vivamus luctus sem orci, eu consectetur augue ornare quis. Aliquam erat volutpat. Maecenas finibus velit eget sapien sollicitudin, at aliquam velit molestie. Pellentesque sit amet ex at dolor dignissim ultrices. Pellentesque placerat consequat est ut iaculis. Sed diam magna, bibendum non diam id, rhoncus efficitur urna. Praesent non tincidunt libero. Quisque efficitur, tortor eu imperdiet imperdiet, quam risus consequat erat, at facilisis turpis justo eget libero.\n' +
+                '\n' +
+                'Morbi ac eros vel odio ornare interdum. Morbi pharetra quam eu accumsan interdum. Nullam fringilla imperdiet turpis eu auctor. Aliquam non magna euismod, ultrices tellus a, lobortis felis. Fusce suscipit nulla quis ultricies aliquam. Morbi ac sem sem. Maecenas in ullamcorper ante. Quisque in molestie ex, eu laoreet tortor. Sed laoreet fringilla quam eu vestibulum. Quisque eu cursus enim.', likesCount: 50},
         {id: v1(), message: 'How are you', likesCount: 150},
     ] as Array<PostType>,
-    newPostMessage: '',
     currentProfile: null as profileType,
     status: '',
     additionalUserInfo: {} as UserType
@@ -52,18 +54,10 @@ const initState = {
 const profileReducer = (state = initState, action: profileActionsTypes): profileStateType => {
     switch (action.type) {
         case 'ADD_POST':
-            return state.newPostMessage.trim()
-                ? {
-                    ...state,
-                    posts: [
-                        ...state.posts,
-                        {id: v1(), message: state.newPostMessage, likesCount: 0},
-                    ],
-                    newPostMessage: '',
-                }
-                : {...state, newPostMessage: ''}
-        case 'ON_POST_CHANGE':
-            return {...state, newPostMessage: action.newValue}
+            return {
+                ...state,
+                posts: [action.message, ...state.posts]
+            }
         case 'SET_PROFILE':
             return {
                 ...state,
@@ -117,7 +111,7 @@ type setPhotosToStateActionType = ReturnType<typeof setPhotosToState>
 type setAdditionalInfoActionType = ReturnType<typeof setAdditionalInfo>
 type setProfileStateActionType = ReturnType<typeof setProfileState>
 
-export const addPost = () => ({type: 'ADD_POST'} as const)
+export const addPost = (message: string) => ({type: 'ADD_POST', message: {id: v1(), likesCount: 0, message}} as const)
 export const onPostChange = (newValue: string) => ({type: 'ON_POST_CHANGE', newValue} as const)
 export const setProfile = (currentProfile: profileType) => ({type: 'SET_PROFILE', currentProfile} as const)
 export const setPhotosToState = (photos: photosType) => ({type: 'SET_PHOTOS', photos} as const)

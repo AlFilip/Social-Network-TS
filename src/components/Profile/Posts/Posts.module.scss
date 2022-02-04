@@ -1,0 +1,8 @@
+@import "src/assets/styles/variables";
+
+.posts{
+    background-color: $secondaryBg;
+    grid-area: posts;
+    display: grid;
+    grid-gap: 20px;
+}

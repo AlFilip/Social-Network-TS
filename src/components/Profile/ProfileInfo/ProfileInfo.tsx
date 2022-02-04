@@ -23,7 +23,6 @@ export function ProfileInfo() {
     const dispatch = useDispatch()
     const navigate = useNavigate()
     const profileImg = (profile && profile.photos.large) ? profile.photos.large : "https://e7.pngegg.com/pngimages/931/209/png-clipart-computer-icons-symbol-avatar-logo-person-with-helmut-miscellaneous-black.png"
-    // console.log('profileInfo')
     const onPhotoClickHandle: ChangeEventHandler<HTMLInputElement> = e => {
         e.currentTarget.files &&
         dispatch(setPhoto(e.currentTarget.files[0]))
@@ -50,7 +49,7 @@ export function ProfileInfo() {
     }, [profile])
 
     return (
-        <>
+        <div className={s.profileInfoWrapper}>
             <img src={bgImg} alt="background image"/>
             {
                 editMode
@@ -98,7 +97,7 @@ export function ProfileInfo() {
                     </div>
                     : <Preloader/>
             }
-        </>
+        </div>
     )
 }
 

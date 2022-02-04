@@ -2,8 +2,13 @@
 @import "../../assets/styles/variables";
 
 .profile {
-  background-color: $primaryBg;
   @include roundedBox();
   overflow: hidden;
+  display: grid;
+  grid-gap: 20px;
+  grid-template:  'profile profile profile'
+                  'chat    posts   friends';
+  grid-template-columns: 300px 1fr 200px;
+
 }
 

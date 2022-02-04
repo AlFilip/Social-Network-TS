@@ -1,3 +1,19 @@
+@import "variables";
+
 @mixin roundedBox($radius: 5px) {
   border-radius: $radius;
+}
+
+@mixin text($color: $primaryTextColor, $size: 14px,  $weight: 400,   $fontFamily: $mainFontFamily ) {
+  color: $color;
+  font-size: $size;
+  font-weight: $weight;
+  font-family: $fontFamily;
+}
+
+@mixin header($color: $primaryTextColor, $size: 16px,  $weight: 600,   $fontFamily: $headingFontFamily ) {
+  color: $color;
+  font-size: $size;
+  font-weight: $weight;
+  font-family: $fontFamily;
 }

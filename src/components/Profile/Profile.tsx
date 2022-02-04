@@ -1,29 +1,27 @@
 import React, {useEffect} from "react"
 import s from "./Profile.module.scss"
 import {ProfileInfo} from "./ProfileInfo/ProfileInfo"
-import {MyPosts} from "./MyPosts/MyPosts"
+import {Posts} from "./Posts/Posts"
 import {useParams} from 'react-router-dom'
 import {useDispatch} from 'react-redux'
 import {useAppSelector} from '../../redux/redux-store'
-import {selectAuthorisedUserId} from '../../redux/selectors'
+import {selectAuthorisedUserId, selectScreenSize} from '../../redux/selectors'
 import {getProfileWithAdditionalInfo, setProfile} from '../../redux/profileReducer'
+import Chat from "../Chat/Chat";
 
-
-type PathParamsType = {
-    userId: string
-}
 
 export const Profile = () => {
-    let {userId} = useParams<PathParamsType>()
+    let {userId} = useParams()
     const dispatch = useDispatch()
     const authUserId = useAppSelector(selectAuthorisedUserId)
+    const screenSize = useAppSelector(selectScreenSize)
     useEffect(() => {
         let id = userId
         if (!id && authUserId) {
             id = authUserId.toString()
         }
         id
-        && dispatch( getProfileWithAdditionalInfo( id ) )
+        && dispatch(getProfileWithAdditionalInfo(id))
 
         return () => {
             dispatch(setProfile(null))
@@ -33,7 +31,12 @@ export const Profile = () => {
     return (
         <div className={s.profile}>
             <ProfileInfo/>
-            <MyPosts/>
+            {
+                (screenSize === 'XL' || screenSize === 'L')
+                && <Chat/>
+            }
+            <Posts/>
+
         </div>
     )
 }

@@ -1,0 +1,42 @@
+@import 'src/assets/styles/variables';
+@import 'src/assets/styles/mixins';
+
+.postItem {
+  border-radius: 5px;
+  box-shadow: 0 8px 10px 0 rgb(183 192 206 / 10%);
+  padding: 20px;
+  background-color: $primaryBg;
+
+  .senderInfo {
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+
+    img {
+      max-height: 80px;
+      max-width: 80px;
+      border-radius: 50%;
+      margin-right: 5px;
+    }
+
+    .userName {
+      @include header()
+    }
+  }
+
+  .postContent {
+    display: flex;
+    flex-direction: row;
+
+    .postMessage {
+      @include text($color: $secondaryTextColor);
+      line-height: 1.8;
+    }
+  }
+
+  .likesCount {
+    .thumb{
+    }
+
+  }
+}

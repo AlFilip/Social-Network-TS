@@ -1,31 +1,38 @@
-import React, { FC } from 'react'
-import { Link } from 'react-router-dom'
-import { chatMessageType } from './Chat'
+import React, {FC} from 'react'
+import {Link} from 'react-router-dom'
+import {chatMessageType} from './Chat'
 
 
-export const ChatMessageItem: FC<chatMessageType> = ({ userId, message, photo, userName }) => {
+export const ChatMessageItem: FC<chatMessageType> = ({userId, message, photo, userName}) => {
     photo = photo ? photo : 'https://via.placeholder.com/50'
+
+    const firstName = userName.split(' ')[0]
     return (
-        <div style={ { display: 'flex', flexDirection: 'row', alignItems: 'center', padding: 5 } }>
-            <div style={ {
-                width: 100,
+        <div style={{
+            display: 'flex',
+            flexDirection: 'row',
+            alignItems: 'center',
+            padding: 5,
+            borderBottom: '2px solid rgba(150, 150, 150, 0.2)'
+        }}>
+            <div style={{
                 display: 'flex',
                 flexDirection: 'column',
                 alignItems: 'center',
-                border: '1px solid rgba(0, 0, 0, 0.5)',
-                borderRadius: 14,
-            } }>
-                <Link to={ '/profile/' + userId }>
-                    <img style={ { borderRadius: '50%', height: 50 } } src={ photo } alt="senderPhoto"/>
+            }}>
+                <Link to={'/profile/' + userId} style={{width: 50}}>
+                    <img style={{borderRadius: '50%',
+                        height: 50,
+                        width: 50}} src={photo} alt="senderPhoto"/>
                 </Link>
-                <span style={ { fontSize: '0.7em' } }>
+                <span style={{fontSize: '0.7em'}}>
                     {
-                        userName
+                        firstName.length < 10 ? firstName : firstName.substring(0, 9)
                     }
                 </span>
             </div>
 
-            <span style={ { paddingLeft: 20 } }>{ message }</span>
+            <span style={{paddingLeft: 5, alignSelf: 'flex-start'}}>{message}</span>
         </div>
     )
 }

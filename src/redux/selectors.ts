@@ -1,4 +1,4 @@
-import { AppStateType } from './redux-store'
+import {AppStateType} from './redux-store'
 
 
 // auth
@@ -14,7 +14,10 @@ export const selectAuthError = (state: AppStateType) => state.auth.error
 
 
 // app
+
 export const selectIsInitialised = (state: AppStateType) => state.app.isInitSuccess
+
+export const selectScreenSize = (state: AppStateType) => state.app.screenSize
 
 
 // users
@@ -30,13 +33,16 @@ export const selectUsersSearchFriend = (state: AppStateType) => state.users.frie
 
 
 // profile
+
 export const selectCurrentProfile = (state: AppStateType) => state.profile.currentProfile
 
 export const selectStatus = (state: AppStateType) => state.profile.status
 
-export const selectCurrentProfileUserId = (state: AppStateType) => state.profile.currentProfile?.userId
+export const selectCurrentProfileUserName = (state: AppStateType) => state.profile.currentProfile?.fullName
 
-export const selectNewPostMessage = (state: AppStateType) => state.profile.newPostMessage
+export const selectCurrentProfileUserPhotos = (state: AppStateType) => state.profile.currentProfile?.photos
+
+export const selectCurrentProfileUserId = (state: AppStateType) => state.profile.currentProfile?.userId
 
 export const selectPosts = (state: AppStateType) => state.profile.posts
 

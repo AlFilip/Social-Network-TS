@@ -5,6 +5,7 @@
   top: calc(#{$headerHeight});
   right: 0;
   background-color: $primaryBg;
+  box-shadow: 0 8px 10px 0 rgb(183 192 206 / 10%);
   height: calc(100vh - #{$headerHeight});
   width: $sidebarWidth;
 }

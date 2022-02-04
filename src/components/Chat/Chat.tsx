@@ -1,4 +1,6 @@
 import React, { useEffect, useState } from 'react'
+
+import s from './Chat.module.scss'
 import { ChatMessages } from './ChatMessages'
 import { ChatInput } from './ChatInput'
 
@@ -31,7 +33,7 @@ const Chat = () => {
         }
     }
     return (
-        <div>
+        <div className={s.chat}>
             <ChatMessages data={ messages }/>
             <div>
                 <ChatInput callback={ sendMessage }/>

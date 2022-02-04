@@ -1,27 +1,33 @@
 @import "src/assets/styles/mixins";
+@import "src/assets/styles/variables";
 
-.profileInfo {
-  padding: 0 50px 45px;
-  position: relative;
-  display: flex;
-  align-items: center;
+.profileInfoWrapper {
+  background-color: $primaryBg;
+  grid-area: profile;
 
-  img {
-    height: 250px;
-    width: 250px;
-    margin-top: -100px;
-    @include roundedBox();
-  }
+  .profileInfo {
+    padding: 0 50px 45px;
+    position: relative;
+    display: flex;
+    align-items: center;
 
-  .description {
-    margin-left: 10px;
-  }
+    img {
+      height: 250px;
+      width: 250px;
+      margin-top: -100px;
+      @include roundedBox();
+    }
 
-  .profileLinksWrapper {
-    padding: 0;
-    margin-bottom: 0;
-    position: absolute;
-    right: 50px;
-    bottom: 45px;
+    .description {
+      margin-left: 10px;
+    }
+
+    .profileLinksWrapper {
+      padding: 0;
+      margin-bottom: 0;
+      position: absolute;
+      right: 50px;
+      bottom: 45px;
+    }
   }
 }

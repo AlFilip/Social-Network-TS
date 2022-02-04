@@ -48,7 +48,13 @@ function Message({
                            onAuxClick={auxClickHandle}
                            onContextMenu={e => e.preventDefault()}
                     >
-                        {message.body}
+                        {
+                            message.body.split('<br />')
+                                .filter(el => el)
+                                .reduce((acc, el) => {
+                                    return [...acc, el, <br/>]
+                                }, [] as (string | JSX.Element)[])
+                        }
                         {
                             isMenuActive
                             && <ContextMenu messageId={message.id} closeCallback={() => setMenuActivity(false)}/>

@@ -2,10 +2,12 @@ import {ThunkType} from './redux-store'
 import {getAuthUserData} from './authReducer'
 
 type AppStatus = 'idle' | 'loading'
+export type ScreenSizeTypes = 'XS' | 'XL' | 'L' | 'M' | 'S' | null
 
 const initState = {
     isInitSuccess: false,
-    appStatus: 'idle' as AppStatus
+    appStatus: 'idle' as AppStatus,
+    screenSize: null as ScreenSizeTypes,
 }
 
 
@@ -18,18 +20,28 @@ const appReducer = (state = initState, action: appActionTypes): appStateType => 
                 ...state,
                 isInitSuccess: true,
             }
-
+        case "SET_SCREEN_SIZE":
+            return {
+                ...state,
+                screenSize: action.screenSize
+            }
         default:
             return state
     }
 }
 
 export type appActionTypes = setInitSuccessActionType
+    | setScreenSizeActionType
 
 type setInitSuccessActionType = ReturnType<typeof setInitSuccess>
+type setScreenSizeActionType = ReturnType<typeof setScreenSize>
 
 const setInitSuccess = () => ({
     type: 'SET_INIT_SUCCESS',
+} as const)
+
+export const setScreenSize = (screenSize: ScreenSizeTypes) => ({
+    type: 'SET_SCREEN_SIZE', screenSize
 } as const)
 
 export const initApp = (): ThunkType => dispatch => {

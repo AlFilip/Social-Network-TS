@@ -26,11 +26,10 @@ export const ChatMessages: FC<{ data: chatMessageType[] }> = ({ data }) => {
     return (
         <div style={ {
             height: '50vh',
-            width: 400,
+            width: '100%',
             overflowY: 'auto',
             border: '1px solid rgba(0,0,0,0.3)',
             borderRadius: 20,
-            padding: 10,
         } } ref={ messagesBlock }>
             {
                 mappedMessages.length

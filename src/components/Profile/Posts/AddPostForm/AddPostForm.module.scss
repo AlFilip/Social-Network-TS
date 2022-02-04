@@ -1,0 +1,43 @@
+@import "src/assets/styles/variables";
+@import "src/assets/styles/mixins";
+
+.addPostForm {
+  padding: 20px;
+  background-color: $primaryBg;
+
+  .header {
+    @include header();
+    margin-bottom: 25px;
+  }
+
+  .form {
+    display: flex;
+    flex-direction: column;
+
+    .textarea {
+      background-color: $secondaryBg;
+      outline: none;
+      border: none;
+      resize: vertical;
+      min-height: 120px;
+      margin-bottom: 20px;
+      padding: 15px 25px;
+      @include text($color: $optionalColor, $size: 13px);
+    }
+
+    button {
+      max-width: 100px;
+      align-self: flex-end;
+      background-color: $primaryColor;
+      color: $primaryBg;
+      padding: 5px 25px;
+      border-radius: 5px;
+      border: none;
+      transition: 0.4s;
+      @include text($size: 15px, $color: $primaryBg);
+      &:hover{
+        background-color: #FF3E3E;
+      }
+    }
+  }
+}
