@@ -1,0 +1,21 @@
+@import 'src/assets/styles/mixins';
+@import 'src/assets/styles/variables';
+
+.share {
+  @include text($size: 15px, $color: $secondaryTextColor);
+
+  .iconSection {
+    .icon {
+      cursor: pointer;
+      transition: 0.4s;
+      margin-right: 8px;
+    }
+  }
+
+  .count {
+    margin-left: 10px;
+    border-left: 1px solid #e1e1e1;
+    padding-left: 12px;
+    font-size: 14px;
+  }
+}

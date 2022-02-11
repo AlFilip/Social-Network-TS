@@ -1,10 +1,11 @@
 import React from "react";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faFacebook, faGithub, faInstagram, faTwitter, faVk, faYoutube} from "@fortawesome/free-brands-svg-icons";
-import {faPortrait} from "@fortawesome/free-solid-svg-icons";
+import {faPortrait} from "@fortawesome/free-solid-svg-icons/faPortrait";
 import {contactsType} from "../../../../redux/profileReducer";
 
 import s from './ProfileLinks.module.scss'
+import {IconProp} from "@fortawesome/fontawesome-svg-core";
 
 type ProfileLinksPropsType = {
     contacts: contactsType
@@ -56,7 +57,7 @@ export const ProfileLinks: React.FC<ProfileLinksPropsType> = ({
             {
                 contacts.website
                 && <a href={contacts.website} target='_blank' rel='noreferrer'>
-                    <FontAwesomeIcon icon={faPortrait} size='2x'/>
+                    <FontAwesomeIcon icon={faPortrait as IconProp} size='2x'/>
                 </a>
             }
         </div>

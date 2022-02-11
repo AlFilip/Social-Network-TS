@@ -1,0 +1,24 @@
+@import 'src/assets/styles/mixins';
+@import 'src/assets/styles/variables';
+
+.likesCount {
+  @include text($size: 15px, $color: $secondaryTextColor);
+  .thumbLike {
+    .thumb {
+      cursor: pointer;
+      transition: 0.4s;
+      margin-right: 8px;
+    }
+
+    .likedThumb {
+      color: #3644D9;
+    }
+  }
+
+  .count {
+    margin-left: 10px;
+    border-left: 1px solid #e1e1e1;
+    padding-left: 12px;
+    font-size: 14px;
+  }
+}
