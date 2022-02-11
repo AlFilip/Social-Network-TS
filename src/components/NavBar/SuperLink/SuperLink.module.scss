@@ -1,0 +1,16 @@
+@import "src/assets/styles/mixins";
+@import "src/assets/styles/variables";
+
+.superLink {
+  a {
+    text-decoration: none;
+    @include text($weight: 600);
+  }
+}
+.active {
+  a:before{
+    visibility: visible!important;
+    height: 100%!important;
+    opacity: 1!important;
+  }
+}

@@ -1,6 +1,7 @@
 @import "../../assets/styles/variables.scss";
 
-.nav {    max-height: calc(100% - 80px);
+.nav {
+  max-height: calc(100% - 80px);
   box-shadow: 0 8px 10px 0 rgb(183 192 206 / 10%);
   background: $primaryBg;
   overflow: hidden;
@@ -9,4 +10,30 @@
   height: calc(100vh - #{$headerHeight});
   position: fixed;
   grid-area: n;
+  padding: 25px 15px;
+
+  div {
+    margin-bottom: 30px;
+
+    a{
+      position: relative;
+
+      &:before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: -10px;
+        width: 2px;
+        height: 0;
+        background-color: $primaryColor;
+        -webkit-transition: 0.4s;
+        transition: 0.4s;
+        opacity: 0;
+        visibility: hidden;
+      }
+      svg{
+        margin-right: 10px;
+      }
+    }
+  }
 }

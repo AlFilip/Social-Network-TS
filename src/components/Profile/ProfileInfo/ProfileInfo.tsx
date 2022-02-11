@@ -65,7 +65,7 @@ export function ProfileInfo() {
                                 <input type="file" name="image" id="image" style={{display: 'none'}}
                                        onChange={onPhotoClickHandle}/>
                             }
-                            <img src={profileImg} alt=""/>
+                            <img src={profileImg} alt="" style={isAuthorisedUserProfile ? {cursor: 'pointer'} : {}}/>
                         </label>
                         <div className={s.description}>
                             <SubHeader title={profile.fullName || ''}/>
