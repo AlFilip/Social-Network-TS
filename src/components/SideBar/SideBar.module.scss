@@ -1,11 +1,16 @@
 @import "../../assets/styles/variables";
 
 .sidebar {
+  height: calc(100vh - #{$headerHeight});
+  width: $sidebarWidth;
+  padding: 15px;
   position: fixed;
   top: calc(#{$headerHeight});
   right: 0;
   background-color: $primaryBg;
   box-shadow: 0 8px 10px 0 rgb(183 192 206 / 10%);
-  height: calc(100vh - #{$headerHeight});
-  width: $sidebarWidth;
+
+  :last-child{
+    margin-bottom: 0;
+  }
 }

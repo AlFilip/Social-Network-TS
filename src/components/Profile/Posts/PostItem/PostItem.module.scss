@@ -36,6 +36,11 @@
 
   .likesCount {
     .thumb{
+      cursor: pointer;
+      font-size: 1.5em;
+    }
+    .likedThumb{
+      color: red;
     }
 
   }

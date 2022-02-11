@@ -2,7 +2,7 @@ import React, { ChangeEventHandler, Dispatch, FormEventHandler, MouseEventHandle
 import s from './Pagination.module.css'
 import { useDispatch, useSelector } from "react-redux"
 import { AppStateType } from "../../../redux/redux-store"
-import { setCurrentPageAC, usersActionTypes } from "../../../redux/usersReducer"
+import { setCurrentPageAC, UsersActionTypes } from "../../../redux/usersReducer"
 import { selectCurrentPage, selectTotalPagesCount } from '../../../redux/selectors'
 import { getButtonClassNameHelper, getPrepArray } from './paginationHelpers'
 
@@ -13,7 +13,7 @@ export const Pagination = React.memo( () => {
 
     const totalPagesCount = useSelector<AppStateType, number>( selectTotalPagesCount )
     const currentPage = useSelector<AppStateType, number>( selectCurrentPage )
-    const dispatch = useDispatch<Dispatch<usersActionTypes>>()
+    const dispatch = useDispatch<Dispatch<UsersActionTypes>>()
 
     const [inputValue, setInputValue] = useState<number>( currentPage )
 

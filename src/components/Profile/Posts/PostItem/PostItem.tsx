@@ -1,39 +1,50 @@
 import React from "react";
-
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
+import {faThumbsUp} from "@fortawesome/free-regular-svg-icons";
+import {useDispatch} from "react-redux";
 
 import s from "./PostItem.module.scss"
-import {PostType} from "../../../../redux/profileReducer";
+import defaultUserImage from '../../../../assets/images/defaultUserImg.png'
+import {PostType, setLiked} from "../../../../redux/profileReducer";
 import {useAppSelector} from "../../../../redux/redux-store";
 import {
     selectAuthorisedUserId,
-    selectCurrentProfileUserId,
-    selectCurrentProfileUserName
+    selectCurrentProfileUserName,
+    selectCurrentProfileUserPhotos
 } from "../../../../redux/selectors";
-import { faThumbsUp } from "@fortawesome/free-regular-svg-icons";
+import {SubHeader} from "../../../Common/SubHeader/SubHeader";
 
 
-function PostItem(props: PostType) {
+function PostItem({
+                      isLiked,
+                      likesCount,
+                      message,
+                      id
+                  }: PostType) {
     const userName = useAppSelector(selectCurrentProfileUserName)
-    const currentProfileUserId = useAppSelector(selectCurrentProfileUserId)
+    const photos = useAppSelector(selectCurrentProfileUserPhotos)
     const authorisedUserId = useAppSelector(selectAuthorisedUserId)
+    const dispatch = useDispatch()
 
+    const thumbClickHandle = () => {
+        dispatch(setLiked(id, !isLiked))
+    }
+
+    const thumbClassName = `${s.thumb} ${isLiked ? s.likedThumb : ''}`
     return (
         <div className={s.postItem}>
             <div className={s.senderInfo}>
                 <img
-                    src="https://e7.pngegg.com/pngimages/931/209/png-clipart-computer-icons-symbol-avatar-logo-person-with-helmut-miscellaneous-black.png"
+                    src={photos?.small ? photos.small : defaultUserImage}
                     alt=""/>
-                <span className={s.userName}>
-                    {userName}
-                </span>
+                <SubHeader title={userName ? userName : ''}/>
             </div>
             <div className={s.postContent}>
-                <div className={s.postMessage}>{props.message}</div>
+                <div className={s.postMessage}>{message}</div>
             </div>
             <div className={s.likesCount}>
-                <FontAwesomeIcon icon={faThumbsUp} className={s.thumb}/>
-                {props.likesCount}
+                <FontAwesomeIcon icon={faThumbsUp} className={thumbClassName} onClick={thumbClickHandle}/>
+                {likesCount}
             </div>
         </div>
     )

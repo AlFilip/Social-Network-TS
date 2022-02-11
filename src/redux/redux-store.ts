@@ -1,11 +1,12 @@
 import { applyMiddleware, combineReducers, createStore } from 'redux'
 import { composeWithDevTools } from 'redux-devtools-extension'
 import reduxThunk, { ThunkAction } from 'redux-thunk'
-import profile, { profileActionsTypes } from "./profileReducer"
+import profile, { ProfileActionsTypes } from "./profileReducer"
 import dialogs, { DialogsActionTypes } from "./diaogsReducer"
-import users, { usersActionTypes } from "./usersReducer"
-import auth, { authActionTypes } from "./authReducer"
-import app, { appActionTypes } from './appReducer'
+import users, { UsersActionTypes } from "./usersReducer"
+import friends, { FriendsActionTypes } from "./friendReducer"
+import auth, { AuthActionTypes } from "./authReducer"
+import app, { AppActionTypes } from './appReducer'
 import { useSelector } from 'react-redux'
 
 
@@ -15,6 +16,7 @@ const rootReducer = combineReducers( {
     users,
     auth,
     app,
+    friends,
 } )
 
 const middleware = [
@@ -30,13 +32,14 @@ export let store = createStore( rootReducer, composeWithDevTools( applyMiddlewar
 window.store = store
 
 
-export type allActionsType = usersActionTypes
-    | profileActionsTypes
+export type AllActionsType = UsersActionTypes
+    | ProfileActionsTypes
     | DialogsActionTypes
-    | authActionTypes
-    | appActionTypes
+    | AuthActionTypes
+    | AppActionTypes
+    | FriendsActionTypes
 
-export type ThunkType = ThunkAction<any, AppStateType, any, allActionsType>
+export type ThunkType = ThunkAction<any, AppStateType, any, AllActionsType>
 
 
 export function useAppSelector<T>(selector: (state: AppStateType) => T): T {

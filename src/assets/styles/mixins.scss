@@ -4,16 +4,18 @@
   border-radius: $radius;
 }
 
-@mixin text($color: $primaryTextColor, $size: 14px,  $weight: 400,   $fontFamily: $mainFontFamily ) {
+@mixin text($color: $primaryTextColor, $size: 14px,  $weight: 400,   $fontFamily: $mainFontFamily, $lineHeight: 1.5 ) {
   color: $color;
   font-size: $size;
   font-weight: $weight;
   font-family: $fontFamily;
+  line-height: $lineHeight;
 }
 
-@mixin header($color: $primaryTextColor, $size: 16px,  $weight: 600,   $fontFamily: $headingFontFamily ) {
+@mixin header($color: $primaryTextColor, $size: 16px,  $weight: 600,   $fontFamily: $headingFontFamily, $lineHeight: 1.2 ) {
   color: $color;
   font-size: $size;
   font-weight: $weight;
   font-family: $fontFamily;
+  line-height: $lineHeight;
 }

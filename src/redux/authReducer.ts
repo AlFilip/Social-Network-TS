@@ -15,7 +15,7 @@ const initState = {
 }
 type authStateType = typeof initState
 
-const authReducer = (state = initState, action: authActionTypes): authStateType => {
+const authReducer = (state = initState, action: AuthActionTypes): authStateType => {
     switch (action.type) {
         case "SET_USER_DATA":
             return {
@@ -31,7 +31,7 @@ const authReducer = (state = initState, action: authActionTypes): authStateType 
     }
 }
 
-export type authActionTypes = setUserDataActionType | setErrorActionType
+export type AuthActionTypes = setUserDataActionType | setErrorActionType
 type setUserDataActionType = ReturnType<typeof setUserData>
 type setErrorActionType = ReturnType<typeof setError>
 

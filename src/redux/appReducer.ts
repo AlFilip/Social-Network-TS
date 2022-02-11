@@ -13,7 +13,7 @@ const initState = {
 
 type appStateType = typeof initState
 
-const appReducer = (state = initState, action: appActionTypes): appStateType => {
+const appReducer = (state = initState, action: AppActionTypes): appStateType => {
     switch (action.type) {
         case 'SET_INIT_SUCCESS':
             return {
@@ -30,7 +30,7 @@ const appReducer = (state = initState, action: appActionTypes): appStateType => 
     }
 }
 
-export type appActionTypes = setInitSuccessActionType
+export type AppActionTypes = setInitSuccessActionType
     | setScreenSizeActionType
 
 type setInitSuccessActionType = ReturnType<typeof setInitSuccess>

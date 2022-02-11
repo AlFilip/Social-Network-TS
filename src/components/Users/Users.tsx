@@ -5,14 +5,14 @@ import { Pagination } from "../Common/Pagination/Paginaton"
 import { UserCard } from './UserCard/UserCard'
 import { useDispatch } from 'react-redux'
 import { useAppSelector } from '../../redux/redux-store'
-import { selectCurrentPage, selectItems } from '../../redux/selectors'
+import { selectCurrentPage, selectUsersItems } from '../../redux/selectors'
 import { useLocation } from 'react-router-dom'
 import { SearchUsers } from './SearchUsers/SearchUsers'
 
 
 const Users = () => {
     // console.log( 'users' )
-    const items = useAppSelector( selectItems )
+    const items = useAppSelector( selectUsersItems )
     const page = useAppSelector( selectCurrentPage )
     const dispatch = useDispatch()
     const { pathname } = useLocation()

@@ -13,8 +13,7 @@ export function Posts() {
     let {userId} = useParams()
     const authUserId = useAppSelector(selectAuthorisedUserId)
 
-    const mappedPosts = posts.map(p => <PostItem id={p.id} key={p.id} message={p.message}
-                                                 likesCount={p.likesCount}/>)
+    const mappedPosts = posts.map(p => <PostItem key={p.id} {...p}/>)
 
     return (
         <div className={s.posts}>

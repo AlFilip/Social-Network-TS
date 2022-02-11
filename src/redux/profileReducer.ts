@@ -9,6 +9,7 @@ export type PostType = {
     id: string
     message: string
     likesCount: number
+    isLiked: boolean
 }
 
 export type contactsType = {
@@ -40,18 +41,21 @@ export type profileStateType = typeof initState
 
 const initState = {
     posts: [
-        {id: v1(), message: '\n' +
-                'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis fringilla iaculis augue, non vehicula ex. Donec facilisis faucibus iaculis. Vivamus purus purus, auctor vitae imperdiet non, congue ac nulla. Mauris finibus dui in nulla mollis, et blandit diam lacinia. Sed eget ligula in magna tincidunt facilisis varius vitae ipsum. Vivamus luctus sem orci, eu consectetur augue ornare quis. Aliquam erat volutpat. Maecenas finibus velit eget sapien sollicitudin, at aliquam velit molestie. Pellentesque sit amet ex at dolor dignissim ultrices. Pellentesque placerat consequat est ut iaculis. Sed diam magna, bibendum non diam id, rhoncus efficitur urna. Praesent non tincidunt libero. Quisque efficitur, tortor eu imperdiet imperdiet, quam risus consequat erat, at facilisis turpis justo eget libero.\n' +
-                '\n' +
-                'Morbi ac eros vel odio ornare interdum. Morbi pharetra quam eu accumsan interdum. Nullam fringilla imperdiet turpis eu auctor. Aliquam non magna euismod, ultrices tellus a, lobortis felis. Fusce suscipit nulla quis ultricies aliquam. Morbi ac sem sem. Maecenas in ullamcorper ante. Quisque in molestie ex, eu laoreet tortor. Sed laoreet fringilla quam eu vestibulum. Quisque eu cursus enim.', likesCount: 50},
-        {id: v1(), message: 'How are you', likesCount: 150},
+        {
+            id: v1(),
+            message: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis fringilla iaculis augue, non vehicula ex. Donec facilisis faucibus iaculis. Vivamus purus purus, auctor vitae imperdiet non, congue ac nulla. Mauris finibus dui in nulla mollis, et blandit diam lacinia. Sed eget ligula in magna tincidunt facilisis varius vitae ipsum. Vivamus luctus sem orci, eu consectetur augue ornare quis. Aliquam erat volutpat. Maecenas finibus velit eget sapien sollicitudin, at aliquam velit molestie. Pellentesque sit amet ex at dolor dignissim ultrices. Pellentesque placerat consequat est ut iaculis. Sed diam magna, bibendum non diam id, rhoncus efficitur urna. Praesent non tincidunt libero. Quisque efficitur, tortor eu imperdiet imperdiet, quam risus consequat erat, at facilisis turpis justo eget libero.\n' +
+                'Morbi ac eros vel odio ornare interdum. Morbi pharetra quam eu accumsan interdum. Nullam fringilla imperdiet turpis eu auctor. Aliquam non magna euismod, ultrices tellus a, lobortis felis. Fusce suscipit nulla quis ultricies aliquam. Morbi ac sem sem. Maecenas in ullamcorper ante. Quisque in molestie ex, eu laoreet tortor. Sed laoreet fringilla quam eu vestibulum. Quisque eu cursus enim.',
+            likesCount: 50,
+            isLiked: false
+        },
+        {id: v1(), message: 'How are you', likesCount: 150, isLiked: false},
     ] as Array<PostType>,
     currentProfile: null as profileType,
     status: '',
     additionalUserInfo: {} as UserType
 }
 
-const profileReducer = (state = initState, action: profileActionsTypes): profileStateType => {
+const profileReducer = (state = initState, action: ProfileActionsTypes): profileStateType => {
     switch (action.type) {
         case 'ADD_POST':
             return {
@@ -88,13 +92,22 @@ const profileReducer = (state = initState, action: profileActionsTypes): profile
                 ...state,
                 ...action.payload
             }
+        case "SET_LIKED":
+            return {
+                ...state,
+                posts: state.posts.map(post => post.id === action.postId ? {
+                    ...post,
+                    isLiked: action.isLiked,
+                    likesCount: post.likesCount + (action.isLiked ? 1 : -1)
+                } : post)
+            }
         default:
             return state
     }
 }
 
 
-export type profileActionsTypes =
+export type ProfileActionsTypes =
     AddPostActionType
     | OnPostChangeActionType
     | setProfileActionType
@@ -102,6 +115,7 @@ export type profileActionsTypes =
     | setPhotosToStateActionType
     | setAdditionalInfoActionType
     | setProfileStateActionType
+    | setLikedActionType
 
 export type AddPostActionType = ReturnType<typeof addPost>
 export type OnPostChangeActionType = ReturnType<typeof onPostChange>
@@ -110,14 +124,19 @@ type setStatusToStateActionType = ReturnType<typeof setStatusToState>
 type setPhotosToStateActionType = ReturnType<typeof setPhotosToState>
 type setAdditionalInfoActionType = ReturnType<typeof setAdditionalInfo>
 type setProfileStateActionType = ReturnType<typeof setProfileState>
+type setLikedActionType = ReturnType<typeof setLiked>
 
-export const addPost = (message: string) => ({type: 'ADD_POST', message: {id: v1(), likesCount: 0, message}} as const)
+export const addPost = (message: string) => ({
+    type: 'ADD_POST',
+    message: {id: v1(), likesCount: 0, message, isLiked: false}
+} as const)
 export const onPostChange = (newValue: string) => ({type: 'ON_POST_CHANGE', newValue} as const)
 export const setProfile = (currentProfile: profileType) => ({type: 'SET_PROFILE', currentProfile} as const)
 export const setPhotosToState = (photos: photosType) => ({type: 'SET_PHOTOS', photos} as const)
 export const setStatusToState = (status: string) => ({type: 'SET_STATUS', status} as const)
 export const setAdditionalInfo = (info: UserType) => ({type: 'SET_ADDITIONAL_INFO', info} as const)
 export const setProfileState = (payload: Partial<profileStateType>) => ({type: 'SET_PROFILE_STATE', payload} as const)
+export const setLiked = (postId: string, isLiked: boolean) => ({type: 'SET_LIKED', postId, isLiked} as const)
 
 export const getProfileWithAdditionalInfo = (userId: string): ThunkType => async dispatch => {
     const profileResponse = await profileApi.getProfile(userId)

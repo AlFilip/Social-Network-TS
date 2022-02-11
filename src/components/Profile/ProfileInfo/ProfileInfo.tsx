@@ -12,6 +12,7 @@ import {setPhoto, toggleUserProfileFollow} from '../../../redux/profileReducer'
 import {UpdateProfile} from './UpdateProfile/UpdateProfile'
 import bgImg from "../../../assets/images/profileBg.jpg";
 import {ProfileLinks} from "./ProfileLinks/ProfileLinks";
+import {SubHeader} from "../../Common/SubHeader/SubHeader";
 
 
 export function ProfileInfo() {
@@ -67,7 +68,7 @@ export function ProfileInfo() {
                             <img src={profileImg} alt=""/>
                         </label>
                         <div className={s.description}>
-                            {profile.fullName}
+                            <SubHeader title={profile.fullName || ''}/>
                             {
                                 isAuthorisedUserProfile
                                 && <button onClick={() => setEditMode(true)}>edit profile</button>

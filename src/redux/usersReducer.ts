@@ -26,7 +26,7 @@ const initState = {
     // isFetching: false,
 }
 
-const usersReducer = (state: UsersStateType = initState, action: usersActionTypes): UsersStateType => {
+const usersReducer = (state: UsersStateType = initState, action: UsersActionTypes): UsersStateType => {
     switch (action.type) {
         case 'FOLLOW':
             return { ...state, items: state.items.map( m => m.id === action.userId ? { ...m, followed: true } : m ) }
@@ -58,7 +58,7 @@ const usersReducer = (state: UsersStateType = initState, action: usersActionType
     }
 }
 
-export type usersActionTypes =
+export type UsersActionTypes =
     followActionType
     | unFollowActionType
     | setUsersActionType

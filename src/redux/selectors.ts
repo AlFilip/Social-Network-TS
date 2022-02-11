@@ -21,7 +21,7 @@ export const selectScreenSize = (state: AppStateType) => state.app.screenSize
 
 
 // users
-export const selectItems = (state: AppStateType) => state.users.items
+export const selectUsersItems = (state: AppStateType) => state.users.items
 
 export const selectCurrentPage = (state: AppStateType) => state.users.currentPage
 
@@ -30,6 +30,17 @@ export const selectTotalPagesCount = (state: AppStateType) => state.users.totalP
 export const selectUsersSearchTerm = (state: AppStateType) => state.users.term
 
 export const selectUsersSearchFriend = (state: AppStateType) => state.users.friend
+
+// friends
+export const selectFriends = (state: AppStateType) => state.friends.items
+//
+// export const selectCurrentPage = (state: AppStateType) => state.users.currentPage
+//
+// export const selectTotalPagesCount = (state: AppStateType) => state.users.totalPagesCount
+//
+// export const selectUsersSearchTerm = (state: AppStateType) => state.users.term
+//
+// export const selectUsersSearchFriend = (state: AppStateType) => state.users.friend
 
 
 // profile
