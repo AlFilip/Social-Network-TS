@@ -8,9 +8,12 @@
   }
 }
 .active {
-  a:before{
-    visibility: visible!important;
-    height: 100%!important;
-    opacity: 1!important;
+  a{
+    color: $primaryColor!important;
+    &:before{
+      visibility: visible!important;
+      height: 100%!important;
+      opacity: 1!important;
+    }
   }
 }

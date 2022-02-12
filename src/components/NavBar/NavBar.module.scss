@@ -13,9 +13,9 @@
   padding: 25px 15px;
 
   div {
-    margin-bottom: 30px;
+    margin-bottom: 40px;
 
-    a{
+    a {
       position: relative;
 
       &:before {
@@ -31,9 +31,20 @@
         opacity: 0;
         visibility: hidden;
       }
-      svg{
-        margin-right: 10px;
+
+      span {
+        background-color: #F4F7FC;
+        height: 30px;
+        width: 30px;
+        border-radius: 8px;
+        padding: 8px;
+        margin-right: 8px;
+        transition: 0.4s;
       }
+    }
+
+    &:hover a span {
+      background-color: #e3eeff;
     }
   }
 }

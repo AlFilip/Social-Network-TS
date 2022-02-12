@@ -1,36 +1,45 @@
-import React, { FC, useEffect, useRef, useState } from 'react'
-import { chatMessageType } from './Chat'
-import { ChatMessageItem } from './ChatMessageItem'
+import React, {FC, memo, useEffect, useRef, useState} from 'react'
+import {ChatMessageType} from './Chat'
+import {ChatMessageItem} from './ChatMessageItem'
+
+type ChatMessagesPropsType = {
+    data: ChatMessageType[]
+    setInterlocutor: (value: string) => void
+}
 
 
-export const ChatMessages: FC<{ data: chatMessageType[] }> = ({ data }) => {
-    const [messages, setMessages] = useState<chatMessageType[]>( [] )
+export const ChatMessages: FC<ChatMessagesPropsType> = memo(({
+                                                                 data,
+                                                                 setInterlocutor,
+                                                             }) => {
+    const [messages, setMessages] = useState<ChatMessageType[]>([])
 
-    const messagesBlock = useRef<HTMLDivElement>( null )
+    const messagesBlock = useRef<HTMLDivElement>(null)
 
-    useEffect( () => {
-        setMessages( [...messages, ...data] )
-        setTimeout( () => {
+    useEffect(() => {
+        setMessages([...messages, ...data])
+        setTimeout(() => {
             messagesBlock.current
-            && messagesBlock.current.scrollTo( 0, messagesBlock.current.scrollHeight )
-        }, 0 )
-        return () => {
-        }
-    }, [data] )
+            && messagesBlock.current.scrollTo(0, messagesBlock.current.scrollHeight)
+        }, 0)
+    }, [data])
 
-    const mappedMessages = messages.map( (m, index) => {
-        return <ChatMessageItem key={ index } { ...m }/>
-    } )
+    const mappedMessages = messages.map((m, index) => (
+        <ChatMessageItem key={index}
+                         {...m}
+                         setInterlocutor={setInterlocutor}
+        />)
+    )
 
 
     return (
-        <div style={ {
+        <div style={{
             height: '50vh',
             width: '100%',
             overflowY: 'auto',
             border: '1px solid rgba(0,0,0,0.3)',
             borderRadius: 20,
-        } } ref={ messagesBlock }>
+        }} ref={messagesBlock}>
             {
                 mappedMessages.length
                     ? mappedMessages
@@ -38,4 +47,4 @@ export const ChatMessages: FC<{ data: chatMessageType[] }> = ({ data }) => {
             }
         </div>
     )
-}
+})

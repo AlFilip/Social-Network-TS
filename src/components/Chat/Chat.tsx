@@ -1,11 +1,11 @@
-import React, { useEffect, useState } from 'react'
+import React, {useCallback, useEffect, useState} from 'react'
 
 import s from './Chat.module.scss'
-import { ChatMessages } from './ChatMessages'
-import { ChatInput } from './ChatInput'
+import {ChatMessages} from './ChatMessages'
+import {ChatInput} from './ChatInput'
 
 
-export type chatMessageType = {
+export type ChatMessageType = {
     message: string
     photo: string
     userId: number
@@ -13,30 +13,32 @@ export type chatMessageType = {
 }
 
 const Chat = () => {
-    const [messages, setMessages] = useState<chatMessageType[]>( [] )
-    const [ws, setWs] = useState<WebSocket | null>( null )
+    const [messages, setMessages] = useState<ChatMessageType[]>([])
+    const [ws, setWs] = useState<WebSocket | null>(null)
+    const [interlocutor, setInterlocutor] = useState('')
 
-    useEffect( () => {
-        const ws = new WebSocket( 'wss://social-network.samuraijs.com/handlers/ChatHandler.ashx' )
+    useEffect(() => {
+        const ws = new WebSocket('wss://social-network.samuraijs.com/handlers/ChatHandler.ashx')
         ws.onmessage = (message) => {
-            setMessages( JSON.parse( message.data ) )
+            setMessages(JSON.parse(message.data))
         }
-        setWs( ws )
-        return () =>{
+        setWs(ws)
+        return () => {
             ws.close()
         }
-    }, [] )
+    }, [])
 
     const sendMessage = (message: string) => {
         if (ws && message) {
-            ws.send( message )
+            ws.send(message)
         }
     }
+    const setInterlocutorCallback = useCallback(setInterlocutor, [])
     return (
         <div className={s.chat}>
-            <ChatMessages data={ messages }/>
+            <ChatMessages data={messages} setInterlocutor={setInterlocutorCallback}/>
             <div>
-                <ChatInput callback={ sendMessage }/>
+                <ChatInput callback={sendMessage} interlocutor={interlocutor}/>
             </div>
         </div>
     )

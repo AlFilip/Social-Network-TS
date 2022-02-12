@@ -5,18 +5,18 @@ import {DomainDialogType} from "../../../api/dialogsApi";
 
 type DialogPropsType = {
     dialog: DomainDialogType
-    // callback: (dialog: DomainDialogType) => void
+    isActive: boolean
 }
 
 function Dialog({
                     dialog,
-                    // callback
+                    isActive,
                 }: DialogPropsType) {
     return (
         <div className={s.dialog}
-             // onClick={() => callback(dialog)}
+            // onClick={() => callback(dialog)}
         >
-            <SuperLink to={`/dialogs/${dialog.id}`} linkName={dialog.userName}/>
+            <SuperLink to={`/dialogs/${dialog.id}`} linkName={dialog.userName} isActive={isActive}/>
         </div>
     )
 }

@@ -6,7 +6,7 @@ import {useAppSelector} from "../../redux/redux-store"
 import {clearDialogsState, getDialogs, getMessages, startChat} from "../../redux/diaogsReducer"
 import {redirectHOC} from "../Common/hoc/redirectHOC"
 import {selectDialogs, selectMessages} from "../../redux/selectors";
-import {useNavigate, useParams} from "react-router-dom";
+import {useLocation, useNavigate, useParams} from "react-router-dom";
 import Message from "./Message/Message";
 import {AddMessageForm} from "./AddMessageForm";
 
@@ -17,6 +17,7 @@ const Dialogs = redirectHOC(() => {
     const currentDialog = dialogs[0]
     const messages = useAppSelector(selectMessages)
     const dispatch = useDispatch()
+    const {pathname} = useLocation();
 
     useEffect(() => {
         dispatch(getDialogs())
@@ -28,7 +29,7 @@ const Dialogs = redirectHOC(() => {
     useEffect(() => {
         if (userId) {
             dispatch(getMessages(+userId))
-            if (currentDialog?.id !== +userId){
+            if (currentDialog?.id !== +userId) {
                 dispatch(startChat(+userId))
             }
         }
@@ -41,8 +42,9 @@ const Dialogs = redirectHOC(() => {
     }, [currentDialog, userId, navigate])
 
     const DialogsArray = dialogs.map(dialog => {
-        return <Dialog dialog={dialog} key={dialog.id}/>
+        return <Dialog dialog={dialog} key={dialog.id} isActive={pathname.includes(dialog.id.toString())}/>
     })
+
     const Messages = messages.items && messages.items.map(message => {
         return <Message key={message.id} message={message}/>
     })
