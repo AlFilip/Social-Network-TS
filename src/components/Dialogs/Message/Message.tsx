@@ -15,12 +15,14 @@ function Message({
                      message,
                  }: MessagePropsType) {
     const [isMenuActive, setMenuActivity] = useState(false)
+    const [auxClickCoords, setAuxClickCoords] = useState({pageX: 0, pageY: 0})
     const dispatch = useDispatch()
 
     const authorisedUserId = useAppSelector(selectAuthorisedUserId)
 
     const auxClickHandle: MouseEventHandler<HTMLDivElement> = e => {
         e.preventDefault()
+        setAuxClickCoords({pageX: e.pageX, pageY: e.pageY})
         setMenuActivity(true)
     }
 
@@ -49,15 +51,14 @@ function Message({
                            onContextMenu={e => e.preventDefault()}
                     >
                         {
-                            message.body.split('<br />')
-                                .filter(el => el)
-                                .reduce((acc, el) => {
-                                    return [...acc, el, <br/>]
-                                }, [] as (string | JSX.Element)[])
+                            message.body
                         }
                         {
                             isMenuActive
-                            && <ContextMenu messageId={message.id} closeCallback={() => setMenuActivity(false)}/>
+                            && <ContextMenu messageId={message.id}
+                                            closeCallback={() => setMenuActivity(false)}
+                                            auxClickCoords={auxClickCoords}
+                            />
                         }
                     </div>
             }</>

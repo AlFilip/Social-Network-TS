@@ -1,8 +1,8 @@
 import React, {useCallback, useEffect, useState} from 'react'
 
 import s from './Chat.module.scss'
-import {ChatMessages} from './ChatMessages'
-import {ChatInput} from './ChatInput'
+import {ChatMessages} from './ChatMessages/ChatMessages'
+import {ChatInput} from './ChatInput/ChatInput'
 
 
 export type ChatMessageType = {

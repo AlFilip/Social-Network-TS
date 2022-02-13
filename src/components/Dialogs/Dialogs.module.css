@@ -1,13 +1,15 @@
 .dialogs {
     display: grid;
     grid-template-columns: 1fr 5fr;
-    grid-template-rows: 1fr 1fr;
-    grid-template-areas: 'd m' 'd  f';
+    grid-template-rows: 1fr 200px;
+    grid-template-areas:
+            'dialogs messages'
+            'dialogs form';
     padding: 10px;
 }
 
 .dialogsItems {
-    grid-area: d;
+    grid-area: dialogs;
     padding: 5px;
     min-width: 150px;
 }
@@ -17,7 +19,7 @@
 }
 
 .messages {
-    grid-area: m;
+    grid-area: messages;
     display: flex;
     flex-direction: column;
     align-items: flex-end;
@@ -29,8 +31,8 @@
 }
 
 .addMessageForm {
+    grid-area: form;
     margin-top: 20px;
-    grid-area: f;
     display: flex;
     flex-direction: column;
     max-width: 400px;

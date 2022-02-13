@@ -1,7 +1,9 @@
 import React, {FC, memo} from 'react'
 import {Link} from 'react-router-dom'
-import {ChatMessageType} from './Chat'
 import {setInterval} from "timers";
+
+import s from './ChatMessageItem.module.scss'
+import {ChatMessageType} from '../Chat'
 
 type ChatMessageItemPropsType = ChatMessageType & { setInterlocutor: (value: string) => void }
 
@@ -21,35 +23,27 @@ export const ChatMessageItem: FC<ChatMessageItemPropsType> = memo(({
         setInterval(setInterlocutor, 0, '')
     }
 
-    console.log('chat message')
     return (
-        <div style={{
-            display: 'flex',
-            flexDirection: 'row',
-            alignItems: 'center',
-            padding: 5,
-            borderBottom: '2px solid rgba(150, 150, 150, 0.2)'
-        }}>
-            <div style={{
-                display: 'flex',
-                flexDirection: 'column',
-                alignItems: 'center',
-            }}>
-                <Link to={'/profile/' + userId} style={{width: 50}}>
-                    <img style={{
-                        borderRadius: '50%',
-                        height: 50,
-                        width: 50
-                    }} src={photo} alt="senderPhoto"/>
+        <div className={s.messageItem}>
+            <div className={s.senderInfo}>
+                <Link to={'/profile/' + userId}>
+                    <img src={photo} alt="senderPhoto" className={s.senderPhoto}/>
                 </Link>
-                <span style={{fontSize: '0.7em'}}>
+                <span className={s.senderName}>
                     {
                         firstName.length < 10 ? firstName : firstName.substring(0, 9)
                     }
                 </span>
             </div>
 
-            <span style={{paddingLeft: 5, alignSelf: 'flex-start'}} onClick={messageClickHandle}>{message}</span>
+            <div className={s.messageBlock}>
+                <div className={s.angle}/>
+                <div className={s.message} onClick={messageClickHandle}>
+                    {
+                        message
+                    }
+                </div>
+            </div>
         </div>
     )
 })

@@ -18,13 +18,6 @@ export const SuperLink = memo(({
                                }: LinkType) => {
 
     const linkClassName = `${s.superLink} ${isActive ? s.active : ''}`
-    console.log('link')
-    console.log({
-        to,
-        linkName,
-        isActive,
-        children,
-    })
     return (
         <div className={linkClassName}>
             <Link

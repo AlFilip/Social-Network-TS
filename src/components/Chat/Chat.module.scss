@@ -1,3 +1,7 @@
+@import "src/assets/styles/variables";
 .chat {
   grid-area: chat;
+  background-color: $primaryBg;
+  border-radius: 5px;
+  padding: 10px 0 10px 10px;
 }

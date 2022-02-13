@@ -1,6 +1,8 @@
 import React, {FC, memo, useEffect, useRef, useState} from 'react'
-import {ChatMessageType} from './Chat'
-import {ChatMessageItem} from './ChatMessageItem'
+
+import s from './ChatMessages.module.scss'
+import {ChatMessageType} from '../Chat'
+import {ChatMessageItem} from '../ChatMessageItem/ChatMessageItem'
 
 type ChatMessagesPropsType = {
     data: ChatMessageType[]
@@ -33,13 +35,10 @@ export const ChatMessages: FC<ChatMessagesPropsType> = memo(({
 
 
     return (
-        <div style={{
-            height: '50vh',
-            width: '100%',
-            overflowY: 'auto',
-            border: '1px solid rgba(0,0,0,0.3)',
-            borderRadius: 20,
-        }} ref={messagesBlock}>
+        <div className={s.messages}
+             ref={messagesBlock}
+        >
+
             {
                 mappedMessages.length
                     ? mappedMessages
