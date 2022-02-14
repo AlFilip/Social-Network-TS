@@ -1,6 +1,5 @@
 import React, {FC, memo} from 'react'
 import {Link} from 'react-router-dom'
-import {setInterval} from "timers";
 
 import s from './ChatMessageItem.module.scss'
 import {ChatMessageType} from '../Chat'
@@ -20,7 +19,6 @@ export const ChatMessageItem: FC<ChatMessageItemPropsType> = memo(({
 
     const messageClickHandle = () => {
         setInterlocutor(firstName)
-        setInterval(setInterlocutor, 0, '')
     }
 
     return (

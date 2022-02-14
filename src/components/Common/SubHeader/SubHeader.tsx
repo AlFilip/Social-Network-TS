@@ -17,9 +17,9 @@ export const SubHeader = ({
                           }: SubHeaderPropsType) => {
 
     return (
-        <h3 className={s.header}
+        <h3 {...restProps}
+            className={`${s.header} ${restProps?.className}`}
             onClick={callback}
-            {...restProps}
         >
             {
                 title

@@ -1,0 +1,30 @@
+@import 'src/assets/styles/variables';
+@import 'src/assets/styles/mixins';
+
+.chatInput {
+  padding: 20px 10px 20px 0;
+  input {
+    @include text();
+    padding: 5px 10px;
+    border: 2px solid $optionalColor;
+    border-radius: 20px;
+    outline: none;
+    margin-right: 12px;
+    width: 230px;
+  }
+
+  button {
+    background-color: $primaryBg;
+    @include text();
+    padding: 5px 8px;
+    border: 2px solid $optionalColor;
+    border-radius: 20px;
+    outline: none;
+    cursor: pointer;
+    transition: 0.4s;
+    &:hover{
+      color: $primaryBg;
+      background-color: $optionalColor;
+    }
+  }
+}

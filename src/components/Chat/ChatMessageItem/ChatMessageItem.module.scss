@@ -1,3 +1,4 @@
+@import 'src/assets/styles/variables';
 
 .messageItem {
   display: flex;
@@ -20,6 +21,7 @@
         width: 50px;
       }
     }
+
     .senderName {
       font-size: 0.7em;
       justify-self: flex-end;
@@ -34,12 +36,12 @@
     .angle {
       height: 10px;
       width: 10px;
-      background: radial-gradient(circle at 0 0, rgba(0, 0, 0, 0) 10px, rgb(178, 119, 119) 0);
+      background: radial-gradient(circle at 0 0, rgba(0, 0, 0, 0) 10px, $primaryMessageBgColor 0);
     }
 
     .message {
       padding: 10px;
-      background-color: rgb(178, 119, 119);
+      background-color: $primaryMessageBgColor;
       align-self: flex-start;
       border-radius: 5px 5px 5px 0;
       max-width: 205px;

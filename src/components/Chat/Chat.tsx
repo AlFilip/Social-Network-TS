@@ -3,6 +3,7 @@ import React, {useCallback, useEffect, useState} from 'react'
 import s from './Chat.module.scss'
 import {ChatMessages} from './ChatMessages/ChatMessages'
 import {ChatInput} from './ChatInput/ChatInput'
+import {SubHeader} from "../Common/SubHeader/SubHeader";
 
 
 export type ChatMessageType = {
@@ -36,6 +37,7 @@ const Chat = () => {
     const setInterlocutorCallback = useCallback(setInterlocutor, [])
     return (
         <div className={s.chat}>
+            <SubHeader title='Rocket Chat' className={s.header}/>
             <ChatMessages data={messages} setInterlocutor={setInterlocutorCallback}/>
             <div>
                 <ChatInput callback={sendMessage} interlocutor={interlocutor}/>

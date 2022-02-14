@@ -1,4 +1,8 @@
+import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
 import React, {ChangeEvent, FC, KeyboardEventHandler, MouseEventHandler, useEffect, useState} from 'react'
+
+import s from './ChatInput.module.scss'
+import {faRocketchat} from "@fortawesome/free-brands-svg-icons";
 
 type ChatInputPropType = {
     callback: (message: string) => void,
@@ -9,35 +13,41 @@ export const ChatInput: FC<ChatInputPropType> = ({
                                                      callback,
                                                      interlocutor,
                                                  }) => {
-    const [textAreaValue, setTextAreaValue] = useState('')
+    const [inputValue, setInputValue] = useState('')
 
-    const onTextValueChangeHandler = (e: ChangeEvent<HTMLTextAreaElement>) => {
-        setTextAreaValue(e.currentTarget.value)
+    const onTextValueChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
+        setInputValue(e.currentTarget.value)
     }
 
-    const onKeyPressHandler: KeyboardEventHandler<HTMLTextAreaElement> = e => {
+    const onKeyPressHandler: KeyboardEventHandler<HTMLInputElement> = e => {
         if (e.code === 'Enter' && e.ctrlKey) {
-            callback(textAreaValue)
-            setTextAreaValue('')
+            callback(inputValue)
+            setInputValue('')
         }
     }
 
     const onClickHandler: MouseEventHandler<HTMLButtonElement> = e => {
         e.preventDefault()
-        callback(textAreaValue)
-        setTextAreaValue('')
+        callback(inputValue)
+        setInputValue('')
     }
     useEffect(() => {
-        if (interlocutor && !textAreaValue.includes(interlocutor)) {
-            setTextAreaValue(`${interlocutor}, ${textAreaValue}`)
+        if (interlocutor && !inputValue.includes(interlocutor)) {
+            setInputValue(`${interlocutor}, ${inputValue}`)
         }
     }, [interlocutor])
 
     return (
-        <div>
-            <textarea value={textAreaValue}
-                      onChange={onTextValueChangeHandler} onKeyPress={onKeyPressHandler}/>
-            <button onClick={onClickHandler}>send</button>
+        <div className={s.chatInput}>
+            <input type='text'
+                   placeholder='type here'
+                   value={inputValue}
+                   onChange={onTextValueChangeHandler}
+                   onKeyPress={onKeyPressHandler}
+            />
+            <button onClick={onClickHandler}>
+                <FontAwesomeIcon icon={faRocketchat}/>
+            </button>
         </div>
     )
 }
