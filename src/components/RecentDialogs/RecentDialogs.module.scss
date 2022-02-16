@@ -1,0 +1,15 @@
+@import 'src/assets/styles/variables';
+
+.recentDialogs {
+  grid-area: recentDialogs;
+  background-color: $primaryBg;
+  padding: 15px;
+
+  .header {
+    margin-bottom: 25px;
+  }
+
+  .dialogsList {
+
+  }
+}

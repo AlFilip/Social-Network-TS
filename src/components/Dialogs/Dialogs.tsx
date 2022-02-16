@@ -3,7 +3,7 @@ import s from "./Dialogs.module.css"
 import Dialog from "./Dialog/Dialog"
 import {useDispatch} from "react-redux"
 import {useAppSelector} from "../../redux/redux-store"
-import {clearDialogsState, getDialogs, getMessages, startChat} from "../../redux/diaogsReducer"
+import {getDialogs, getMessages, startChat} from "../../redux/diaogsReducer"
 import {redirectHOC} from "../Common/hoc/redirectHOC"
 import {selectDialogs, selectMessages} from "../../redux/selectors";
 import {useLocation, useNavigate, useParams} from "react-router-dom";
@@ -20,10 +20,12 @@ const Dialogs = redirectHOC(() => {
     const {pathname} = useLocation();
 
     useEffect(() => {
-        dispatch(getDialogs())
-        return () => {
-            dispatch(clearDialogsState())
+        if (!dialogs.length){
+            dispatch(getDialogs())
         }
+        // return () => {
+        //     dispatch(clearDialogsState())
+        // }
     }, [dispatch])
 
     useEffect(() => {

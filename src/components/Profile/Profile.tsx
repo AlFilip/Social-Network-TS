@@ -8,6 +8,7 @@ import {useAppSelector} from '../../redux/redux-store'
 import {selectAuthorisedUserId, selectScreenSize} from '../../redux/selectors'
 import {getProfileWithAdditionalInfo, setProfile} from '../../redux/profileReducer'
 import Chat from "../Chat/Chat";
+import {RecentDialogs} from "../RecentDialogs/RecentDialogs";
 
 
 export const Profile = () => {
@@ -33,7 +34,10 @@ export const Profile = () => {
             <ProfileInfo/>
             {
                 (screenSize === 'XL' || screenSize === 'L')
-                && <Chat/>
+                && <>
+                    <Chat/>
+                    <RecentDialogs/>
+                </>
             }
             <Posts/>
 

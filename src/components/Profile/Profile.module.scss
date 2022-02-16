@@ -7,8 +7,8 @@
   display: grid;
   grid-gap: 20px;
   grid-template:  'profile profile profile'
-                  'chat    posts   friends';
-  grid-template-columns: 300px 1fr 200px;
+                  'chat    posts   recentDialogs';
+  grid-template-columns: 300px 1fr 300px;
 
 }
 

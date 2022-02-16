@@ -1,0 +1,63 @@
+@import 'src/assets/styles/variables';
+@import 'src/assets/styles/mixins';
+
+.chatItem {
+  display: flex;
+  align-items: center;
+  margin-bottom: 20px;
+
+  .userPhoto {
+    position: relative;
+
+    img {
+      height: 40px;
+      width: 40px;
+      border-radius: 50%;
+      margin-right: 5px;
+      display: inline-block;
+    }
+
+    .active {
+      content: '';
+      position: absolute;
+      top: 3.5px;
+      right: 3.5px;
+      background-color: rgba(42, 197, 19, 1);
+      border-radius: 50%;
+      width: 10px;
+      height: 10px;
+      animation: ripple 2s linear infinite;
+    }
+  }
+
+  .text {
+    display: flex;
+    flex-direction: column;
+
+    a {
+      text-decoration: none;
+      .userName {
+        @include text($weight: 600);
+      }
+    }
+
+    .lastSeen {
+      @include text($size: 10px)
+    }
+  }
+}
+
+@keyframes ripple {
+  0% {
+    box-shadow: 0 0 0 0 rgba($ripple-color, 0.3),
+    0 0 0 1px rgba($ripple-color, 0.3),
+  }
+  50% {
+    box-shadow: 0 0 0 5px rgba($ripple-color, 0.3),
+    0 0 0 2px rgba($ripple-color, 0.3),
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgba($ripple-color, 0.3),
+    0 0 0 1px rgba($ripple-color, 0.3),
+  }
+}
