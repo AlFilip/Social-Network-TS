@@ -1,4 +1,4 @@
-import React, {useEffect} from "react";
+import {memo, useEffect} from "react";
 
 import s from './RecentDialogs.module.scss'
 import {SubHeader} from "../Common/SubHeader/SubHeader";
@@ -8,7 +8,7 @@ import {useDispatch} from "react-redux";
 import {getDialogs} from "../../redux/diaogsReducer";
 import {RecentDialogChatItem} from "./RecentDialogChatItem/RecentDialogChatItem";
 
-export const RecentDialogs = () => {
+export const RecentDialogs = memo(() => {
     const dialogsList = useAppSelector(selectDialogs)
     const dispatch = useDispatch()
 
@@ -16,7 +16,7 @@ export const RecentDialogs = () => {
         if (!dialogsList.length) {
             dispatch(getDialogs())
         }
-    })
+    }, [])
 
     return (
         <div className={s.recentDialogs}>
@@ -30,5 +30,4 @@ export const RecentDialogs = () => {
             </div>
         </div>
     )
-}
-
+})

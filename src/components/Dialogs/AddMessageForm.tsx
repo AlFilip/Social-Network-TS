@@ -1,23 +1,31 @@
 import s from "./Dialogs.module.css";
 import React, {ChangeEventHandler, useState} from "react";
 import {useDispatch} from "react-redux";
-import {sendMessage} from "../../redux/diaogsReducer";
+import {sendMessage, startChat} from "../../redux/diaogsReducer";
+import {useAppSelector} from "../../redux/redux-store";
+import {selectDialogs} from "../../redux/selectors";
+import {useParams} from "react-router-dom";
 
-type AddMessageFormPropsType = {
-    userId: number
-}
-
-export const AddMessageForm = ({
-                                   userId
-                               }: AddMessageFormPropsType) => {
+export const AddMessageForm = () => {
     const [message, setMessage] = useState('')
+    const dialogs = useAppSelector(selectDialogs)
+    const {userId} = useParams<{ userId: string }>()
+    const currentDialog = dialogs[0]
     const dispatch = useDispatch()
     const changeHandle: ChangeEventHandler<HTMLTextAreaElement> = e => {
-        setMessage(e.currentTarget.value)
+        const newMessage = e.currentTarget.value
+        if (newMessage.length <= 1000) {
+            setMessage(newMessage)
+        }
+        if (userId && +userId !== currentDialog?.id) {
+            dispatch(startChat(+userId))
+        }
     }
 
     const buttonClickHandle = () => {
-        dispatch(sendMessage(userId, message))
+        if(userId) {
+            dispatch(sendMessage(+userId, message))
+        }
         setMessage('')
     }
 

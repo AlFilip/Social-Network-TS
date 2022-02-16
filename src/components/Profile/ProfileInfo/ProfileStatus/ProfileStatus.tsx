@@ -1,4 +1,4 @@
-import React, {ChangeEventHandler, KeyboardEventHandler, MouseEventHandler, useEffect, useState} from "react"
+import {ChangeEventHandler, KeyboardEventHandler, memo, MouseEventHandler, useEffect, useState} from "react"
 import {useDispatch, useSelector} from "react-redux"
 import {AppStateType} from "../../../../redux/redux-store"
 
@@ -7,7 +7,7 @@ import {setStatus, setStatusToState} from "../../../../redux/profileReducer"
 import {selectAuthorisedUserId, selectCurrentProfileUserId, selectStatus} from '../../../../redux/selectors'
 
 
-export const ProfileStatus = () => {
+export const ProfileStatus = memo(() => {
     const status = useSelector<AppStateType, string>(selectStatus)
     const authUserId = useSelector<AppStateType, number | null>(selectAuthorisedUserId)
     const profileUserId = useSelector<AppStateType, number | undefined>(selectCurrentProfileUserId)
@@ -44,8 +44,6 @@ export const ProfileStatus = () => {
             case 'Escape':
                 discardChanges()
                 break
-            default:
-            // console.log(e.key)
         }
     }
 
@@ -79,4 +77,4 @@ export const ProfileStatus = () => {
             }
         </div>
     )
-}
+})

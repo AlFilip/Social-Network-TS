@@ -1,4 +1,4 @@
-import React, {FC, memo, useEffect, useRef, useState} from 'react'
+import {FC, useEffect, useMemo, useRef, useState} from 'react'
 
 import s from './ChatMessages.module.scss'
 import {ChatMessageType} from '../Chat'
@@ -9,8 +9,7 @@ type ChatMessagesPropsType = {
     setInterlocutor: (value: string) => void
 }
 
-
-export const ChatMessages: FC<ChatMessagesPropsType> = memo(({
+export const ChatMessages: FC<ChatMessagesPropsType> = ({
                                                                  data,
                                                                  setInterlocutor,
                                                              }) => {
@@ -26,13 +25,13 @@ export const ChatMessages: FC<ChatMessagesPropsType> = memo(({
         }, 0)
     }, [data])
 
-    const mappedMessages = messages.map((m, index) => (
-        <ChatMessageItem key={index}
-                         {...m}
-                         setInterlocutor={setInterlocutor}
-        />)
-    )
-
+    const mappedMessages = useMemo(() =>messages.map((m, index) => {
+        return <ChatMessageItem key={index}
+                             {...m}
+                             setInterlocutor={setInterlocutor}
+            />
+        }
+    ),[messages])
 
     return (
         <div className={s.messages}
@@ -46,4 +45,4 @@ export const ChatMessages: FC<ChatMessagesPropsType> = memo(({
             }
         </div>
     )
-})
+}

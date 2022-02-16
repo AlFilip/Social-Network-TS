@@ -1,5 +1,5 @@
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
-import React, {ChangeEvent, FC, KeyboardEventHandler, MouseEventHandler, useEffect, useState} from 'react'
+import {ChangeEvent, FC, KeyboardEventHandler, memo, MouseEventHandler, useEffect, useState} from 'react'
 
 import s from './ChatInput.module.scss'
 import {faRocketchat} from "@fortawesome/free-brands-svg-icons";
@@ -9,11 +9,12 @@ type ChatInputPropType = {
     interlocutor: string
 }
 
-export const ChatInput: FC<ChatInputPropType> = ({
+export const ChatInput: FC<ChatInputPropType> = memo(({
                                                      callback,
                                                      interlocutor,
                                                  }) => {
     const [inputValue, setInputValue] = useState('')
+    console.log('input')
 
     const onTextValueChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
         setInputValue(e.currentTarget.value)
@@ -50,4 +51,4 @@ export const ChatInput: FC<ChatInputPropType> = ({
             </button>
         </div>
     )
-}
+})

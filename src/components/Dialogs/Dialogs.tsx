@@ -3,7 +3,7 @@ import s from "./Dialogs.module.css"
 import Dialog from "./Dialog/Dialog"
 import {useDispatch} from "react-redux"
 import {useAppSelector} from "../../redux/redux-store"
-import {getDialogs, getMessages, startChat} from "../../redux/diaogsReducer"
+import {getDialogs, getMessages} from "../../redux/diaogsReducer"
 import {redirectHOC} from "../Common/hoc/redirectHOC"
 import {selectDialogs, selectMessages} from "../../redux/selectors";
 import {useLocation, useNavigate, useParams} from "react-router-dom";
@@ -20,20 +20,14 @@ const Dialogs = redirectHOC(() => {
     const {pathname} = useLocation();
 
     useEffect(() => {
-        if (!dialogs.length){
+        if (!dialogs.length) {
             dispatch(getDialogs())
         }
-        // return () => {
-        //     dispatch(clearDialogsState())
-        // }
     }, [dispatch])
 
     useEffect(() => {
         if (userId) {
             dispatch(getMessages(+userId))
-            if (currentDialog?.id !== +userId) {
-                dispatch(startChat(+userId))
-            }
         }
     }, [userId, currentDialog, dispatch])
 
@@ -43,9 +37,13 @@ const Dialogs = redirectHOC(() => {
         }
     }, [currentDialog, userId, navigate])
 
-    const DialogsArray = dialogs.map(dialog => {
-        return <Dialog dialog={dialog} key={dialog.id} isActive={pathname.includes(dialog.id.toString())}/>
-    })
+    console.log(pathname)
+    const DialogsArray = dialogs.map(dialog => (
+        <Dialog dialog={dialog}
+                key={dialog.id}
+                isActive={pathname.endsWith(`${dialog.id}`)}
+        />
+    ))
 
     const Messages = messages.items && messages.items.map(message => {
         return <Message key={message.id} message={message}/>
@@ -62,7 +60,7 @@ const Dialogs = redirectHOC(() => {
             </div>
             {
                 currentDialog
-                && <AddMessageForm userId={currentDialog.id}/>
+                && <AddMessageForm/>
             }
         </div>
     )

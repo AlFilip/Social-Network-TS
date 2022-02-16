@@ -14,6 +14,7 @@ export const ChatMessageItem: FC<ChatMessageItemPropsType> = memo(({
                                                                        setInterlocutor,
                                                                    }) => {
     photo = photo ? photo : 'https://via.placeholder.com/50'
+    console.log('message')
 
     const firstName = userName.split(' ')[0]
 

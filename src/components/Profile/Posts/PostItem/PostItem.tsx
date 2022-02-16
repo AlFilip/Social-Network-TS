@@ -1,4 +1,4 @@
-import React from "react";
+import React, {memo} from "react";
 
 import s from "./PostItem.module.scss"
 import defaultUserImage from '../../../../assets/images/defaultUserImg.png'
@@ -9,12 +9,12 @@ import {SubHeader} from "../../../Common/SubHeader/SubHeader";
 import {PostBottom} from "./PostBottom/PostBottom";
 
 
-function PostItem({
-                      isLiked,
-                      likesCount,
-                      message,
-                      id
-                  }: PostType) {
+const PostItem = memo(({
+                           isLiked,
+                           likesCount,
+                           message,
+                           id
+                       }: PostType) => {
     const userName = useAppSelector(selectCurrentProfileUserName)
     const photos = useAppSelector(selectCurrentProfileUserPhotos)
 
@@ -33,6 +33,6 @@ function PostItem({
             <PostBottom postId={id} likesCount={likesCount} isLiked={isLiked}/>
         </div>
     )
-}
+})
 
 export default PostItem;

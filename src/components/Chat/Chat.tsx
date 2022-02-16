@@ -1,4 +1,4 @@
-import React, {useCallback, useEffect, useState} from 'react'
+import {memo, useCallback, useEffect, useState} from 'react'
 
 import s from './Chat.module.scss'
 import {ChatMessages} from './ChatMessages/ChatMessages'
@@ -13,10 +13,11 @@ export type ChatMessageType = {
     userName: string
 }
 
-const Chat = () => {
+const Chat = memo(() => {
     const [messages, setMessages] = useState<ChatMessageType[]>([])
     const [ws, setWs] = useState<WebSocket | null>(null)
     const [interlocutor, setInterlocutor] = useState('')
+    console.log('chat')
 
     useEffect(() => {
         const ws = new WebSocket('wss://social-network.samuraijs.com/handlers/ChatHandler.ashx')
@@ -29,21 +30,19 @@ const Chat = () => {
         }
     }, [])
 
-    const sendMessage = (message: string) => {
+    const sendMessage = useCallback((message: string) => {
         if (ws && message) {
             ws.send(message)
         }
-    }
+    },[ws])
     const setInterlocutorCallback = useCallback(setInterlocutor, [])
     return (
         <div className={s.chat}>
             <SubHeader title='Rocket Chat' className={s.header}/>
             <ChatMessages data={messages} setInterlocutor={setInterlocutorCallback}/>
-            <div>
-                <ChatInput callback={sendMessage} interlocutor={interlocutor}/>
-            </div>
+            <ChatInput callback={sendMessage} interlocutor={interlocutor}/>
         </div>
     )
-}
+})
 
 export default Chat

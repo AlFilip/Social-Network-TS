@@ -1,4 +1,4 @@
-import React, {DetailedHTMLProps, HTMLAttributes} from "react";
+import {DetailedHTMLProps, HTMLAttributes, memo} from "react";
 
 import s from "./SubHeader.module.scss";
 
@@ -7,23 +7,20 @@ type DefaultHeaderPropsType = DetailedHTMLProps<HTMLAttributes<HTMLHeadingElemen
 
 type SubHeaderPropsType = DefaultHeaderPropsType & {
     title: JSX.Element | string
-    callback?: () => void
 }
 
-export const SubHeader = ({
-                              title,
-                              callback,
-                              ...restProps
-                          }: SubHeaderPropsType) => {
+export const SubHeader = memo(({
+                                   title,
+                                   ...restProps
+                               }: SubHeaderPropsType) => {
 
     return (
         <h3 {...restProps}
             className={`${s.header} ${restProps?.className}`}
-            onClick={callback}
         >
             {
                 title
             }
         </h3>
     )
-}
+})

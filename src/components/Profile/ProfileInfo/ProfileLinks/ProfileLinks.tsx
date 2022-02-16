@@ -1,4 +1,4 @@
-import React from "react";
+import {memo} from "react";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faFacebook, faGithub, faInstagram, faTwitter, faVk, faYoutube} from "@fortawesome/free-brands-svg-icons";
 import {faPortrait} from "@fortawesome/free-solid-svg-icons/faPortrait";
@@ -12,9 +12,9 @@ type ProfileLinksPropsType = {
 }
 
 
-export const ProfileLinks: React.FC<ProfileLinksPropsType> = ({
-                                                                  contacts
-                                                              }) => {
+export const ProfileLinks = memo(({
+                                      contacts
+                                  }: ProfileLinksPropsType) => {
 
     return (
         <div className={s.profileLinks}>
@@ -62,5 +62,5 @@ export const ProfileLinks: React.FC<ProfileLinksPropsType> = ({
             }
         </div>
     )
-}
+})
 

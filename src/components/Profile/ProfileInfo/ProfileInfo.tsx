@@ -83,12 +83,15 @@ export function ProfileInfo() {
                             profile && authorisedUserId && !isAuthorisedUserProfile
                             && <>
                                 <button onClick={toggleFollowClickHandle} disabled={isBtnDisabled}>
-                                    {additionalUserInfo.followed ? 'Unfollow' : 'Follow'}
+                                    {
+                                        additionalUserInfo.followed
+                                            ? 'Unfollow'
+                                            : 'Follow'
+                                    }
                                 </button>
                                 <button onClick={sendMessageClickHandle}>
                                     Send message
                                 </button>
-
                             </>}
 
                         <div className={s.profileLinksWrapper}>
