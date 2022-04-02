@@ -17,7 +17,6 @@ const Chat = memo(() => {
     const [messages, setMessages] = useState<ChatMessageType[]>([])
     const [ws, setWs] = useState<WebSocket | null>(null)
     const [interlocutor, setInterlocutor] = useState('')
-    console.log('chat')
 
     useEffect(() => {
         const ws = new WebSocket('wss://social-network.samuraijs.com/handlers/ChatHandler.ashx')

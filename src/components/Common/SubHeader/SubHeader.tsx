@@ -1,4 +1,4 @@
-import {DetailedHTMLProps, HTMLAttributes, memo} from "react";
+import {DetailedHTMLProps, HTMLAttributes} from "react";
 
 import s from "./SubHeader.module.scss";
 
@@ -9,7 +9,7 @@ type SubHeaderPropsType = DefaultHeaderPropsType & {
     title: JSX.Element | string
 }
 
-export const SubHeader = memo(({
+export const SubHeader = ({
                                    title,
                                    ...restProps
                                }: SubHeaderPropsType) => {
@@ -23,4 +23,4 @@ export const SubHeader = memo(({
             }
         </h3>
     )
-})
+}

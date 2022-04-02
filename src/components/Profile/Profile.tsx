@@ -23,6 +23,9 @@ export const Profile = () => {
         }
         id
         && dispatch(getProfileWithAdditionalInfo(id))
+        if (window.scrollY) {
+            window.scrollTo(0, 0)
+        }
 
         return () => {
             dispatch(setProfile(null))

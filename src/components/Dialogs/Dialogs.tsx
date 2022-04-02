@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react'
+import React, {useEffect, useMemo} from 'react'
 import s from "./Dialogs.module.css"
 import Dialog from "./Dialog/Dialog"
 import {useDispatch} from "react-redux"
@@ -18,7 +18,6 @@ const Dialogs = redirectHOC(() => {
     const messages = useAppSelector(selectMessages)
     const dispatch = useDispatch()
     const {pathname} = useLocation();
-
     useEffect(() => {
         if (!dialogs.length) {
             dispatch(getDialogs())
@@ -37,13 +36,12 @@ const Dialogs = redirectHOC(() => {
         }
     }, [currentDialog, userId, navigate])
 
-    console.log(pathname)
-    const DialogsArray = dialogs.map(dialog => (
+    const DialogsArray = useMemo(() => dialogs.map(dialog => (
         <Dialog dialog={dialog}
                 key={dialog.id}
-                isActive={pathname.endsWith(`${dialog.id}`)}
+                isActive={pathname.endsWith(`/${dialog.id}`)}
         />
-    ))
+    )), [dialogs, pathname])
 
     const Messages = messages.items && messages.items.map(message => {
         return <Message key={message.id} message={message}/>

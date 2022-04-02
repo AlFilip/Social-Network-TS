@@ -1,13 +1,26 @@
 import {ThunkType} from './redux-store'
 import {getAuthUserData} from './authReducer'
 
-type AppStatus = 'idle' | 'loading'
-export type ScreenSizeTypes = 'XS' | 'XL' | 'L' | 'M' | 'S' | null
+export enum APP_STATUSES {
+    IDLE = 'IDLE',
+    LOADING = 'LOADING',
+}
+
+export type Nullable<T> = T | null
+
+export enum SCREEN_SIZES {
+    EXTRA_SMALL ='EXTRA_SMALL',
+    SMALL = 'SMALL',
+    MEDIUM = 'MEDIUM',
+    LARGE = 'LARGE',
+    EXTRA_LARGE = 'EXTRA_LARGE',
+    EXTRA_EXTRA_LARGE = 'EXTRA_EXTRA_LARGE'
+}
 
 const initState = {
     isInitSuccess: false,
-    appStatus: 'idle' as AppStatus,
-    screenSize: null as ScreenSizeTypes,
+    appStatus: APP_STATUSES.IDLE as APP_STATUSES,
+    screenSize: null as Nullable<SCREEN_SIZES>,
 }
 
 
@@ -40,7 +53,7 @@ const setInitSuccess = () => ({
     type: 'SET_INIT_SUCCESS',
 } as const)
 
-export const setScreenSize = (screenSize: ScreenSizeTypes) => ({
+export const setScreenSize = (screenSize: SCREEN_SIZES) => ({
     type: 'SET_SCREEN_SIZE', screenSize
 } as const)
 
