@@ -8,7 +8,7 @@ export enum APP_STATUSES {
 
 export type Nullable<T> = T | null
 
-export enum SCREEN_SIZES {
+export enum SCREEN_SIZE {
     EXTRA_SMALL ='EXTRA_SMALL',
     SMALL = 'SMALL',
     MEDIUM = 'MEDIUM',
@@ -20,7 +20,7 @@ export enum SCREEN_SIZES {
 const initState = {
     isInitSuccess: false,
     appStatus: APP_STATUSES.IDLE as APP_STATUSES,
-    screenSize: null as Nullable<SCREEN_SIZES>,
+    screenSize: null as Nullable<SCREEN_SIZE>,
 }
 
 
@@ -53,7 +53,7 @@ const setInitSuccess = () => ({
     type: 'SET_INIT_SUCCESS',
 } as const)
 
-export const setScreenSize = (screenSize: SCREEN_SIZES) => ({
+export const setScreenSize = (screenSize: SCREEN_SIZE) => ({
     type: 'SET_SCREEN_SIZE', screenSize
 } as const)
 

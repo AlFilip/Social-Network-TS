@@ -10,9 +10,9 @@ type ChatMessagesPropsType = {
 }
 
 export const ChatMessages: FC<ChatMessagesPropsType> = ({
-                                                                 data,
-                                                                 setInterlocutor,
-                                                             }) => {
+                                                            data,
+                                                            setInterlocutor,
+                                                        }) => {
     const [messages, setMessages] = useState<ChatMessageType[]>([])
 
     const messagesBlock = useRef<HTMLDivElement>(null)
@@ -25,24 +25,21 @@ export const ChatMessages: FC<ChatMessagesPropsType> = ({
         }, 0)
     }, [data])
 
-    const mappedMessages = useMemo(() =>messages.map((m, index) => {
-        return <ChatMessageItem key={index}
-                             {...m}
-                             setInterlocutor={setInterlocutor}
-            />
-        }
-    ),[messages])
+    const renderedMessages = useMemo(() => {
+        if (!messages) return 'no new messages'
+
+        return messages.map((m, index) => {
+                return <ChatMessageItem key={index + m.message}
+                                        {...m}
+                                        setInterlocutor={setInterlocutor}
+                />
+            }
+        )
+    }, [messages])
 
     return (
-        <div className={s.messages}
-             ref={messagesBlock}
-        >
-
-            {
-                mappedMessages.length
-                    ? mappedMessages
-                    : 'no new messages'
-            }
+        <div className={s.messages} ref={messagesBlock}>
+            {renderedMessages}
         </div>
     )
 }

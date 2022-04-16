@@ -6,7 +6,7 @@ import {HashRouter} from "react-router-dom"
 import {Provider, useDispatch} from 'react-redux'
 import {store, useAppSelector} from './redux/redux-store'
 import {Preloader} from './components/Common/Preloader/Preloader'
-import {initApp, SCREEN_SIZES, setScreenSize} from './redux/appReducer'
+import {initApp, SCREEN_SIZE, setScreenSize} from './redux/appReducer'
 import {selectIsInitialised, selectScreenSize} from './redux/selectors'
 import {MyRoutes} from './MyRoutes'
 import {SideBar} from "./components/SideBar/SideBar";
@@ -24,24 +24,24 @@ const App = () => {
     useEffect(() => {
         const resizeHandle = () => {
             const width = window.innerWidth
-            if (width < 480 && screenSize !== SCREEN_SIZES.EXTRA_SMALL) {
-                dispatch(setScreenSize(SCREEN_SIZES.EXTRA_SMALL))
+            if (width < 480 && screenSize !== SCREEN_SIZE.EXTRA_SMALL) {
+                dispatch(setScreenSize(SCREEN_SIZE.EXTRA_SMALL))
                 return
             }
-            if (width > 1440 && screenSize !== SCREEN_SIZES.EXTRA_LARGE) {
-                dispatch(setScreenSize(SCREEN_SIZES.EXTRA_EXTRA_LARGE))
+            if (width > 1440 && screenSize !== SCREEN_SIZE.EXTRA_LARGE) {
+                dispatch(setScreenSize(SCREEN_SIZE.EXTRA_EXTRA_LARGE))
                 return
             }
-            if (width > 1280 && width <= 1440 && screenSize !== SCREEN_SIZES.LARGE) {
-                dispatch(setScreenSize(SCREEN_SIZES.LARGE))
+            if (width > 1280 && width <= 1440 && screenSize !== SCREEN_SIZE.LARGE) {
+                dispatch(setScreenSize(SCREEN_SIZE.LARGE))
                 return
             }
-            if (width > 768 && width <= 1280 && screenSize !== SCREEN_SIZES.MEDIUM) {
-                dispatch(setScreenSize(SCREEN_SIZES.MEDIUM))
+            if (width > 768 && width <= 1280 && screenSize !== SCREEN_SIZE.MEDIUM) {
+                dispatch(setScreenSize(SCREEN_SIZE.MEDIUM))
                 return
             }
-            if (width > 480 && width <= 768 && screenSize !== SCREEN_SIZES.SMALL) {
-                dispatch(setScreenSize(SCREEN_SIZES.SMALL))
+            if (width > 480 && width <= 768 && screenSize !== SCREEN_SIZE.SMALL) {
+                dispatch(setScreenSize(SCREEN_SIZE.SMALL))
             }
         }
         resizeHandle()

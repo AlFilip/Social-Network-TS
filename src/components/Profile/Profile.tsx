@@ -9,6 +9,7 @@ import {selectAuthorisedUserId, selectScreenSize} from '../../redux/selectors'
 import {getProfileWithAdditionalInfo, setProfile} from '../../redux/profileReducer'
 import Chat from "../Chat/Chat";
 import {RecentDialogs} from "../RecentDialogs/RecentDialogs";
+import {SCREEN_SIZE} from "../../redux/appReducer";
 
 
 export const Profile = () => {
@@ -36,7 +37,7 @@ export const Profile = () => {
         <div className={s.profile}>
             <ProfileInfo/>
             {
-                (screenSize === 'XL' || screenSize === 'L')
+                (screenSize === SCREEN_SIZE.EXTRA_LARGE || screenSize === SCREEN_SIZE.LARGE)
                 && <>
                     <Chat/>
                     <RecentDialogs/>
