@@ -1,4 +1,4 @@
-import React, {useEffect} from "react"
+import React, {useEffect, useMemo} from "react"
 import s from "./Profile.module.scss"
 import {ProfileInfo} from "./ProfileInfo/ProfileInfo"
 import {Posts} from "./Posts/Posts"
@@ -18,12 +18,12 @@ export const Profile = () => {
     const authUserId = useAppSelector(selectAuthorisedUserId)
     const screenSize = useAppSelector(selectScreenSize)
     useEffect(() => {
-        let id = userId
-        if (!id && authUserId) {
-            id = authUserId.toString()
+        let currentProfileId = userId
+        if (!currentProfileId && authUserId) {
+            currentProfileId = authUserId.toString()
         }
-        id
-        && dispatch(getProfileWithAdditionalInfo(id))
+        currentProfileId
+        && dispatch(getProfileWithAdditionalInfo(currentProfileId))
         if (window.scrollY) {
             window.scrollTo(0, 0)
         }
@@ -31,20 +31,25 @@ export const Profile = () => {
         return () => {
             dispatch(setProfile(null))
         }
-    }, [userId, dispatch, authUserId])
+    }, [userId, authUserId])
+
+    const renderedModules = useMemo(() => {
+        if (screenSize === SCREEN_SIZE.SMALL || screenSize === SCREEN_SIZE.EXTRA_SMALL || screenSize === SCREEN_SIZE.MEDIUM) {
+            return null
+        }
+        return (
+            <>
+                <Chat/>
+                <RecentDialogs/>
+            </>
+        )
+    }, [screenSize])
 
     return (
         <div className={s.profile}>
             <ProfileInfo/>
-            {
-                (screenSize === SCREEN_SIZE.EXTRA_LARGE || screenSize === SCREEN_SIZE.LARGE)
-                && <>
-                    <Chat/>
-                    <RecentDialogs/>
-                </>
-            }
+            {renderedModules}
             <Posts/>
-
         </div>
     )
 }

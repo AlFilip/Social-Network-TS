@@ -1,4 +1,4 @@
-import {memo, useCallback, useEffect, useState} from 'react'
+import { useCallback, useEffect, useState} from 'react'
 
 import s from './Chat.module.scss'
 import {ChatMessages} from './ChatMessages/ChatMessages'
@@ -13,7 +13,7 @@ export type ChatMessageType = {
     userName: string
 }
 
-const Chat = memo(() => {
+const Chat = () => {
     const [messages, setMessages] = useState<ChatMessageType[]>([])
     const [ws, setWs] = useState<WebSocket | null>(null)
     const [interlocutor, setInterlocutor] = useState('')
@@ -42,6 +42,6 @@ const Chat = memo(() => {
             <ChatInput callback={sendMessage} interlocutor={interlocutor}/>
         </div>
     )
-})
+}
 
 export default Chat
