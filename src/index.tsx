@@ -3,18 +3,22 @@ import reportWebVitals from './reportWebVitals'
 import ReactDOM from "react-dom"
 import React from "react"
 import App from "./App"
-import { store } from "./redux/redux-store"
-import { Provider } from "react-redux"
+import {store} from "./redux/redux-store"
+import {Provider} from "react-redux"
+import {ThemeProvider} from 'styled-components'
+import {defaultTheme} from "./styles/theme";
 
 
 ReactDOM.render(
     // <React.StrictMode>
-        <Provider store={ store }>
+    <Provider store={store}>
+        <ThemeProvider theme={defaultTheme}>
             <App/>
-        </Provider>
+        </ThemeProvider>
+    </Provider>
     // </React.StrictMode>
     ,
-    document.getElementById( 'root' ),
+    document.getElementById('root'),
 )
 
 

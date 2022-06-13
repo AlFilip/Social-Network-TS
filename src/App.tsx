@@ -51,24 +51,26 @@ const App = () => {
         }
     }, [])
 
+    const renderApp = () => {
+        if (!isInitialised) return <Preloader/>
+        return (
+            <div className={s.appWrapper}>
+                <Header/>
+                <NavBar/>
+                <SideBar/>
+                <div className={s.appWrapperContent}>
+                    <div className={s.content}>
+
+                        <MyRoutes/>
+                    </div>
+                </div>
+            </div>
+        )
+    }
+
     return (
         <>
-            {
-                isInitialised
-                    ? <div className={s.appWrapper}>
-                        <Header/>
-                        <NavBar/>
-                        <SideBar/>
-                        <div className={s.appWrapperContent}>
-                            <div className={s.content}>
-
-                                <MyRoutes/>
-                            </div>
-                        </div>
-                    </div>
-
-                    : <Preloader/>
-            }
+            {renderApp()}
         </>
     )
 }

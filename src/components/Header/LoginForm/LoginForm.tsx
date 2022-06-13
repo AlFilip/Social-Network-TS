@@ -1,30 +1,34 @@
-import React, { Dispatch } from "react"
-import { useDispatch, useSelector } from "react-redux"
-import { AppStateType, ThunkType } from "../../../redux/redux-store"
-import { makeLogout } from "../../../redux/authReducer"
-import { NavLink } from "react-router-dom"
-import { selectIsAuth, selectIsUserLogin } from '../../../redux/selectors'
+import React, {Dispatch, useCallback} from "react"
+import {useDispatch} from "react-redux"
+import {ThunkType, useAppSelector} from "../../../redux/redux-store"
+import {makeLogout} from "../../../redux/authReducer"
+import {NavLink} from "react-router-dom"
+import {selectIsAuth, selectIsUserLogin} from '../../../redux/selectors'
+import {Button} from "../../Button/Button";
 
 
 export const LoginForm = () => {
-    const isAuth = useSelector<AppStateType, boolean>( selectIsAuth )
-    const login = useSelector<AppStateType, string | null>( selectIsUserLogin )
+    const isAuth = useAppSelector(selectIsAuth)
+    const login = useAppSelector(selectIsUserLogin)
     const dispatch = useDispatch<Dispatch<ThunkType>>()
 
-    const onLogoutButtonClickHandler = () => {
-        dispatch( makeLogout() )
+    const onLogoutButtonClickHandler = useCallback(() => {
+        dispatch(makeLogout())
+    }, [])
+
+    const renderLoginBlock = () => {
+        if (isAuth) return (
+            <> {login}
+                <Button onClick={onLogoutButtonClickHandler} variant={'secondary'} size={"small"} fit >Logout</Button>
+            </>
+        )
+
+        return <NavLink to={`/login`}>Login</NavLink>
     }
 
     return (
         <div>
-            {
-                isAuth
-                    ?
-                    <> { login }
-                        <button onClick={ onLogoutButtonClickHandler }>logOut</button>
-                    </>
-                    : <NavLink to={ `/login` }>Login</NavLink>
-            }
+            {renderLoginBlock()}
         </div>
     )
 }
