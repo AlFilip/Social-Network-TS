@@ -2,7 +2,7 @@ import {ChangeEventHandler, KeyboardEventHandler, memo, MouseEventHandler, useEf
 import {useDispatch, useSelector} from "react-redux"
 import {AppStateType} from "../../../../redux/redux-store"
 
-import s from './ProfileStatus.module.css'
+import s from './ProfileStatus.module.scss'
 import {setStatus, setStatusToState} from "../../../../redux/profileReducer"
 import {selectAuthorisedUserId, selectCurrentProfileUserId, selectStatus} from '../../../../redux/selectors'
 
@@ -58,7 +58,7 @@ export const ProfileStatus = memo(() => {
     }
 
     return (
-        <div onDoubleClick={onDoubleClickHandler}>
+        <div onDoubleClick={onDoubleClickHandler} className={s.status}>
 
             {
                 (editMode && isStatusOwner)
@@ -71,7 +71,7 @@ export const ProfileStatus = memo(() => {
                         autoFocus
                     />
 
-                    : <span className={s.status}>
+                    : <span>
                         {getStatusMessage()}
                     </span>
             }

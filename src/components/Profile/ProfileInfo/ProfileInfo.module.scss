@@ -18,8 +18,14 @@
       @include roundedBox();
     }
 
+    .userName {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+
     .description {
-      margin-left: 10px;
+      margin-left: 16px;
     }
 
     .profileLinksWrapper {
@@ -28,6 +34,27 @@
       position: absolute;
       right: 50px;
       bottom: 45px;
+    }
+
+    .additionalInfo {
+      .additionalInfoField {
+        display: flex;
+        gap: 4px;
+        margin-bottom: 4px;
+
+        :last-child {
+          margin-bottom: 0;
+        }
+      }
+
+      .additionalInfoFieldTitle {
+        font-weight: 600;
+        color: $primaryTextColor;
+      }
+
+      .additionalInfoFieldText {
+        color: $secondaryTextColor;
+      }
     }
   }
 }

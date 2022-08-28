@@ -1,0 +1,20 @@
+.status {
+    user-select: none;
+    -moz-user-select: none;
+    -webkit-user-select: none;
+    -ms-user-select: none;
+    line-height: 26px;
+    max-height: 26px;
+    display: flex;
+    align-items: center;
+    margin-left: -4px;
+
+    span {
+        padding-left: 4px;
+    }
+    input {
+        min-width: 300px;
+        width: 100%;
+    }
+
+}

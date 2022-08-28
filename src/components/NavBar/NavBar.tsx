@@ -5,6 +5,7 @@ import {IconProp} from "@fortawesome/fontawesome-svg-core";
 import {faRocketchat} from "@fortawesome/free-brands-svg-icons";
 import {useLocation} from "react-router-dom";
 import {NavbarLinkItem} from "./NavbarLinkItem";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 
 const navbarLinks = [
@@ -47,9 +48,10 @@ export function NavBar() {
                         key={item.to}
                         to={item.to}
                         isActive={pathname.includes(item.to)}
-                        icon={item.icon as IconProp}
                         name={item.name}
-                    />
+                    >
+                        <FontAwesomeIcon icon={item.icon as IconProp}/>
+                    </NavbarLinkItem>
                 ))
             }
         </nav>
